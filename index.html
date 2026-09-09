@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BOLA YOUSEF | Graphic Designer & Visual Specialist</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS Engine -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,8 +13,10 @@
       theme: {
         extend: {
           colors: {
-            brandDarkBg: '#0b1329',
-            brandDarkCard: '#131f3d',
+            brandDarkBg: '#090f1f',
+            brandDarkCard: '#101a36',
+            brandBlue: '#3280ff',
+            brandNavy: '#042862'
           }
         }
       }
@@ -26,8 +28,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Just+Another+Hand&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome Icons -->
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Optional Firebase Compat (Fail-safe) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
   <style>
     :root {
@@ -35,79 +41,75 @@
       --navy-dark: #042862;
       --blue-accent: #3280ff;
     }
-
     html { scroll-behavior: smooth; }
-    body { font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-light); color: var(--navy-dark); cursor: default; transition: background-color 0.3s, color 0.3s; }
-    html.dark body { background-color: #0b1329; color: #ebf3fe; }
-    section { scroll-margin-top: 105px; }
+    body { font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-light); color: var(--navy-dark); transition: background-color 0.3s, color 0.3s; }
+    html.dark body { background-color: #090f1f; color: #ebf3fe; }
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
-
-    .glass-nav { background: rgba(235, 243, 254, 0.88); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(4, 40, 98, 0.1); }
-    html.dark .glass-nav { background: rgba(19, 31, 61, 0.88); border: 1px solid rgba(255, 255, 255, 0.1); }
-
-    .glass-card { background: #ffffff; border: 1px solid rgba(4, 40, 98, 0.08); box-shadow: 0 10px 30px -10px rgba(4, 40, 98, 0.07); }
-    html.dark .glass-card { background: #131f3d; border: 1px solid rgba(255, 255, 255, 0.08); color: #ebf3fe; }
-
-    .avatar-interactive-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
-    .avatar-wrapper:hover .avatar-interactive-img { filter: grayscale(0%) contrast(1); }
-
-    @keyframes modalPop { 0% { opacity: 0; transform: scale(0.95) translateY(12px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-    .modal-animate { animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .glass-nav { background: rgba(235, 243, 254, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(4, 40, 98, 0.1); }
+    html.dark .glass-nav { background: rgba(16, 26, 54, 0.92); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-card { background: #ffffff; border: 1px solid rgba(4, 40, 98, 0.08); box-shadow: 0 10px 30px -10px rgba(4, 40, 98, 0.05); }
+    html.dark .glass-card { background: #101a36; border: 1px solid rgba(255, 255, 255, 0.08); color: #ebf3fe; }
+    .avatar-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.4s ease, transform 0.2s ease; }
+    .avatar-wrapper:hover .avatar-img { filter: grayscale(0%) contrast(1); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes modalIn { 0% { opacity: 0; transform: scale(0.96) translateY(8px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal-active { animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   </style>
 </head>
-<body class="selection:bg-[#3280ff] selection:text-white pb-24 relative overflow-x-hidden">
+<body class="selection:bg-[#3280ff] selection:text-white pb-20 relative overflow-x-hidden">
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#042862] dark:bg-[#3280ff] text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
-    <i class="fa-solid fa-circle-check text-white"></i>
+  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#042862] dark:bg-[#3280ff] text-white px-5 py-2 rounded-full shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
+    <i class="fa-solid fa-circle-check"></i>
     <span id="toast-text">تم بنجاح!</span>
   </div>
 
   <!-- Admin Bar -->
   <div id="admin-bar" class="hidden bg-[#042862] text-[#ebf3fe] text-xs py-2 px-4 sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
-      <div class="flex items-center gap-2 font-bold tracking-wide">
-        <i class="fa-solid fa-cloud-bolt animate-bounce text-[#3280ff]"></i>
-        <span>وضع الأدمن نشط - التحكم المباشر متاح</span>
+      <div class="flex items-center gap-2 font-bold">
+        <i class="fa-solid fa-bolt text-amber-400"></i>
+        <span data-ar="وضع الأدمن نشط — التعديل المباشر متاح" data-en="Admin Mode Active — Direct sync ready">وضع الأدمن نشط — التعديل المباشر متاح</span>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="logoutAdmin()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white px-3 py-1 rounded-lg transition-all font-semibold">خروج</button>
+        <button onclick="logoutAdmin()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white px-3 py-1 rounded-lg font-bold" data-ar="خروج" data-en="Logout">خروج</button>
       </div>
     </div>
   </div>
 
-  <!-- Floating Header -->
+  <!-- Navbar -->
   <div class="sticky top-4 z-40 px-4 max-w-5xl mx-auto">
-    <header class="glass-nav rounded-2xl shadow-lg px-5 py-2.5 flex items-center justify-between transition-all duration-300">
+    <header class="glass-nav rounded-2xl shadow-lg px-5 py-2.5 flex items-center justify-between transition-all">
       <div class="flex items-center gap-3">
-        <div class="eyes-container flex items-center gap-2.5 bg-white dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/15 px-3.5 py-2 rounded-full shadow-sm">
-          <div class="eye w-8 h-8 bg-[#ebf3fe] dark:bg-[#131f3d] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
-            <div class="pupil w-3.5 h-3.5 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute"></div>
+        <div class="flex items-center gap-2 bg-white dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/15 px-3 py-1.5 rounded-full shadow-inner">
+          <div class="eye w-7 h-7 bg-[#ebf3fe] dark:bg-[#101a36] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
+            <div class="pupil w-3 h-3 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute"></div>
           </div>
-          <div class="eye w-8 h-8 bg-[#ebf3fe] dark:bg-[#131f3d] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
-            <div class="pupil w-3.5 h-3.5 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute"></div>
+          <div class="eye w-7 h-7 bg-[#ebf3fe] dark:bg-[#101a36] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
+            <div class="pupil w-3 h-3 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute"></div>
           </div>
         </div>
       </div>
 
-      <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-[#042862]/80 dark:text-[#ebf3fe]/80">
-        <a href="#about" class="hover:text-[#3280ff] transition-colors">نبذة عني</a>
-        <a href="#gallery" class="hover:text-[#3280ff] transition-colors">معرض الأعمال</a>
-        <a href="#testimonials" class="hover:text-[#3280ff] transition-colors">آراء العملاء</a>
+      <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-[#042862]/85 dark:text-slate-200">
+        <a href="#about" class="hover:text-[#3280ff] transition-colors" data-ar="نبذة عني" data-en="About Me">نبذة عني</a>
+        <a href="#gallery" class="hover:text-[#3280ff] transition-colors" data-ar="الأعمال" data-en="Portfolio">الأعمال</a>
+        <a href="#testimonials" class="hover:text-[#3280ff] transition-colors" data-ar="آراء العملاء" data-en="Testimonials">آراء العملاء</a>
       </nav>
 
       <div class="flex items-center gap-2">
-        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white dark:bg-[#131f3d] border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm transition-all" title="الوضع الليلي">
+        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm" title="Dark Mode">
           <i id="dark-icon" class="fa-solid fa-moon"></i>
         </button>
-        <button onclick="toggleLanguage()" class="bg-white dark:bg-[#131f3d] hover:bg-[#ebf3fe] text-[#042862] dark:text-[#ebf3fe] border border-[#042862]/20 dark:border-white/20 text-xs font-extrabold px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
+        <button onclick="toggleLanguage()" class="bg-white dark:bg-[#101a36] hover:bg-[#ebf3fe] dark:hover:bg-[#1a2952] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 text-xs font-black px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
           <i class="fa-solid fa-globe text-[#3280ff]"></i>
           <span id="lang-btn-text">English</span>
         </button>
-        <a href="https://wa.me/201278150042" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-[#3280ff] hover:bg-[#256cd9] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md">
+        <a href="https://wa.me/201278150042" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-[#3280ff] hover:bg-[#256cd9] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md">
           <i class="fa-brands fa-whatsapp text-sm"></i>
-          <span>طلب مشروع</span>
+          <span data-ar="طلب مشروع" data-en="Let's Talk">طلب مشروع</span>
         </a>
       </div>
     </header>
@@ -115,60 +117,66 @@
 
   <!-- Hero Section -->
   <section class="max-w-4xl mx-auto px-4 pt-16 pb-8 text-center relative z-10">
-    <div class="flex flex-col items-center justify-center mb-6 relative">
-      <span ondblclick="openLoginModal()" title="اضغط مرتين لفتح الأدمن" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-pointer">
+    <div class="flex flex-col items-center justify-center mb-6">
+      <span ondblclick="openLoginModal()" title="اضغط مرتين لفتح تسجيل دخول الأدمن" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-pointer">
         BOLA YOUSEF
       </span>
       <div class="flex items-center gap-3 -mt-3 sm:-mt-5">
-        <div class="h-[2px] w-8 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
-        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white dark:bg-[#131f3d] border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm">GRAPHIC DESIGNER</span>
-        <div class="h-[2px] w-8 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
+        <div class="h-[2px] w-10 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
+        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm" data-ar="مصمم جرافيك" data-en="GRAPHIC DESIGNER">GRAPHIC DESIGNER</span>
+        <div class="h-[2px] w-10 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
       </div>
     </div>
     <div class="mb-8">
-      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight">فلنصنع معاً شيئاً رائعاً ومبهراً.</h1>
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight" data-ar="فلنصنع معاً شيئاً رائعاً ومبهراً." data-en="Let's create something exceptional together.">
+        فلنصنع معاً شيئاً رائعاً ومبهراً.
+      </h1>
     </div>
     <div class="flex items-center justify-center gap-4">
-      <a href="#gallery" class="bg-[#042862] dark:bg-[#3280ff] hover:bg-[#3280ff] text-white font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-lg">تصفح المعرض</a>
-      <a href="#about" class="bg-white dark:bg-[#131f3d] hover:bg-[#ebf3fe] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-sm">نبذة عني</a>
+      <a href="#gallery" class="bg-[#042862] dark:bg-[#3280ff] hover:bg-[#3280ff] text-white font-bold px-6 py-3 rounded-xl text-xs sm:text-sm shadow-lg transition-all" data-ar="تصفح المعرض" data-en="Explore Portfolio">تصفح المعرض</a>
+      <a href="#about" class="bg-white dark:bg-[#101a36] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 font-bold px-6 py-3 rounded-xl text-xs sm:text-sm shadow-sm transition-all" data-ar="نبذة عني" data-en="About Me">نبذة عني</a>
     </div>
   </section>
 
   <!-- About Me Section -->
-  <section id="about" class="max-w-5xl mx-auto px-4 py-12 relative z-10">
+  <section id="about" class="max-w-5xl mx-auto px-4 py-10 relative z-10">
     <div class="glass-card rounded-3xl p-6 sm:p-10 border border-[#042862]/15 dark:border-white/10 shadow-xl">
       <div class="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-[#042862]/10 dark:border-white/10 pb-8">
         
-        <!-- Profile Picture Box -->
+        <!-- Profile Picture & Controls -->
         <div class="flex-shrink-0 flex flex-col items-center">
-          <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-lg p-1 bg-white dark:bg-[#0b1329] relative group">
-            <div class="w-full h-full rounded-t-[66px] rounded-b-xl overflow-hidden relative bg-[#042862]">
-              <div id="profile-transform-box" class="w-full h-full origin-center transition-transform duration-200">
-                <img id="profile-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80" alt="Bola Yousef" class="avatar-interactive-img w-full h-full object-cover">
+          <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-lg p-1 bg-white dark:bg-[#090f1f] relative">
+            <div class="w-full h-full rounded-t-[66px] rounded-b-xl overflow-hidden relative bg-slate-900 flex items-center justify-center">
+              <div id="profile-transform-box" class="w-full h-full origin-center transition-transform duration-100">
+                <img id="profile-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%233280ff'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Bola Yousef" class="avatar-img w-full h-full object-cover">
               </div>
             </div>
           </div>
-          <!-- Admin Avatar Buttons -->
-          <div id="avatar-admin-controls" class="hidden flex-col gap-1.5 mt-2.5 w-full">
-            <button onclick="document.getElementById('profile-file-input').click()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm flex items-center justify-center gap-1">
-              <i class="fa-solid fa-camera"></i> <span>تغيير الصورة</span>
+
+          <!-- Admin Avatar Options -->
+          <div id="avatar-admin-controls" class="hidden flex flex-col gap-1.5 mt-3 w-full">
+            <button onclick="document.getElementById('profile-file-input').click()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white text-[11px] font-bold py-1.5 px-3 rounded-xl shadow-sm flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-camera"></i> <span data-ar="رفع صورة جديدة" data-en="Upload Photo">رفع صورة جديدة</span>
+            </button>
+            <button onclick="openAvatarCropModal()" class="bg-[#042862] dark:bg-[#1a2952] hover:bg-[#3280ff] text-white text-[11px] font-bold py-1.5 px-3 rounded-xl shadow-sm border border-white/20 flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-crop-simple"></i> <span data-ar="تعديل موضع وأبعاد الصورة" data-en="Adjust Framing">تعديل موضع وأبعاد الصورة</span>
             </button>
           </div>
-          <input type="file" id="profile-file-input" accept="image/*" class="hidden" onchange="uploadProfilePhoto(event)">
+          <input type="file" id="profile-file-input" accept="image/*" class="hidden" onchange="handleProfileUpload(event)">
         </div>
 
-        <!-- Bio Details -->
-        <div class="flex-1 text-center md:text-right">
+        <!-- Bio Content -->
+        <div class="flex-1 text-center md:text-right rtl:md:text-right ltr:md:text-left">
           <div class="flex items-center justify-between gap-4 mb-3">
-            <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white">نبذة عني</h2>
-            <button id="edit-bio-btn" onclick="openEditBioModal()" class="hidden bg-[#ebf3fe] dark:bg-[#1c2d59] hover:bg-[#3280ff] hover:text-white text-[#042862] dark:text-white border border-[#3280ff]/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm">
-              <i class="fa-solid fa-user-pen text-xs"></i> <span>تعديل النبذة</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white" data-ar="نبذة عني" data-en="About Me">نبذة عني</h2>
+            <button id="edit-bio-btn" onclick="openBioModal()" class="hidden bg-[#ebf3fe] dark:bg-[#1a2952] hover:bg-[#3280ff] hover:text-white text-[#042862] dark:text-white border border-[#3280ff]/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-pen-to-square"></i> <span data-ar="تعديل النبذة" data-en="Edit Bio">تعديل النبذة</span>
             </button>
           </div>
           
           <div id="bio-paragraphs-container" class="space-y-3 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 leading-relaxed font-medium">
-            <p>أنا <strong class="text-[#042862] dark:text-[#3280ff] font-black">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.</p>
-            <p class="text-[#3280ff] font-bold italic">بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي.</p>
+            <p data-ar="أنا <strong class='text-[#042862] dark:text-[#3280ff] font-black'>بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة." data-en="I'm <strong class='text-[#042862] dark:text-[#3280ff] font-black'>Bola Yousef</strong>, a graphic designer dedicated to crafting clear, creative, and purposeful visual solutions.">أنا <strong class="text-[#042862] dark:text-[#3280ff] font-black">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.</p>
+            <p class="text-[#3280ff] font-bold italic" data-ar="بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي." data-en="My background in Applied Arts laid a solid foundation in visual communication, aesthetic balance, and innovative design thinking.">بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي.</p>
           </div>
         </div>
       </div>
@@ -177,31 +185,31 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
         <div class="space-y-6">
           <div>
-            <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[#3280ff]"></i> <span>المؤهل الدراسي</span></h3>
-            <p id="edu-degree" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200">بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر</p>
-            <p id="edu-inst" class="text-xs text-[#042862]/70 dark:text-slate-400 font-medium">المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025</p>
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[#3280ff]"></i> <span data-ar="المؤهل الدراسي" data-en="Education">المؤهل الدراسي</span></h3>
+            <p id="edu-degree" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200" data-ar="بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر" data-en="Bachelor’s Degree in Applied Arts – Graphic Design & Advertising">بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر</p>
+            <p id="edu-inst" class="text-xs text-[#042862]/70 dark:text-slate-400 font-medium" data-ar="المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025" data-en="Higher Institute of Applied Arts, 6th of October City - 2025">المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025</p>
           </div>
           <div>
-            <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#3280ff]"></i> <span>الخبرة العملية</span></h3>
-            <p id="exp-role" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200">مصمم جرافيك — Amplify Growth Network</p>
-            <p id="exp-period" class="text-xs text-[#3280ff] font-bold font-mono">ديسمبر 2025 – حتى الآن</p>
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#3280ff]"></i> <span data-ar="الخبرة العملية" data-en="Experience">الخبرة العملية</span></h3>
+            <p id="exp-role" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200" data-ar="مصمم جرافيك — Amplify Growth Network" data-en="Graphic Designer — Amplify Growth Network">مصمم جرافيك — Amplify Growth Network</p>
+            <p id="exp-period" class="text-xs text-[#3280ff] font-bold font-mono" data-ar="ديسمبر 2025 – حتى الآن" data-en="Dec 2025 – Present">ديسمبر 2025 – حتى الآن</p>
           </div>
         </div>
         <div class="space-y-6">
           <div>
-            <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-[#3280ff]"></i> <span>التدريب والشهادات</span></h3>
-            <ul id="certs-list" class="space-y-2.5 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 font-medium">
-              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span>مبادرة مليون مبرمج للذكاء الاصطناعي (2026)</span></li>
-              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span>برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)</span></li>
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-[#3280ff]"></i> <span data-ar="التدريب والشهادات" data-en="Certifications">التدريب والشهادات</span></h3>
+            <ul id="certs-list" class="space-y-2 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 font-medium">
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span data-ar="مبادرة مليون مبرمج للذكاء الاصطناعي (2026)" data-en="1 Million Prompters Initiative – Dubai Future Foundation (2026)">مبادرة مليون مبرمج للذكاء الاصطناعي (2026)</span></li>
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span data-ar="برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)" data-en="Graphic Design Professional Training – Media Shades (2023)">برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)</span></li>
             </ul>
           </div>
           <div>
-            <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-swatchbook text-[#3280ff]"></i> <span>أدوات التصميم</span></h3>
-            <div class="flex flex-wrap items-center gap-2.5 font-eng-tag">
-              <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md">Ps</div>
-              <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md">Ai</div>
-              <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md">Pr</div>
-              <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md">Ae</div>
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-swatchbook text-[#3280ff]"></i> <span data-ar="أدوات التصميم" data-en="Creative Toolkit">أدوات التصميم</span></h3>
+            <div class="flex flex-wrap items-center gap-2 font-eng-tag">
+              <span class="w-9 h-9 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-black text-xs shadow-md">Ps</span>
+              <span class="w-9 h-9 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-black text-xs shadow-md">Ai</span>
+              <span class="w-9 h-9 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-black text-xs shadow-md">Pr</span>
+              <span class="w-9 h-9 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-black text-xs shadow-md">Ae</span>
             </div>
           </div>
         </div>
@@ -209,312 +217,189 @@
     </div>
   </section>
 
-  <!-- Stats Section -->
-  <section id="stats" class="max-w-4xl mx-auto px-4 py-8 relative z-10">
+  <!-- Metrics -->
+  <section class="max-w-4xl mx-auto px-4 py-6 relative z-10">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div class="glass-card p-5 rounded-2xl text-center">
         <div class="text-3xl sm:text-4xl font-black text-[#3280ff] mb-1 font-eng-tag">+150</div>
-        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300">تصميم تم تسليمه</p>
+        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-ar="تصميم تم تسليمه" data-en="Delivered Projects">تصميم تم تسليمه</p>
       </div>
       <div class="glass-card p-5 rounded-2xl text-center">
         <div class="text-3xl sm:text-4xl font-black text-[#042862] dark:text-white mb-1 font-eng-tag">+5</div>
-        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300">علامات تجارية</p>
+        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-ar="علامات تجارية" data-en="Partner Brands">علامات تجارية</p>
       </div>
       <div class="glass-card p-5 rounded-2xl text-center">
         <div class="text-3xl sm:text-4xl font-black text-[#3280ff] mb-1 font-eng-tag">100%</div>
-        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300">التزام بالمواعيد</p>
+        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-ar="التزام بالمواعيد" data-en="On-Time Delivery">التزام بالمواعيد</p>
       </div>
     </div>
   </section>
 
-  <!-- Admin Add Project Panel -->
-  <section id="admin-panel" class="hidden max-w-3xl mx-auto px-4 mb-12 relative z-10">
-    <div class="glass-card rounded-3xl p-6 shadow-xl">
-      <h3 class="text-base font-bold text-[#042862] dark:text-white flex items-center gap-2 mb-4 border-b border-[#042862]/10 dark:border-white/10 pb-3">
-        <i class="fa-solid fa-layer-group text-[#3280ff]"></i> <span>إضافة مشروع جديد</span>
+  <!-- Admin Panel for Projects -->
+  <section id="admin-panel" class="hidden max-w-3xl mx-auto px-4 my-8 relative z-10">
+    <div class="glass-card rounded-3xl p-6 shadow-xl border-2 border-[#3280ff]">
+      <h3 class="text-base font-bold text-[#042862] dark:text-white flex items-center gap-2 mb-4 border-b border-[#042862]/10 pb-3">
+        <i class="fa-solid fa-cloud-arrow-up text-[#3280ff]"></i> <span data-ar="إضافة مشروع جديد للمعرض" data-en="Add New Project to Portfolio">إضافة مشروع جديد للمعرض</span>
       </h3>
-      <form id="add-project-form" class="space-y-4" onsubmit="handleNewCampaign(event)">
+      <form id="add-project-form" class="space-y-4" onsubmit="handleProjectSubmit(event)">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs text-[#042862]/80 dark:text-slate-300 mb-1 font-bold">اسم المشروع</label>
-            <input type="text" id="proj-title" placeholder="مثال: هوية بصرية لمطعم" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <label class="block text-xs font-bold mb-1" data-ar="اسم المشروع" data-en="Project Title">اسم المشروع</label>
+            <input type="text" id="proj-title" placeholder="مثال: هوية بصرية كاملة" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
           <div>
-            <label class="block text-xs text-[#042862]/80 dark:text-slate-300 mb-1 font-bold">التصنيف</label>
-            <input type="text" id="proj-category" placeholder="مثال: سوشيال ميديا" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <label class="block text-xs font-bold mb-1" data-ar="التصنيف" data-en="Category">التصنيف</label>
+            <input type="text" id="proj-category" placeholder="مثال: سوشيال ميديا أو Branding" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
         </div>
         <div>
-          <label class="block text-xs text-[#042862]/80 dark:text-slate-300 mb-1 font-bold">صور المشروع (يمكن اختيار أكثر من صورة)</label>
-          <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-[#042862] dark:text-white border border-[#042862]/15 dark:border-white/20 rounded-xl p-2 bg-[#ebf3fe] dark:bg-[#0b1329]">
+          <label class="block text-xs font-bold mb-1" data-ar="صور المشروع (اختر صورة أو أكثر)" data-en="Project Images (Select one or more)">صور المشروع (اختر صورة أو أكثر)</label>
+          <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-[#042862] dark:text-white border border-[#042862]/15 dark:border-white/20 rounded-xl p-2 bg-[#ebf3fe] dark:bg-[#090f1f]">
         </div>
-        <button type="submit" id="submit-proj-btn" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md">
-          نشر المشروع
+        <button type="submit" id="proj-submit-btn" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition-all">
+          نشر المشروع وحفظه
         </button>
       </form>
     </div>
   </section>
 
   <!-- Portfolio Section -->
-  <section id="gallery" class="max-w-6xl mx-auto px-4 py-8 relative z-10">
+  <section id="gallery" class="max-w-6xl mx-auto px-4 py-10 relative z-10">
     <div class="text-center mb-8">
-      <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white">معرض الأعمال</h2>
+      <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white" data-ar="معرض الأعمال" data-en="Portfolio Gallery">معرض الأعمال</h2>
     </div>
-    <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Default Project 1 -->
-      <div class="glass-card rounded-3xl overflow-hidden shadow-lg border border-[#042862]/10 group">
-        <div class="aspect-[3/4] overflow-hidden bg-slate-200">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80" alt="Brand Identity" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
-        </div>
-        <div class="p-4">
-          <span class="text-[11px] font-bold text-[#3280ff]">هوية بصرية</span>
-          <h3 class="text-sm font-bold text-[#042862] dark:text-white">Branding & Visual Identity</h3>
-        </div>
-      </div>
-      <!-- Default Project 2 -->
-      <div class="glass-card rounded-3xl overflow-hidden shadow-lg border border-[#042862]/10 group">
-        <div class="aspect-[3/4] overflow-hidden bg-slate-200">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80" alt="Social Media" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
-        </div>
-        <div class="p-4">
-          <span class="text-[11px] font-bold text-[#3280ff]">سوشيال ميديا</span>
-          <h3 class="text-sm font-bold text-[#042862] dark:text-white">Creative Campaign Launch</h3>
-        </div>
-      </div>
-    </div>
+    <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
   <!-- Testimonials Section -->
-  <section id="testimonials" class="max-w-5xl mx-auto px-4 py-16 relative z-10">
+  <section id="testimonials" class="max-w-5xl mx-auto px-4 py-12 relative z-10">
     <div class="text-center mb-8 flex flex-col items-center">
-      <h2 class="text-2xl sm:text-3xl font-black mb-2 text-[#042862] dark:text-white">آراء العملاء</h2>
-      <p class="text-[#042862]/70 dark:text-slate-400 text-xs font-medium mb-3">ما يقوله الشركاء والعملاء عن العمل المشترك.</p>
-      <button id="add-testi-btn" onclick="openTestimonialModal()" class="hidden bg-[#3280ff] hover:bg-[#256cd9] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-md items-center gap-1.5">
-        <i class="fa-solid fa-plus"></i> <span>إضافة رأي</span>
+      <h2 class="text-2xl sm:text-3xl font-black mb-2 text-[#042862] dark:text-white" data-ar="آراء العملاء" data-en="Client Testimonials">آراء العملاء</h2>
+      <p class="text-[#042862]/70 dark:text-slate-400 text-xs font-medium mb-3" data-ar="ما يقوله الشركاء والعملاء عن العمل المشترك." data-en="What partners and clients say about working together.">ما يقوله الشركاء والعملاء عن العمل المشترك.</p>
+      <button id="add-testi-btn" onclick="openTestiModal()" class="hidden bg-[#3280ff] hover:bg-[#256cd9] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-md items-center gap-1.5">
+        <i class="fa-solid fa-plus"></i> <span data-ar="إضافة رأي" data-en="Add Review">إضافة رأي</span>
       </button>
     </div>
-    <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="glass-card p-6 rounded-3xl">
-        <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"بولا سلّم تصاميم الهوية قبل الموعد بجودة ودقة واضحة جداً، مبدع وملتزم بالتفاصيل!"</p>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">M</div>
-          <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">Mahmoud Khaled</h4><p class="text-[10px] text-slate-400">Marketing Director</p></div>
-        </div>
-      </div>
-      <div class="glass-card p-6 rounded-3xl">
-        <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"تصاميم سوشيال ميديا ممتازة وعصرية، زادت من تفاعل الحملة التسويقية بشكل ملحوظ."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">S</div>
-          <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">Sara Ahmed</h4><p class="text-[10px] text-slate-400">Brand Owner</p></div>
-        </div>
-      </div>
-    </div>
+    <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
   </section>
 
-  <!-- Login Modal -->
-  <div id="login-modal" class="fixed inset-0 z-50 bg-[#042862]/70 hidden items-center justify-center p-4 backdrop-blur-sm">
-    <div class="glass-card w-full max-w-sm rounded-3xl p-6 shadow-2xl relative modal-animate">
-      <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-xl"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-base font-bold mb-4 text-center text-[#042862] dark:text-white">تسجيل دخول الأدمن</h3>
+  <!-- Avatar Adjustment / Crop Modal -->
+  <div id="avatar-crop-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative modal-active">
+      <button onclick="closeAvatarCropModal()" class="absolute top-4 left-4 text-lg text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-sm font-bold text-[#042862] dark:text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-crop-simple text-[#3280ff]"></i> <span data-ar="تعديل أبعاد وموضع الصورة الحالية" data-en="Adjust Current Image Framing">تعديل أبعاد وموضع الصورة الحالية</span>
+      </h3>
+      <div class="space-y-4 text-xs font-bold text-[#042862] dark:text-slate-200">
+        <div>
+          <div class="flex justify-between mb-1"><span data-ar="التكبير / التصغير" data-en="Zoom">التكبير / التصغير</span><span id="zoom-txt" class="text-[#3280ff]">100%</span></div>
+          <input type="range" id="crop-zoom" min="80" max="250" value="100" class="w-full accent-[#3280ff]" oninput="applyLiveCropTransform()">
+        </div>
+        <div>
+          <div class="flex justify-between mb-1"><span data-ar="التحريك الرأسي" data-en="Vertical Position">التحريك الرأسي</span><span id="pan-y-txt" class="text-[#3280ff]">0px</span></div>
+          <input type="range" id="crop-pan-y" min="-120" max="120" value="0" class="w-full accent-[#3280ff]" oninput="applyLiveCropTransform()">
+        </div>
+        <div>
+          <div class="flex justify-between mb-1"><span data-ar="التحريك الأفقي" data-en="Horizontal Position">التحريك الأفقي</span><span id="pan-x-txt" class="text-[#3280ff]">0px</span></div>
+          <input type="range" id="crop-pan-x" min="-100" max="100" value="0" class="w-full accent-[#3280ff]" oninput="applyLiveCropTransform()">
+        </div>
+      </div>
+      <div class="flex gap-2 mt-6">
+        <button onclick="saveCropTransform()" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md" data-ar="حفظ التعديل" data-en="Save Changes">حفظ التعديل</button>
+        <button onclick="resetCropTransform()" class="px-4 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-bold py-2 rounded-xl text-xs" data-ar="استعادة" data-en="Reset">استعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="login-modal" class="fixed inset-0 z-50 bg-[#042862]/75 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="glass-card w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-active">
+      <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-base font-bold mb-4 text-center text-[#042862] dark:text-white" data-ar="دخول الأدمن" data-en="Admin Access">دخول الأدمن</h3>
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div>
-          <label class="block text-xs text-[#042862]/80 dark:text-slate-300 mb-1 font-bold">كلمة المرور</label>
-          <input type="password" id="admin-pass-input" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-[#042862] dark:text-white text-center">
+          <label class="block text-xs font-bold mb-1" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+          <input type="password" id="admin-pass-input" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-center text-[#042862] dark:text-white">
         </div>
-        <p id="login-error" class="text-rose-600 text-xs hidden font-bold text-center">كلمة المرور غير صحيحة!</p>
-        <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2.5 rounded-xl text-xs shadow-md">دخول</button>
+        <p id="login-error" class="text-rose-600 text-xs hidden font-bold text-center" data-ar="كلمة المرور غير صحيحة!" data-en="Incorrect password!">كلمة المرور غير صحيحة!</p>
+        <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
       </form>
     </div>
   </div>
 
-  <!-- Footer Admin Trigger -->
+  <!-- Footer -->
   <footer class="text-center py-6 text-[11px] text-slate-400 flex items-center justify-center gap-2">
     <span>© 2026 Bola Yousef. All rights reserved.</span>
-    <button onclick="openLoginModal()" class="text-slate-300 hover:text-[#3280ff] transition-colors" title="دخول الأدمن"><i class="fa-solid fa-lock"></i></button>
+    <button onclick="openLoginModal()" class="text-slate-300 hover:text-[#3280ff] transition-colors" title="Admin Login"><i class="fa-solid fa-lock"></i></button>
   </footer>
 
-  <!-- Floating WhatsApp Button -->
+  <!-- WhatsApp Floating Icon -->
   <a href="https://wa.me/201278150042?text=Hi%20Bola,%20I%20viewed%20your%20portfolio." target="_blank" class="fixed bottom-6 right-6 z-40 bg-[#3280ff] hover:bg-[#256cd9] text-white w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-xl animate-bounce border-2 border-white">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- ========================================== -->
-  <!-- ⚙️ السكربت البرمجي المحمي بالكامل ضد الأعطال -->
-  <!-- ========================================== -->
+  <!-- Core JavaScript Engine -->
   <script>
-    // 1. إعدادات الـ API وكلمة المرور (موجودة هنا في أول السكربت بكل وضوح)
-    const IMGBB_API_KEY = "5f462bb63a6a9b9a674483b8b1dc9c0d";
-    const ADMIN_PASS = "bola2026admin";
+    // Global Config
+    const IMGBB_KEY = "5f462bb63a6a9b9a674483b8b1dc9c0d";
+    const ADMIN_PASSWORD = "bola2026admin";
 
-    let isAdmin = localStorage.getItem('is_portfolio_admin') === 'true';
+    // App State
+    let isAdmin = localStorage.getItem('is_admin_session') === 'true';
+    let currentLang = localStorage.getItem('app_lang') || 'ar';
+    let isDarkMode = localStorage.getItem('app_theme') === 'dark';
 
-    // 2. التحقق من الدخول التلقائي عبر الرابط ?secret=bola2026admin
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('secret') === 'bola2026admin') {
-      setTimeout(() => { openLoginModal(); }, 300);
-    }
-
-    // 3. دوال نافذة تسجيل الدخول
-    function openLoginModal() {
-      const modal = document.getElementById('login-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeLoginModal() {
-      const modal = document.getElementById('login-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function handleAdminLogin(e) {
-      e.preventDefault();
-      const input = document.getElementById('admin-pass-input').value;
-      if (input === ADMIN_PASS) {
-        isAdmin = true;
-        localStorage.setItem('is_portfolio_admin', 'true');
-        closeLoginModal();
-        updateAdminUI();
-        showToast("تم تسجيل الدخول بنجاح كأدمن!");
-      } else {
-        document.getElementById('login-error').classList.remove('hidden');
-      }
-    }
-
-    function logoutAdmin() {
-      isAdmin = false;
-      localStorage.removeItem('is_portfolio_admin');
-      updateAdminUI();
-      showToast("تم تسجيل الخروج");
-    }
-
-    function updateAdminUI() {
-      const adminBar = document.getElementById('admin-bar');
-      const adminPanel = document.getElementById('admin-panel');
-      const avatarControls = document.getElementById('avatar-admin-controls');
-      const addTestiBtn = document.getElementById('add-testi-btn');
-
-      if (isAdmin) {
-        adminBar.classList.remove('hidden');
-        adminPanel.classList.remove('hidden');
-        if (avatarControls) { avatarControls.classList.remove('hidden'); avatarControls.classList.add('flex'); }
-        if (addTestiBtn) { addTestiBtn.classList.remove('hidden'); addTestiBtn.classList.add('inline-flex'); }
-      } else {
-        adminBar.classList.add('hidden');
-        adminPanel.classList.add('hidden');
-        if (avatarControls) { avatarControls.classList.add('hidden'); avatarControls.classList.remove('flex'); }
-        if (addTestiBtn) { addTestiBtn.classList.add('hidden'); addTestiBtn.classList.remove('inline-flex'); }
-      }
-    }
-
-    // 4. دالة رفع الصور لـ ImgBB
-    async function uploadImageToImgBB(file) {
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-          method: 'POST',
-          body: formData
+    // Safe Firebase init
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp({
+          apiKey: "AIzaSyAgbW0PtZio7QGeHwMMOlLOdyKX83et08U",
+          authDomain: "my-portfolio-3470b.firebaseapp.com",
+          projectId: "my-portfolio-3470b",
+          storageBucket: "my-portfolio-3470b.firebasestorage.app",
+          messagingSenderId: "750115307323",
+          appId: "1:750115307323:web:abb6a83bb1eafc9fb6811e"
         });
-        const data = await res.json();
-        if (data && data.success) return data.data.url;
-      } catch (err) {
-        console.error("Upload error:", err);
+        db = firebase.firestore();
       }
-      return null;
+    } catch(e) {
+      console.warn("Offline or Local mode active.");
     }
 
-    // 5. رفع وتغيير الصورة الشخصية
-    async function uploadProfilePhoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      showToast("جاري رفع وتحديث الصورة...");
-      const cloudUrl = await uploadImageToImgBB(file);
-      if (cloudUrl) {
-        document.getElementById('profile-img').src = cloudUrl;
-        localStorage.setItem('my_profile_avatar', cloudUrl);
-        showToast("تم تحديث وحفظ صورتك بنجاح!");
-      } else {
-        alert("فشل الرفع، يرجى المحاولة مرة أخرى.");
+    // Default Fallback Projects
+    let defaultProjects = [
+      {
+        id: 1,
+        title: "NOIR & AURA — Luxury Identity",
+        category: "Branding",
+        images: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80"]
+      },
+      {
+        id: 2,
+        title: "The Exo-Morph — Social Campaign",
+        category: "Social Media",
+        images: ["https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80"]
       }
-    }
+    ];
 
-    // 6. إضافة مشروع جديد ورفعه
-    async function handleNewCampaign(e) {
-      e.preventDefault();
-      const title = document.getElementById('proj-title').value.trim();
-      const category = document.getElementById('proj-category').value.trim();
-      const files = Array.from(document.getElementById('proj-files').files);
-      const submitBtn = document.getElementById('submit-proj-btn');
-
-      if (files.length === 0) return;
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "جاري الرفع...";
-      showToast("جاري رفع الصور...");
-
-      const uploadedUrls = [];
-      for (const file of files) {
-        const url = await uploadImageToImgBB(file);
-        if (url) uploadedUrls.push(url);
+    // Default Testimonials
+    let defaultTestimonials = [
+      {
+        id: 1,
+        name: "Mahmoud Khaled",
+        role: "Marketing Director",
+        text: "بولا سلّم تصاميم الهوية قبل الموعد بجودة ودقة واضحة جداً، مبدع وملتزم بالتفاصيل!"
+      },
+      {
+        id: 2,
+        name: "Sara Ahmed",
+        role: "Brand Owner",
+        text: "تصاميم سوشيال ميديا ممتازة وعصرية، زادت من تفاعل الحملة التسويقية بشكل ملحوظ."
       }
+    ];
 
-      if (uploadedUrls.length > 0) {
-        const grid = document.getElementById('portfolio-grid');
-        const card = document.createElement('div');
-        card.className = "glass-card rounded-3xl overflow-hidden shadow-lg border border-[#042862]/10 group";
-        card.innerHTML = `
-          <div class="aspect-[3/4] overflow-hidden bg-slate-200">
-            <img src="${uploadedUrls[0]}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
-          </div>
-          <div class="p-4">
-            <span class="text-[11px] font-bold text-[#3280ff]">${category}</span>
-            <h3 class="text-sm font-bold text-[#042862] dark:text-white">${title}</h3>
-          </div>
-        `;
-        grid.prepend(card);
-        showToast("تم نشر المشروع بنجاح!");
-        document.getElementById('add-project-form').reset();
-      }
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = "نشر المشروع";
-    }
-
-    // 7. الوضع الليلي والترجمة البسيطة
-    let isDarkMode = localStorage.getItem('portfolio_dark') === 'true';
-    function toggleDarkMode() {
-      isDarkMode = !isDarkMode;
-      localStorage.setItem('portfolio_dark', isDarkMode);
-      applyDarkMode();
-    }
-    function applyDarkMode() {
-      const htmlEl = document.documentElement;
-      const icon = document.getElementById('dark-icon');
-      if (isDarkMode) {
-        htmlEl.classList.add('dark');
-        if (icon) icon.className = "fa-solid fa-sun";
-      } else {
-        htmlEl.classList.remove('dark');
-        if (icon) icon.className = "fa-solid fa-moon";
-      }
-    }
-
-    function toggleLanguage() {
-      const currentDir = document.documentElement.getAttribute('dir');
-      if (currentDir === 'rtl') {
-        document.documentElement.setAttribute('dir', 'ltr');
-        document.documentElement.setAttribute('lang', 'en');
-        document.getElementById('lang-btn-text').textContent = 'العربية';
-      } else {
-        document.documentElement.setAttribute('dir', 'rtl');
-        document.documentElement.setAttribute('lang', 'ar');
-        document.getElementById('lang-btn-text').textContent = 'English';
-      }
-    }
-
+    // Toast Alert
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-text').textContent = msg;
@@ -526,15 +411,341 @@
       }, 2500);
     }
 
-    // استرجاع الصورة الشخصية المحفوظة محلياً إن وجدت
-    const savedAvatar = localStorage.getItem('my_profile_avatar');
-    if (savedAvatar) {
-      document.getElementById('profile-img').src = savedAvatar;
+    // Language Toggle Engine (Direct DOM Swap - No Crash)
+    function toggleLanguage() {
+      currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+      localStorage.setItem('app_lang', currentLang);
+      applyLanguage();
     }
 
-    // تشغيل التنسيق وحالة الأدمن
-    applyDarkMode();
-    updateAdminUI();
+    function applyLanguage() {
+      const isAr = currentLang === 'ar';
+      document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+      document.documentElement.setAttribute('lang', currentLang);
+      document.getElementById('lang-btn-text').textContent = isAr ? 'English' : 'العربية';
+
+      document.querySelectorAll('[data-ar]').forEach(el => {
+        const text = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+        if (text) el.innerHTML = text;
+      });
+    }
+
+    // Theme Engine
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      localStorage.setItem('app_theme', isDarkMode ? 'dark' : 'light');
+      applyTheme();
+    }
+
+    function applyTheme() {
+      const icon = document.getElementById('dark-icon');
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+        if (icon) icon.className = "fa-solid fa-sun";
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (icon) icon.className = "fa-solid fa-moon";
+      }
+    }
+
+    // Eyes Tracker
+    function initEyes() {
+      const pupils = document.querySelectorAll('.pupil');
+      window.addEventListener('mousemove', (e) => {
+        pupils.forEach(pupil => {
+          const eye = pupil.parentElement;
+          const rect = eye.getBoundingClientRect();
+          const eyeCenterX = rect.left + rect.width / 2;
+          const eyeCenterY = rect.top + rect.height / 2;
+          const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
+          const distance = Math.min(rect.width / 4, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 12);
+          pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+        });
+      });
+    }
+
+    // Profile & Crop Manager
+    async function loadProfileAvatar() {
+      const imgEl = document.getElementById('profile-img');
+      const box = document.getElementById('profile-transform-box');
+      
+      // Check cloud first
+      if (db) {
+        try {
+          const doc = await db.collection("profile").doc("avatar").get();
+          if (doc.exists && doc.data().url) {
+            imgEl.src = doc.data().url;
+            if (doc.data().transform) box.style.transform = doc.data().transform;
+            return;
+          }
+        } catch(e) {}
+      }
+
+      // Check local cache
+      const localUrl = localStorage.getItem('bola_profile_img');
+      const localTrans = localStorage.getItem('bola_profile_trans');
+      if (localUrl) imgEl.src = localUrl;
+      if (localTrans) box.style.transform = localTrans;
+    }
+
+    async function uploadToImgBB(file) {
+      const fd = new FormData();
+      fd.append('image', file);
+      try {
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: 'POST', body: fd });
+        const json = await res.json();
+        if (json && json.success) return json.data.url;
+      } catch(e) {}
+      return null;
+    }
+
+    async function handleProfileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      showToast("جاري رفع وتحديث صورتك...");
+      const url = await uploadToImgBB(file);
+      if (url) {
+        document.getElementById('profile-img').src = url;
+        localStorage.setItem('bola_profile_img', url);
+        if (db) db.collection("profile").doc("avatar").set({ url }, { merge: true });
+        showToast("تم تحديث صورتك بنجاح!");
+      } else {
+        alert("فشل رفع الصورة، يرجى إعادة المحاولة.");
+      }
+    }
+
+    function openAvatarCropModal() {
+      document.getElementById('avatar-crop-modal').classList.remove('hidden');
+      document.getElementById('avatar-crop-modal').classList.add('flex');
+    }
+    function closeAvatarCropModal() {
+      document.getElementById('avatar-crop-modal').classList.add('hidden');
+      document.getElementById('avatar-crop-modal').classList.remove('flex');
+    }
+
+    function applyLiveCropTransform() {
+      const zoom = document.getElementById('crop-zoom').value;
+      const panY = document.getElementById('crop-pan-y').value;
+      const panX = document.getElementById('crop-pan-x').value;
+      document.getElementById('zoom-txt').textContent = `${zoom}%`;
+      document.getElementById('pan-y-txt').textContent = `${panY}px`;
+      document.getElementById('pan-x-txt').textContent = `${panX}px`;
+      document.getElementById('profile-transform-box').style.transform = `scale(${zoom / 100}) translate(${panX}px, ${panY}px)`;
+    }
+
+    function saveCropTransform() {
+      const zoom = document.getElementById('crop-zoom').value;
+      const panY = document.getElementById('crop-pan-y').value;
+      const panX = document.getElementById('crop-pan-x').value;
+      const transStr = `scale(${zoom / 100}) translate(${panX}px, ${panY}px)`;
+      localStorage.setItem('bola_profile_trans', transStr);
+      if (db) db.collection("profile").doc("avatar").set({ transform: transStr }, { merge: true });
+      closeAvatarCropModal();
+      showToast("تم حفظ موضع الصورة بنجاح!");
+    }
+
+    function resetCropTransform() {
+      document.getElementById('profile-transform-box').style.transform = "scale(1) translate(0px, 0px)";
+      localStorage.removeItem('bola_profile_trans');
+      if (db) db.collection("profile").doc("avatar").set({ transform: "scale(1) translate(0px, 0px)" }, { merge: true });
+      closeAvatarCropModal();
+      showToast("تمت استعادة الموضع الافتراضي!");
+    }
+
+    // Projects Engine
+    async function loadProjects() {
+      let projects = defaultProjects;
+      if (db) {
+        try {
+          const snap = await db.collection("campaigns").get();
+          if (!snap.empty) {
+            projects = [];
+            snap.forEach(d => projects.push(d.data()));
+          }
+        } catch(e) {}
+      } else {
+        const local = localStorage.getItem('bola_projects');
+        if (local) projects = JSON.parse(local);
+      }
+      renderProjects(projects);
+    }
+
+    function renderProjects(list) {
+      const grid = document.getElementById('portfolio-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "glass-card rounded-3xl overflow-hidden shadow-lg border border-[#042862]/10 group relative";
+        card.innerHTML = `
+          ${isAdmin ? `<button onclick="deleteProject(${p.id})" class="absolute top-3 left-3 z-20 bg-rose-600 text-white w-7 h-7 rounded-lg text-xs flex items-center justify-center shadow-md"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+          <div class="aspect-[3/4] overflow-hidden bg-slate-900">
+            <img src="${p.images[0]}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+          </div>
+          <div class="p-4">
+            <span class="text-[11px] font-bold text-[#3280ff]">${p.category}</span>
+            <h3 class="text-sm font-bold text-[#042862] dark:text-white">${p.title}</h3>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function handleProjectSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('proj-title').value.trim();
+      const category = document.getElementById('proj-category').value.trim();
+      const files = Array.from(document.getElementById('proj-files').files);
+      const btn = document.getElementById('proj-submit-btn');
+
+      if (files.length === 0) return;
+      btn.disabled = true;
+      btn.textContent = "جاري رفع الصور...";
+      showToast("جاري رفع المشروع...");
+
+      const uploaded = [];
+      for (const file of files) {
+        const url = await uploadToImgBB(file);
+        if (url) uploaded.push(url);
+      }
+
+      if (uploaded.length > 0) {
+        const newProj = { id: Date.now(), title, category, images: uploaded };
+        let projects = JSON.parse(localStorage.getItem('bola_projects') || JSON.stringify(defaultProjects));
+        projects.unshift(newProj);
+        localStorage.setItem('bola_projects', JSON.stringify(projects));
+        if (db) db.collection("campaigns").doc(String(newProj.id)).set(newProj);
+        renderProjects(projects);
+        document.getElementById('add-project-form').reset();
+        showToast("تم نشر المشروع بنجاح!");
+      }
+      btn.disabled = false;
+      btn.textContent = "نشر المشروع وحفظه";
+    }
+
+    async function deleteProject(id) {
+      if (!confirm("هل أنت متأكد من حذف هذا المشروع؟")) return;
+      let projects = JSON.parse(localStorage.getItem('bola_projects') || JSON.stringify(defaultProjects));
+      projects = projects.filter(p => p.id !== id);
+      localStorage.setItem('bola_projects', JSON.stringify(projects));
+      if (db) db.collection("campaigns").doc(String(id)).delete();
+      renderProjects(projects);
+      showToast("تم الحذف بنجاح!");
+    }
+
+    // Testimonials Engine
+    async function loadTestimonials() {
+      let list = defaultTestimonials;
+      if (db) {
+        try {
+          const snap = await db.collection("testimonials").get();
+          if (!snap.empty) {
+            list = [];
+            snap.forEach(d => list.push(d.data()));
+          }
+        } catch(e) {}
+      } else {
+        const local = localStorage.getItem('bola_testimonials');
+        if (local) list = JSON.parse(local);
+      }
+      renderTestimonials(list);
+    }
+
+    function renderTestimonials(list) {
+      const grid = document.getElementById('testimonials-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      list.forEach(t => {
+        const card = document.createElement('div');
+        card.className = "glass-card p-6 rounded-3xl relative";
+        card.innerHTML = `
+          <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"${t.text}"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">${t.name.charAt(0)}</div>
+            <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">${t.name}</h4><p class="text-[10px] text-slate-400">${t.role}</p></div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Admin Access Engine
+    function openLoginModal() {
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.getElementById('login-modal').classList.add('flex');
+    }
+    function closeLoginModal() {
+      document.getElementById('login-modal').classList.add('hidden');
+      document.getElementById('login-modal').classList.remove('flex');
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const val = document.getElementById('admin-pass-input').value;
+      if (val === ADMIN_PASSWORD) {
+        isAdmin = true;
+        localStorage.setItem('is_admin_session', 'true');
+        closeLoginModal();
+        updateAdminUI();
+        loadProjects();
+        showToast("مرحباً بك يا بولا! وضع الأدمن نشط.");
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      localStorage.removeItem('is_admin_session');
+      updateAdminUI();
+      loadProjects();
+      showToast("تم تسجيل الخروج من الأدمن.");
+    }
+
+    function updateAdminUI() {
+      const adminBar = document.getElementById('admin-bar');
+      const adminPanel = document.getElementById('admin-panel');
+      const avatarControls = document.getElementById('avatar-admin-controls');
+      const editBioBtn = document.getElementById('edit-bio-btn');
+      const addTestiBtn = document.getElementById('add-testi-btn');
+
+      if (isAdmin) {
+        adminBar.classList.remove('hidden');
+        adminPanel.classList.remove('hidden');
+        avatarControls.classList.remove('hidden');
+        avatarControls.classList.add('flex');
+        if (editBioBtn) { editBioBtn.classList.remove('hidden'); editBioBtn.classList.add('inline-flex'); }
+        if (addTestiBtn) { addTestiBtn.classList.remove('hidden'); addTestiBtn.classList.add('inline-flex'); }
+      } else {
+        adminBar.classList.add('hidden');
+        adminPanel.classList.add('hidden');
+        avatarControls.classList.add('hidden');
+        avatarControls.classList.remove('flex');
+        if (editBioBtn) { editBioBtn.classList.add('hidden'); editBioBtn.classList.remove('inline-flex'); }
+        if (addTestiBtn) { addTestiBtn.classList.add('hidden'); addTestiBtn.classList.remove('inline-flex'); }
+      }
+    }
+
+    // Secret URL Trigger
+    function checkUrlSecret() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('secret') === 'bola2026admin') {
+        openLoginModal();
+      }
+    }
+
+    // Master Boot
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTheme();
+      applyLanguage();
+      updateAdminUI();
+      loadProfileAvatar();
+      loadProjects();
+      loadTestimonials();
+      initEyes();
+      checkUrlSecret();
+    });
   </script>
 </body>
 </html>
