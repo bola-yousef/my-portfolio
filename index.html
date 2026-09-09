@@ -51,31 +51,31 @@
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
 
-    /* Explicit Glassmorphism Effect */
+    /* Glassmorphism Effect */
     .glass-nav { 
-      background: rgba(235, 243, 254, 0.65) !important; 
+      background: rgba(235, 243, 254, 0.7) !important; 
       backdrop-filter: blur(24px) !important; 
       -webkit-backdrop-filter: blur(24px) !important; 
       border: 1px solid rgba(255, 255, 255, 0.6) !important; 
-      box-shadow: 0 8px 32px 0 rgba(4, 40, 98, 0.1) !important;
+      box-shadow: 0 10px 30px 0 rgba(4, 40, 98, 0.08) !important;
     }
     html.dark .glass-nav { 
-      background: rgba(19, 31, 61, 0.65) !important; 
+      background: rgba(19, 31, 61, 0.7) !important; 
       border: 1px solid rgba(255, 255, 255, 0.1) !important; 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.25) !important;
     }
 
     .glass-card { 
-      background: rgba(255, 255, 255, 0.75) !important; 
+      background: rgba(255, 255, 255, 0.8) !important; 
       backdrop-filter: blur(20px) !important;
       -webkit-backdrop-filter: blur(20px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.8) !important; 
-      box-shadow: 0 15px 35px -10px rgba(4, 40, 98, 0.08) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.9) !important; 
+      box-shadow: 0 15px 35px -10px rgba(4, 40, 98, 0.07) !important; 
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
     }
     html.dark .glass-card { 
-      background: rgba(19, 31, 61, 0.7) !important; 
-      border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+      background: rgba(19, 31, 61, 0.75) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.08) !important; 
       color: #ebf3fe !important; 
       box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.3) !important;
     }
@@ -474,7 +474,7 @@
 
       <form id="edit-bio-form" class="space-y-6 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
         
-        <!-- Split Screen Container (Arabic Left/Right, English Right/Left depending on dir) -->
+        <!-- Split Screen Container -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           <!-- Column 1: Arabic Edition -->
@@ -948,7 +948,6 @@
       const arData = getStoredBio('ar');
       const enData = getStoredBio('en');
 
-      // Populate Arabic fields
       document.getElementById('ar-edu-deg').value = arData.eduDegree || '';
       document.getElementById('ar-edu-inst').value = arData.eduInst || '';
       document.getElementById('ar-exp-role').value = arData.expRole || '';
@@ -956,7 +955,6 @@
       document.getElementById('ar-certs').value = (arData.certs || []).join('\n');
       renderSplitParagraphInputs('ar', arData.paragraphs || []);
 
-      // Populate English fields
       document.getElementById('en-edu-deg').value = enData.eduDegree || '';
       document.getElementById('en-edu-inst').value = enData.eduInst || '';
       document.getElementById('en-exp-role').value = enData.expRole || '';
