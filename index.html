@@ -51,11 +51,31 @@
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
 
-    .glass-nav { background: rgba(235, 243, 254, 0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(4, 40, 98, 0.1); }
-    html.dark .glass-nav { background: rgba(19, 31, 61, 0.92); border: 1px solid rgba(255, 255, 255, 0.1); }
+    /* Glassmorphism Ultra Premium */
+    .glass-nav { 
+      background: rgba(235, 243, 254, 0.75); 
+      backdrop-filter: blur(20px); 
+      -webkit-backdrop-filter: blur(20px); 
+      border: 1px solid rgba(255, 255, 255, 0.4); 
+    }
+    html.dark .glass-nav { 
+      background: rgba(19, 31, 61, 0.75); 
+      border: 1px solid rgba(255, 255, 255, 0.08); 
+    }
 
-    .glass-card { background: #ffffff; border: 1px solid rgba(4, 40, 98, 0.08); box-shadow: 0 10px 30px -10px rgba(4, 40, 98, 0.06); transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-    html.dark .glass-card { background: #131f3d; border: 1px solid rgba(255, 255, 255, 0.08); color: #ebf3fe; }
+    .glass-card { 
+      background: rgba(255, 255, 255, 0.85); 
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(4, 40, 98, 0.08); 
+      box-shadow: 0 15px 35px -10px rgba(4, 40, 98, 0.06); 
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    html.dark .glass-card { 
+      background: rgba(19, 31, 61, 0.75); 
+      border: 1px solid rgba(255, 255, 255, 0.08); 
+      color: #ebf3fe; 
+    }
     
     .hover-lift { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease; }
     .hover-lift:hover { transform: translateY(-7px); box-shadow: 0 20px 40px -12px rgba(50, 128, 255, 0.22); }
@@ -72,7 +92,7 @@
     .slide-fade-enter { animation: slideFade 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes slideFade { from { opacity: 0.3; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
 
-    /* Floating Formatting Toolbar Styles */
+    /* Floating Formatting Toolbar */
     #text-format-toolbar {
       position: absolute;
       z-index: 1000;
@@ -113,10 +133,7 @@
       justify-content: center;
       transition: all 0.2s;
     }
-    #text-format-toolbar button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: #3280ff;
-    }
+    #text-format-toolbar button:hover { background: rgba(255, 255, 255, 0.2); color: #3280ff; }
 
     body.show-all [data-aos] { opacity: 1 !important; transform: none !important; }
   </style>
@@ -128,7 +145,7 @@
     <button type="button" onmousedown="applyFormat('bold', event)" title="Bold"><i class="fa-solid fa-bold"></i></button>
     <button type="button" onmousedown="applyFormat('italic', event)" title="Italic"><i class="fa-solid fa-italic"></i></button>
     <button type="button" onmousedown="applyFormat('underline', event)" title="Underline"><i class="fa-solid fa-underline"></i></button>
-    <button type="button" onmousedown="applyFormat('color', event)" title="Brand Blue Accent" class="text-[#3280ff]"><i class="fa-solid fa-droplet"></i></button>
+    <button type="button" onmousedown="applyFormat('color', event)" title="Brand Blue" class="text-[#3280ff]"><i class="fa-solid fa-droplet"></i></button>
   </div>
 
   <!-- Toast Notification -->
@@ -153,11 +170,11 @@
     </div>
   </div>
 
-  <!-- Floating Header -->
+  <!-- Floating Header (Glassmorphic) -->
   <div class="sticky top-4 z-40 px-4 max-w-5xl mx-auto" data-aos="fade-down" data-aos-duration="800">
-    <header class="glass-nav rounded-2xl shadow-lg px-5 py-2.5 flex items-center justify-between transition-all">
+    <header class="glass-nav rounded-2xl shadow-xl px-5 py-2.5 flex items-center justify-between transition-all">
       <div class="flex items-center gap-3">
-        <div class="eyes-container flex items-center gap-2.5 bg-white dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/15 px-3.5 py-2 rounded-full shadow-sm">
+        <div class="eyes-container flex items-center gap-2.5 bg-white/60 dark:bg-[#0b1329]/60 border border-[#042862]/15 dark:border-white/15 px-3.5 py-2 rounded-full shadow-sm">
           <div class="eye w-8 h-8 bg-[#ebf3fe] dark:bg-[#131f3d] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
             <div class="pupil w-3.5 h-3.5 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute transition-transform duration-75 ease-out"></div>
           </div>
@@ -174,10 +191,10 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white dark:bg-[#131f3d] border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm active:scale-95 transition-all" title="الوضع الليلي">
+        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white/60 dark:bg-[#131f3d]/60 border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm active:scale-95 transition-all" title="الوضع الليلي">
           <i id="dark-icon" class="fa-solid fa-moon"></i>
         </button>
-        <button onclick="toggleLanguage()" class="bg-white dark:bg-[#131f3d] hover:bg-[#ebf3fe] dark:hover:bg-[#1c2d59] text-[#042862] dark:text-[#ebf3fe] border border-[#042862]/20 dark:border-white/20 text-xs font-extrabold px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5 active:scale-95">
+        <button onclick="toggleLanguage()" class="bg-white/60 dark:bg-[#131f3d]/60 hover:bg-[#ebf3fe] dark:hover:bg-[#1c2d59] text-[#042862] dark:text-[#ebf3fe] border border-[#042862]/20 dark:border-white/20 text-xs font-extrabold px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5 active:scale-95">
           <i class="fa-solid fa-globe text-[#3280ff]"></i>
           <span id="lang-btn-text">English</span>
         </button>
@@ -197,7 +214,7 @@
       </span>
       <div class="flex items-center gap-3 -mt-3 sm:-mt-5">
         <div class="h-[2px] w-8 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
-        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white dark:bg-[#131f3d] border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm" data-i18n="jobTitleTag">GRAPHIC DESIGNER</span>
+        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white/80 dark:bg-[#131f3d]/80 border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm" data-i18n="jobTitleTag">GRAPHIC DESIGNER</span>
         <div class="h-[2px] w-8 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
       </div>
     </div>
@@ -206,7 +223,7 @@
     </div>
     <div class="flex items-center justify-center gap-4">
       <a href="#gallery" class="bg-[#042862] dark:bg-[#3280ff] hover:bg-[#3280ff] text-white font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-lg active:scale-95" data-i18n="exploreWork">تصفح المعرض والأعمال</a>
-      <a href="#about" class="bg-white dark:bg-[#131f3d] hover:bg-[#ebf3fe] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-sm active:scale-95" data-i18n="aboutBtn">نبذة عني</a>
+      <a href="#about" class="bg-white/80 dark:bg-[#131f3d]/80 hover:bg-[#ebf3fe] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-sm active:scale-95" data-i18n="aboutBtn">نبذة عني</a>
     </div>
   </section>
 
@@ -217,7 +234,7 @@
         
         <!-- Profile Picture Box -->
         <div class="flex-shrink-0 flex flex-col items-center">
-          <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-lg p-1 bg-white dark:bg-[#0b1329] relative group">
+          <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-lg p-1 bg-white/80 dark:bg-[#0b1329] relative group">
             <div class="w-full h-full rounded-t-[66px] rounded-b-xl overflow-hidden relative bg-[#042862] flex items-center justify-center">
               <div id="profile-transform-box" class="w-full h-full origin-center transition-transform duration-150 ease-out">
                 <img id="profile-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%233280ff'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Bola Yousef" class="avatar-interactive-img w-full h-full object-cover">
@@ -237,11 +254,11 @@
           <input type="file" id="profile-file-input" accept="image/*" class="hidden" onchange="handleProfileUpload(event)">
         </div>
 
-        <!-- Bio Paragraphs & Details -->
+        <!-- Bio Details -->
         <div class="flex-1 text-center md:text-right rtl:md:text-right ltr:md:text-left">
           <div class="flex items-center justify-between gap-4 mb-3">
             <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white" data-i18n="aboutHeading">نبذة عني</h2>
-            <button id="edit-bio-btn" onclick="openEditBioModal()" class="hidden bg-[#ebf3fe] dark:bg-[#1c2d59] hover:bg-[#3280ff] hover:text-white text-[#042862] dark:text-white border border-[#3280ff]/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm active:scale-95">
+            <button id="edit-bio-btn" onclick="openEditBioModal()" class="hidden bg-white/60 dark:bg-[#1c2d59] hover:bg-[#3280ff] hover:text-white text-[#042862] dark:text-white border border-[#3280ff]/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm active:scale-95">
               <i class="fa-solid fa-user-pen text-xs"></i> <span data-i18n="editBioBtn">تعديل نبذة عني</span>
             </button>
           </div>
@@ -252,23 +269,23 @@
       <!-- Experience & Education Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
         <div class="space-y-6">
-          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+          <div class="hover-lift p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5">
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[#3280ff]"></i> <span data-i18n="eduHeading">المؤهل الدراسي</span></h3>
             <p id="edu-degree" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200"></p>
             <p id="edu-inst" class="text-xs text-[#042862]/70 dark:text-slate-400 font-medium"></p>
           </div>
-          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+          <div class="hover-lift p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5">
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#3280ff]"></i> <span data-i18n="expHeading">الخبرة العملية</span></h3>
             <p id="exp-role" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200"></p>
             <p id="exp-period" class="text-xs text-[#3280ff] font-bold font-mono"></p>
           </div>
         </div>
         <div class="space-y-6">
-          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+          <div class="hover-lift p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5">
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-[#3280ff]"></i> <span data-i18n="certHeading">التدريب والشهادات</span></h3>
             <ul id="certs-list" class="space-y-2.5 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 font-medium"></ul>
           </div>
-          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+          <div class="hover-lift p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5">
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-swatchbook text-[#3280ff]"></i> <span data-i18n="toolsHeading">أدوات التصميم</span></h3>
             <div class="flex flex-wrap items-center gap-2.5 font-eng-tag">
               <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md transition-transform hover:scale-110">Ps</div>
@@ -312,24 +329,24 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold mb-1" data-i18n="campaignName">اسم الحملة / المشروع</label>
-            <input type="text" id="proj-title" placeholder="مثال: هوية بصرية فاخرة" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <input type="text" id="proj-title" placeholder="مثال: هوية بصرية فاخرة" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
           <div>
             <label class="block text-xs font-bold mb-1" data-i18n="orderLabel">رقم الترتيب</label>
-            <input type="number" id="proj-order" value="1" min="1" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <input type="number" id="proj-order" value="1" min="1" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
         </div>
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="campaignCategory">القسم / التصنيف</label>
-          <input type="text" id="proj-category" placeholder="مثال: هوية بصرية أو سوشيال ميديا" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+          <input type="text" id="proj-category" placeholder="مثال: هوية بصرية أو سوشيال ميديا" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="projectBrief">نبذة عن المشروع (تظهر عند فتح المعاينة)</label>
-          <textarea id="proj-desc" rows="3" placeholder="اكتب تفاصيل أو فكرة المشروع التسويقية... (ظلل الكلمات لتنسيقها)" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
+          <textarea id="proj-desc" rows="3" placeholder="اكتب تفاصيل أو فكرة المشروع التسويقية... (ظلل الكلمات لتنسيقها)" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="chooseImages">صور المشروع (يمكنك اختيار عدة صور معاً)</label>
-          <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-[#042862] dark:text-white border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 bg-[#ebf3fe] dark:bg-[#0b1329]">
+          <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-[#042862] dark:text-white border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 bg-white/60 dark:bg-[#0b1329]">
         </div>
         <button type="submit" id="proj-submit-btn" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md active:scale-95" data-i18n="publishBtn">
           نشر المشروع وحفظه سحابياً
@@ -358,7 +375,7 @@
     <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- Sleek Lightbox Preview Modal WITH TOUCH & DRAG SWIPING -->
+  <!-- Sleek Lightbox Preview Modal WITH PROMINENT ARROWS & SWIPING -->
   <div id="lightbox" class="fixed inset-0 z-50 bg-[#042862]/95 dark:bg-black/95 hidden flex-col justify-between p-3 sm:p-6 backdrop-blur-2xl modal-animate" onclick="closeLightbox()">
     <div class="flex items-center justify-between w-full max-w-5xl mx-auto z-10 flex-wrap gap-2" onclick="event.stopPropagation()">
       <div>
@@ -373,22 +390,27 @@
       </div>
     </div>
 
-    <!-- Swipe Interactive Container -->
+    <!-- Swipe & Visible Arrows Interactive Container -->
     <div id="lightbox-swipe-area" class="relative w-full max-w-4xl mx-auto flex items-center justify-center flex-1 my-2 overflow-hidden touch-pan-y cursor-grab active:cursor-grabbing" onclick="event.stopPropagation()">
-      <button id="prev-slide-btn" onclick="prevSlide()" class="absolute left-2 sm:-left-14 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-11 h-11 rounded-full flex items-center justify-center border border-white/20 transition-all active:scale-95 shadow-xl"><i class="fa-solid fa-chevron-left text-sm"></i></button>
+      <!-- Prominent Left/Right Arrow Buttons -->
+      <button id="prev-slide-btn" onclick="prevSlide()" class="absolute left-2 sm:left-4 z-30 bg-[#042862]/80 hover:bg-[#3280ff] text-white w-12 h-12 rounded-full flex items-center justify-center border border-white/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
+        <i class="fa-solid fa-chevron-right text-base rtl:rotate-180"></i>
+      </button>
       
-      <div class="w-full flex flex-col items-center justify-center gap-3">
-        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/20 transition-all duration-200 select-none pointer-events-none">
+      <div class="w-full flex flex-col items-center justify-center gap-3 px-12">
+        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[58vh] object-contain rounded-2xl shadow-2xl border border-white/20 transition-all duration-200 select-none pointer-events-none">
         <div id="lightbox-desc-box" class="max-w-2xl bg-white/10 dark:bg-[#131f3d]/80 border border-white/15 p-3 rounded-2xl text-center text-xs text-slate-200 select-text"></div>
       </div>
       
-      <button id="next-slide-btn" onclick="nextSlide()" class="absolute right-2 sm:-right-14 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-11 h-11 rounded-full flex items-center justify-center border border-white/20 transition-all active:scale-95 shadow-xl"><i class="fa-solid fa-chevron-right text-sm"></i></button>
+      <button id="next-slide-btn" onclick="nextSlide()" class="absolute right-2 sm:right-4 z-30 bg-[#042862]/80 hover:bg-[#3280ff] text-white w-12 h-12 rounded-full flex items-center justify-center border border-white/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
+        <i class="fa-solid fa-chevron-left text-base rtl:rotate-180"></i>
+      </button>
     </div>
 
     <div id="lightbox-thumbs" class="w-full max-w-3xl mx-auto flex items-center justify-center gap-2 overflow-x-auto py-1 no-scrollbar z-10" onclick="event.stopPropagation()"></div>
   </div>
 
-  <!-- Edit Project Modal (Slides & Content) -->
+  <!-- Edit Project Modal -->
   <div id="edit-modal" class="fixed inset-0 z-50 bg-[#042862]/70 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
     <div class="glass-card border border-[#042862]/15 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeEditModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
@@ -399,20 +421,20 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold mb-1">اسم المشروع</label>
-            <input type="text" id="edit-title" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <input type="text" id="edit-title" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
           <div>
             <label class="block text-xs font-bold mb-1">رقم الترتيب</label>
-            <input type="number" id="edit-order" min="1" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <input type="number" id="edit-order" min="1" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
         </div>
         <div>
           <label class="block text-xs font-bold mb-1">القسم / التصنيف</label>
-          <input type="text" id="edit-category" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+          <input type="text" id="edit-category" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
           <label class="block text-xs font-bold mb-1">نبذة عن المشروع (ظلل أي نص لتنسيقه)</label>
-          <textarea id="edit-desc" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
+          <textarea id="edit-desc" rows="3" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <div>
           <label class="block text-xs font-bold mb-2">صور وسلايدات المشروع (تغيير الترتيب بالأسهم):</label>
@@ -421,48 +443,44 @@
         <div class="border-t border-[#042862]/10 pt-3">
           <label class="block text-xs font-bold mb-1.5">إضافة صور جديدة لهذا المشروع:</label>
           <div class="flex gap-2">
-            <button type="button" onclick="document.getElementById('edit-add-files').click()" class="bg-[#ebf3fe] dark:bg-[#0b1329] text-xs px-3 py-2 rounded-xl border border-[#042862]/15 dark:border-white/20 font-bold">من اللابتوب</button>
+            <button type="button" onclick="document.getElementById('edit-add-files').click()" class="bg-white/60 dark:bg-[#0b1329] text-xs px-3 py-2 rounded-xl border border-[#042862]/15 dark:border-white/20 font-bold">من اللابتوب</button>
             <input type="file" id="edit-add-files" accept="image/*" multiple class="hidden" onchange="handleAddImagesToEdit(event)">
-            <input type="url" id="edit-add-url" placeholder="أو أضف رابط صورة مباشر" class="flex-1 bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-1.5 text-xs text-[#042862] dark:text-white">
+            <input type="url" id="edit-add-url" placeholder="أو أضف رابط صورة مباشر" class="flex-1 bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-1.5 text-xs text-[#042862] dark:text-white">
             <button type="button" onclick="handleAddUrlToEdit()" class="bg-[#3280ff] text-xs px-3 py-1.5 rounded-xl text-white font-bold">إضافة</button>
           </div>
         </div>
         <div class="flex gap-3 pt-3 border-t border-[#042862]/10">
           <button type="button" onclick="saveEditedCampaign()" class="flex-1 bg-[#3280ff] text-white font-bold py-2.5 rounded-xl text-xs shadow-md active:scale-95">حفظ التعديلات والترتيب</button>
-          <button type="button" onclick="closeEditModal()" class="px-5 bg-[#ebf3fe] dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
+          <button type="button" onclick="closeEditModal()" class="px-5 bg-white/60 dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Edit Bio Modal WITH BILINGUAL TABS & AUTO-TRANSLATION -->
+  <!-- Edit Bio Modal WITH LIVE AUTO TRANSLATION & SYNC -->
   <div id="edit-bio-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
     <div class="glass-card border border-[#042862]/15 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeEditBioModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
       
       <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-[#042862]/10 pb-3">
         <h3 class="text-base sm:text-lg font-bold text-[#042862] dark:text-white flex items-center gap-2">
-          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل نبذة عني (ثنائي اللغة)</span>
+          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل نبذة عني (مزامنة وترجمة حية)</span>
         </h3>
         
-        <!-- Language Switcher Tabs inside the Modal -->
-        <div class="flex items-center gap-1.5 bg-[#ebf3fe] dark:bg-[#0b1329] p-1 rounded-xl border border-[#042862]/10">
+        <div class="flex items-center gap-1.5 bg-white/60 dark:bg-[#0b1329] p-1 rounded-xl border border-[#042862]/10">
           <button type="button" id="bio-tab-ar" onclick="switchBioModalTab('ar')" class="px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white">العربية 🇪🇬</button>
           <button type="button" id="bio-tab-en" onclick="switchBioModalTab('en')" class="px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300">English 🇬🇧</button>
         </div>
       </div>
 
       <form id="edit-bio-form" class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
-        <!-- Auto-Translate Magic Button -->
-        <div class="flex justify-end">
-          <button type="button" onclick="autoTranslateBio()" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-600 dark:text-amber-300 border border-amber-400/40 text-[11px] font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-all active:scale-95">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> <span>ترجمة تلقائية للإنجليزية ✨</span>
-          </button>
+        <div class="flex items-center justify-between bg-amber-400/10 border border-amber-400/30 p-2.5 rounded-xl text-xs text-amber-700 dark:text-amber-300">
+          <span class="flex items-center gap-1.5 font-bold"><i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> التعديل بالعربية يترجم ويتزامن تلقائياً للإنجليزية فور الحفظ!</span>
         </div>
 
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label class="text-xs font-bold" id="bio-label-paragraphs">فقرات نبذة عني (ظلل النص لتنسيقه):</label>
+            <label class="text-xs font-bold" id="bio-label-paragraphs">فقرات نبذة عني:</label>
             <button type="button" onclick="addBioParagraphField()" class="bg-[#3280ff] text-white text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95">
               <i class="fa-solid fa-plus ml-1"></i> <span>إضافة فقرة</span>
             </button>
@@ -473,35 +491,35 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-[#042862]/10 pt-3">
           <div>
             <label class="block text-xs font-bold mb-1" id="bio-label-degree">المؤهل الدراسي</label>
-            <input type="text" id="edit-edu-deg" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
+            <input type="text" id="edit-edu-deg" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
           <div>
             <label class="block text-xs font-bold mb-1" id="bio-label-inst">المعهد وسنة التخرج</label>
-            <input type="text" id="edit-edu-inst" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
+            <input type="text" id="edit-edu-inst" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold mb-1" id="bio-label-role">المسمى الوظيفي</label>
-            <input type="text" id="edit-exp-role" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
+            <input type="text" id="edit-exp-role" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
           <div>
             <label class="block text-xs font-bold mb-1" id="bio-label-period">الفترة</label>
-            <input type="text" id="edit-exp-period" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
+            <input type="text" id="edit-exp-period" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-bold mb-1" id="bio-label-certs">الشهادات والتدريب (كل سطر يعتبر شهادة منفصلة)</label>
-          <textarea id="edit-certs" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required></textarea>
+          <label class="block text-xs font-bold mb-1" id="bio-label-certs">الشهادات والتدريب (كل سطر شهادة)</label>
+          <textarea id="edit-certs" rows="3" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required></textarea>
         </div>
 
-        <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white dark:bg-[#131f3d] py-2">
+        <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white/90 dark:bg-[#131f3d]/90 backdrop-blur-md py-2">
           <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow-md active:scale-95">
-            حفظ التعديلات (للغتين ومزامنة سحابية)
+            حفظ وتحديث سحابي فوري
           </button>
-          <button type="button" onclick="closeEditBioModal()" class="px-5 bg-[#ebf3fe] dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
+          <button type="button" onclick="closeEditBioModal()" class="px-5 bg-white/60 dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
       </form>
     </div>
@@ -530,30 +548,29 @@
         <input type="hidden" id="testi-id">
         <div>
           <label class="block text-xs font-bold mb-1">اسم العميل</label>
-          <input type="text" id="testi-name" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+          <input type="text" id="testi-name" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
           <label class="block text-xs font-bold mb-1">المسمى الوظيفي / الشركة</label>
-          <input type="text" id="testi-role" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+          <input type="text" id="testi-role" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
           <label class="block text-xs font-bold mb-1">نص الرأي</label>
-          <textarea id="testi-text" rows="3" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-3 text-xs text-[#042862] dark:text-white"></textarea>
+          <textarea id="testi-text" rows="3" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-3 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <button type="submit" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-sm shadow-md active:scale-95">حفظ ومزامنة الرأي</button>
       </form>
     </div>
   </div>
 
-  <!-- Avatar Crop/Adjustment Modal WITH LIVE INTERACTIVE PREVIEW -->
+  <!-- Avatar Crop/Adjustment Modal -->
   <div id="avatar-crop-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
     <div class="glass-card border border-[#042862]/15 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeAvatarCropModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
       <h3 class="text-sm font-bold text-[#042862] dark:text-white flex items-center gap-2 mb-3" data-i18n="cropModalTitle">ضبط أبعاد وموضع الصورة الشخصية</h3>
       
-      <!-- Live Preview Container -->
       <div class="flex flex-col items-center justify-center mb-5">
-        <div class="w-32 h-44 rounded-t-[60px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-xl p-1 bg-white dark:bg-[#0b1329] relative">
+        <div class="w-32 h-44 rounded-t-[60px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-xl p-1 bg-white/80 dark:bg-[#0b1329] relative">
           <div class="w-full h-full rounded-t-[54px] rounded-b-xl overflow-hidden relative bg-[#042862] flex items-center justify-center">
             <div id="crop-preview-box" class="w-full h-full origin-center transition-transform duration-75 ease-out">
               <img id="crop-preview-img" src="" alt="Preview" class="avatar-interactive-img w-full h-full object-cover">
@@ -581,7 +598,7 @@
       </div>
       <div class="flex gap-2.5 pt-5 border-t border-[#042862]/10 mt-5">
         <button type="button" onclick="saveCroppedAvatar()" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md active:scale-95">حفظ الموضع</button>
-        <button type="button" onclick="resetAvatarDimensions()" class="px-4 bg-[#ebf3fe] dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2 rounded-xl text-xs active:scale-95">استعادة</button>
+        <button type="button" onclick="resetAvatarDimensions()" class="px-4 bg-white/60 dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2 rounded-xl text-xs active:scale-95">استعادة</button>
       </div>
     </div>
   </div>
@@ -594,7 +611,7 @@
       <form onsubmit="handlePasswordChange(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="newPassLabel">كلمة المرور الجديدة</label>
-          <input type="password" id="new-password-input" minlength="6" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white text-center">
+          <input type="password" id="new-password-input" minlength="6" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white text-center">
         </div>
         <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md active:scale-95" data-i18n="savePassBtn">حفظ كلمة المرور</button>
       </form>
@@ -609,7 +626,7 @@
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="passwordLabel">كلمة المرور</label>
-          <input type="password" id="admin-pass-input" required class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-center text-[#042862] dark:text-white">
+          <input type="password" id="admin-pass-input" required class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-center text-[#042862] dark:text-white">
         </div>
         <p id="login-error" class="text-rose-600 text-xs hidden font-bold text-center" data-i18n="wrongPassword">كلمة المرور غير صحيحة!</p>
         <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md active:scale-95" data-i18n="loginBtn">دخول</button>
@@ -617,7 +634,7 @@
     </div>
   </div>
 
-  <!-- Footer (ONLY PLACE TO ACCESS ADMIN) -->
+  <!-- Footer -->
   <footer class="text-center py-8 text-xs text-slate-400 flex items-center justify-center gap-2 border-t border-black/5 dark:border-white/5">
     <span>© 2026 Bola Yousef. All rights reserved.</span>
     <button onclick="openLoginModal()" class="text-slate-400 hover:text-[#3280ff] transition-all p-1 active:scale-90" title="دخول الأدمن">
@@ -637,17 +654,14 @@
   <!-- ⚙️ السكربت البرمجي الكامل والمستقر -->
   <!-- ========================================== -->
   <script>
-    // 1. مفتاح ImgBB في أول سطر
     const IMGBB_KEY = "8e8214feb5c37acb29350ebd89b0a001";
 
-    // دالة التشفير SHA-256
     async function hashString(str) {
       const buf = new TextEncoder().encode(str);
       const digest = await crypto.subtle.digest('SHA-256', buf);
       return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // تهيئة Firebase
     let db = null;
     try {
       if (typeof firebase !== 'undefined') {
@@ -663,7 +677,6 @@
       }
     } catch (e) {}
 
-    // نصوص الترجمة ونصوص "نبذة عني" الأصلية بالكامل
     const translations = {
       ar: {
         jobTitleTag: "مصمم جرافيك",
@@ -772,7 +785,6 @@
     let bioModalActiveTab = 'ar';
     let modalBioState = { ar: null, en: null };
 
-    // Toast Alert
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-text').textContent = msg;
@@ -784,14 +796,10 @@
       }, 2500);
     }
 
-    // ==========================================
-    // ✨ Floating Text Formatting System
-    // ==========================================
+    // Floating Rich-Text Toolbar
     let currentActiveInput = null;
-
     function initFloatingToolbar() {
       const toolbar = document.getElementById('text-format-toolbar');
-
       document.addEventListener('selectionchange', () => {
         const activeEl = document.activeElement;
         if (activeEl && (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'INPUT')) {
@@ -800,19 +808,16 @@
           if (typeof start === 'number' && typeof end === 'number' && start !== end) {
             currentActiveInput = activeEl;
             const rect = activeEl.getBoundingClientRect();
-            // Position above the textarea/input
             toolbar.style.left = `${rect.left + rect.width / 2 + window.scrollX}px`;
             toolbar.style.top = `${rect.top + window.scrollY - 10}px`;
             toolbar.style.display = 'flex';
             return;
           }
         }
-        // If clicked outside or selection collapsed
         if (toolbar.style.display === 'flex' && (!activeEl || (activeEl.tagName !== 'TEXTAREA' && activeEl.tagName !== 'INPUT'))) {
           toolbar.style.display = 'none';
         }
       });
-
       document.addEventListener('mousedown', (e) => {
         if (!toolbar.contains(e.target) && e.target !== currentActiveInput) {
           toolbar.style.display = 'none';
@@ -832,18 +837,10 @@
       let formattedText = '';
 
       switch (type) {
-        case 'bold':
-          formattedText = `<strong>${selectedText}</strong>`;
-          break;
-        case 'italic':
-          formattedText = `<em>${selectedText}</em>`;
-          break;
-        case 'underline':
-          formattedText = `<u>${selectedText}</u>`;
-          break;
-        case 'color':
-          formattedText = `<span class="text-[#3280ff] font-bold">${selectedText}</span>`;
-          break;
+        case 'bold': formattedText = `<strong>${selectedText}</strong>`; break;
+        case 'italic': formattedText = `<em>${selectedText}</em>`; break;
+        case 'underline': formattedText = `<u>${selectedText}</u>`; break;
+        case 'color': formattedText = `<span class="text-[#3280ff] font-bold">${selectedText}</span>`; break;
       }
 
       currentActiveInput.setRangeText(formattedText, start, end, 'end');
@@ -852,7 +849,7 @@
       showToast("تم تطبيق التنسيق على النص!");
     }
 
-    // Bio Engine
+    // Bio Engine with Live Auto Translation
     function getStoredBio(lang) {
       const savedKey = `portfolio_bio_${lang}`;
       const saved = localStorage.getItem(savedKey);
@@ -907,7 +904,7 @@
       if (lang === 'ar') {
         tabAr.className = "px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white";
         tabEn.className = "px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300";
-        document.getElementById('bio-label-paragraphs').textContent = "فقرات نبذة عني (ظلل النص لتنسيقه):";
+        document.getElementById('bio-label-paragraphs').textContent = "فقرات نبذة عني (بالعربية):";
         document.getElementById('bio-label-degree').textContent = "المؤهل الدراسي (بالعربية):";
         document.getElementById('bio-label-inst').textContent = "المعهد وسنة التخرج (بالعربية):";
         document.getElementById('bio-label-role').textContent = "المسمى الوظيفي (بالعربية):";
@@ -916,7 +913,7 @@
       } else {
         tabEn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white";
         tabAr.className = "px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300";
-        document.getElementById('bio-label-paragraphs').textContent = "Bio Paragraphs (Select text to format):";
+        document.getElementById('bio-label-paragraphs').textContent = "Bio Paragraphs (English - Auto-Synced):";
         document.getElementById('bio-label-degree').textContent = "Degree (English):";
         document.getElementById('bio-label-inst').textContent = "Institute (English):";
         document.getElementById('bio-label-role').textContent = "Role (English):";
@@ -951,7 +948,7 @@
         const row = document.createElement('div');
         row.className = "flex items-center gap-2";
         row.innerHTML = `
-          <textarea rows="2" class="bio-para-input flex-1 bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required>${text}</textarea>
+          <textarea rows="2" class="bio-para-input flex-1 bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required>${text}</textarea>
           <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
         `;
         wrapper.appendChild(row);
@@ -963,48 +960,21 @@
       const row = document.createElement('div');
       row.className = "flex items-center gap-2";
       row.innerHTML = `
-        <textarea rows="2" class="bio-para-input flex-1 bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" placeholder="New paragraph..." required></textarea>
+        <textarea rows="2" class="bio-para-input flex-1 bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" placeholder="New paragraph..." required></textarea>
         <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
       `;
       wrapper.appendChild(row);
     }
 
-    // Auto-Translate Client Helper
-    async function autoTranslateBio() {
-      saveCurrentBioTabInputs();
-      showToast("جاري الترجمة التلقائية إلى الإنجليزية...");
+    async function translateTextRemote(txt) {
+      if (!txt) return "";
       try {
-        const ar = modalBioState.ar;
-        const translateText = async (txt) => {
-          if (!txt) return "";
-          const clean = txt.replace(/<\/?[^>]+(>|$)/g, "");
-          const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean)}&langpair=ar|en`);
-          const json = await res.json();
-          return json?.responseData?.translatedText || txt;
-        };
-
-        const enParagraphs = [];
-        for (const p of ar.paragraphs) {
-          const trans = await translateText(p);
-          enParagraphs.push(trans);
-        }
-
-        modalBioState.en.paragraphs = enParagraphs;
-        modalBioState.en.eduDegree = await translateText(ar.eduDegree);
-        modalBioState.en.eduInst = await translateText(ar.eduInst);
-        modalBioState.en.expRole = await translateText(ar.expRole);
-        modalBioState.en.expPeriod = await translateText(ar.expPeriod);
-
-        const enCerts = [];
-        for (const c of ar.certs) {
-          enCerts.push(await translateText(c));
-        }
-        modalBioState.en.certs = enCerts;
-
-        switchBioModalTab('en');
-        showToast("تمت الترجمة للإنجليزية بنجاح! راجعها واضغط حفظ.");
-      } catch (err) {
-        showToast("تعذرت الترجمة الآلية، يمكنك كتابتها يدوياً في تبويب English.");
+        const clean = txt.replace(/<\/?[^>]+(>|$)/g, "");
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean)}&langpair=ar|en`);
+        const json = await res.json();
+        return json?.responseData?.translatedText || txt;
+      } catch (e) {
+        return txt;
       }
     }
 
@@ -1017,19 +987,38 @@
       e.preventDefault();
       saveCurrentBioTabInputs();
 
-      localStorage.setItem('portfolio_bio_ar', JSON.stringify(modalBioState.ar));
-      localStorage.setItem('portfolio_bio_en', JSON.stringify(modalBioState.en));
+      showToast("جاري ترجمة ومزامنة النسخة الإنجليزية حياً...");
+      const ar = modalBioState.ar;
+      const en = modalBioState.en;
+
+      en.eduDegree = await translateTextRemote(ar.eduDegree);
+      en.eduInst = await translateTextRemote(ar.eduInst);
+      en.expRole = await translateTextRemote(ar.expRole);
+      en.expPeriod = await translateTextRemote(ar.expPeriod);
+
+      en.paragraphs = [];
+      for (const p of ar.paragraphs) {
+        en.paragraphs.push(await translateTextRemote(p));
+      }
+
+      en.certs = [];
+      for (const c of ar.certs) {
+        en.certs.push(await translateTextRemote(c));
+      }
+
+      localStorage.setItem('portfolio_bio_ar', JSON.stringify(ar));
+      localStorage.setItem('portfolio_bio_en', JSON.stringify(en));
 
       if (db) {
         try {
-          await db.collection("profile").doc("portfolio_bio_ar").set(modalBioState.ar);
-          await db.collection("profile").doc("portfolio_bio_en").set(modalBioState.en);
+          await db.collection("profile").doc("portfolio_bio_ar").set(ar);
+          await db.collection("profile").doc("portfolio_bio_en").set(en);
         } catch (err) {}
       }
 
       renderBioSection();
       closeEditBioModal();
-      showToast("تم حفظ النسختين العربية والإنجليزية بنجاح ومزامنتهما!");
+      showToast("تم الحفظ والمزامنة الحية للغتين بنجاح!");
     }
 
     // Projects Engine
@@ -1063,13 +1052,13 @@
       if (!container) return;
       const categories = Array.from(new Set(projects.map(p => p.category ? p.category.trim() : '').filter(Boolean)));
       container.innerHTML = `
-        <button onclick="setFilter('all')" class="px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${currentFilter === 'all' ? 'bg-[#042862] dark:bg-[#3280ff] text-white shadow-md' : 'bg-white dark:bg-[#131f3d] text-[#042862] dark:text-slate-200 border border-[#042862]/10'}">${translations[currentLang].allFilter}</button>
+        <button onclick="setFilter('all')" class="px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${currentFilter === 'all' ? 'bg-[#042862] dark:bg-[#3280ff] text-white shadow-md' : 'bg-white/80 dark:bg-[#131f3d] text-[#042862] dark:text-slate-200 border border-[#042862]/10'}">${translations[currentLang].allFilter}</button>
       `;
       categories.forEach(cat => {
         const isActive = currentFilter === cat;
         const btn = document.createElement('button');
         btn.onclick = () => setFilter(cat);
-        btn.className = `px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${isActive ? 'bg-[#042862] dark:bg-[#3280ff] text-white shadow-md' : 'bg-white dark:bg-[#131f3d] text-[#042862] dark:text-slate-200 border border-[#042862]/10'}`;
+        btn.className = `px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${isActive ? 'bg-[#042862] dark:bg-[#3280ff] text-white shadow-md' : 'bg-white/80 dark:bg-[#131f3d] text-[#042862] dark:text-slate-200 border border-[#042862]/10'}`;
         btn.textContent = cat;
         container.appendChild(btn);
       });
@@ -1120,7 +1109,7 @@
       updateSelectedCount();
     }
 
-    // Lightbox & Preview Slider WITH SMOOTH SWIPING
+    // Lightbox & Preview Slider WITH SWIPE
     function openCampaignLightbox(id) {
       activeCampaign = projects.find(p => p.id === id);
       if (!activeCampaign || !activeCampaign.images) return;
@@ -1180,7 +1169,6 @@
       updateLightboxContent();
     }
 
-    // Touch & Mouse Drag Swiping Support
     function initSwipeGestures() {
       const swipeArea = document.getElementById('lightbox-swipe-area');
       let startX = 0;
@@ -1195,34 +1183,19 @@
       swipeArea.addEventListener('touchend', (e) => {
         const endX = e.changedTouches[0].screenX;
         const endY = e.changedTouches[0].screenY;
-        handleGesture(startX, startY, endX, endY);
+        if (Math.abs(endX - startX) > Math.abs(endY - startY) && Math.abs(endX - startX) > 40) {
+          if (endX < startX) nextSlide(); else prevSlide();
+        }
       }, { passive: true });
 
-      swipeArea.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.screenX;
-        startY = e.screenY;
-      });
-
+      swipeArea.addEventListener('mousedown', (e) => { isDragging = true; startX = e.screenX; startY = e.screenY; });
       window.addEventListener('mouseup', (e) => {
         if (!isDragging) return;
         isDragging = false;
-        const endX = e.screenX;
-        const endY = e.screenY;
-        handleGesture(startX, startY, endX, endY);
-      });
-
-      function handleGesture(sX, sY, eX, eY) {
-        const diffX = eX - sX;
-        const diffY = eY - sY;
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
-          if (diffX < 0) {
-            nextSlide();
-          } else {
-            prevSlide();
-          }
+        if (Math.abs(e.screenX - startX) > Math.abs(e.screenY - startY) && Math.abs(e.screenX - startX) > 40) {
+          if (e.screenX < startX) nextSlide(); else prevSlide();
         }
-      }
+      });
 
       window.addEventListener('keydown', (e) => {
         if (!document.getElementById('lightbox').classList.contains('hidden')) {
@@ -1241,7 +1214,6 @@
       if (activeCampaign) shareProjectDirect(activeCampaign.id);
     }
 
-    // Upload to ImgBB
     async function uploadToImgBB(file) {
       const fd = new FormData();
       fd.append('image', file);
@@ -1253,7 +1225,6 @@
       return null;
     }
 
-    // Add New Project
     async function handleNewProject(e) {
       e.preventDefault();
       const title = document.getElementById('proj-title').value.trim();
@@ -1289,7 +1260,6 @@
       btn.textContent = "نشر المشروع وحفظه سحابياً";
     }
 
-    // Edit Project Modal
     function openEditModal(id) {
       editingProjectId = id;
       const proj = projects.find(p => p.id === id);
@@ -1313,7 +1283,7 @@
       container.innerHTML = '';
       editingImages.forEach((imgSrc, index) => {
         const item = document.createElement('div');
-        item.className = "flex items-center justify-between p-2 bg-[#ebf3fe] dark:bg-[#0b1329] rounded-xl border border-[#042862]/10 gap-2";
+        item.className = "flex items-center justify-between p-2 bg-white/60 dark:bg-[#0b1329] rounded-xl border border-[#042862]/10 gap-2";
         item.innerHTML = `
           <div class="flex items-center gap-3 overflow-hidden">
             <span class="text-xs font-bold text-[#3280ff]">#${index + 1}</span>
@@ -1328,12 +1298,8 @@
         container.appendChild(item);
       });
     }
-    function moveSlideUp(idx) {
-      if (idx > 0) { const t = editingImages[idx]; editingImages[idx] = editingImages[idx - 1]; editingImages[idx - 1] = t; renderEditImagesList(); }
-    }
-    function moveSlideDown(idx) {
-      if (idx < editingImages.length - 1) { const t = editingImages[idx]; editingImages[idx] = editingImages[idx + 1]; editingImages[idx + 1] = t; renderEditImagesList(); }
-    }
+    function moveSlideUp(idx) { if (idx > 0) { const t = editingImages[idx]; editingImages[idx] = editingImages[idx - 1]; editingImages[idx - 1] = t; renderEditImagesList(); } }
+    function moveSlideDown(idx) { if (idx < editingImages.length - 1) { const t = editingImages[idx]; editingImages[idx] = editingImages[idx + 1]; editingImages[idx + 1] = t; renderEditImagesList(); } }
     function removeSlideFromEdit(idx) { editingImages.splice(idx, 1); renderEditImagesList(); }
     function handleAddUrlToEdit() {
       const u = document.getElementById('edit-add-url');
@@ -1366,7 +1332,6 @@
       showToast("تم تحديث وحفظ بيانات المشروع وترتيب الصور!");
     }
 
-    // Delete Single & Bulk
     async function deleteProject(id) {
       if (!confirm("هل أنت متأكد من حذف هذا المشروع؟")) return;
       projects = projects.filter(p => p.id !== id);
@@ -1397,7 +1362,6 @@
       showToast("تم حذف المشاريع المحددة بنجاح!");
     }
 
-    // Testimonials CRUD
     async function loadTestimonials() {
       const local = localStorage.getItem('my_portfolio_testimonials');
       if (local) {
@@ -1501,7 +1465,6 @@
       showToast("تم الحذف بنجاح!");
     }
 
-    // Avatar Framing & Adjustment
     async function loadCloudProfileImage() {
       const imgEl = document.getElementById('profile-img');
       const box = document.getElementById('profile-transform-box');
@@ -1539,17 +1502,14 @@
       const currentSrc = document.getElementById('profile-img').src;
       const previewImg = document.getElementById('crop-preview-img');
       if (previewImg) previewImg.src = currentSrc;
-
       updateCropTransform();
       document.getElementById('avatar-crop-modal').classList.remove('hidden');
       document.getElementById('avatar-crop-modal').classList.add('flex');
     }
-
     function closeAvatarCropModal() {
       document.getElementById('avatar-crop-modal').classList.add('hidden');
       document.getElementById('avatar-crop-modal').classList.remove('flex');
     }
-
     function updateCropTransform() {
       const zoom = document.getElementById('crop-zoom').value;
       const panY = document.getElementById('crop-pan-y').value;
@@ -1562,7 +1522,6 @@
       const cropPreviewBox = document.getElementById('crop-preview-box');
       if (cropPreviewBox) cropPreviewBox.style.transform = trans;
     }
-
     async function saveCroppedAvatar() {
       const zoom = document.getElementById('crop-zoom').value;
       const panY = document.getElementById('crop-pan-y').value;
@@ -1575,13 +1534,11 @@
       closeAvatarCropModal();
       showToast("تم حفظ أبعاد وموضع الصورة بنجاح!");
     }
-
     async function resetAvatarDimensions() {
       document.getElementById('crop-zoom').value = 100;
       document.getElementById('crop-pan-y').value = 0;
       document.getElementById('crop-pan-x').value = 0;
       updateCropTransform();
-
       document.getElementById('profile-transform-box').style.transform = 'scale(1) translate(0px, 0px)';
       localStorage.removeItem('my_profile_avatar_transform');
       if (db) db.collection("profile").doc("avatar").set({ transform: 'scale(1) translate(0px, 0px)' }, { merge: true });
@@ -1589,7 +1546,6 @@
       showToast("تمت استعادة الأبعاد الأصلية!");
     }
 
-    // Password & Login System
     async function handleAdminLogin(e) {
       e.preventDefault();
       const val = document.getElementById('admin-pass-input').value.trim();
@@ -1618,7 +1574,6 @@
       renderTestimonials();
       showToast("تم تسجيل الخروج.");
     }
-
     function openLoginModal() {
       document.getElementById('login-modal').classList.remove('hidden');
       document.getElementById('login-modal').classList.add('flex');
@@ -1627,7 +1582,6 @@
       document.getElementById('login-modal').classList.add('hidden');
       document.getElementById('login-modal').classList.remove('flex');
     }
-
     function openChangePasswordModal() {
       document.getElementById('password-modal').classList.remove('hidden');
       document.getElementById('password-modal').classList.add('flex');
@@ -1679,7 +1633,6 @@
       }
     }
 
-    // Theme & Language
     function toggleDarkMode() {
       isDarkMode = !isDarkMode;
       localStorage.setItem('portfolio_dark', isDarkMode);
@@ -1720,7 +1673,6 @@
       renderTestimonials();
     }
 
-    // Eyes Following Mouse
     function initEyes() {
       const pupils = document.querySelectorAll('.pupil');
       window.addEventListener('mousemove', (e) => {
@@ -1730,13 +1682,12 @@
           const eyeCenterX = rect.left + rect.width / 2;
           const eyeCenterY = rect.top + rect.height / 2;
           const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
-          const distance = Math.min(rect.width / 4, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 10);
+          const distance = Math.min(rect.width / 4, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterX) / 10);
           pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
         });
       });
     }
 
-    // Safe AOS Init
     function initAOS() {
       try {
         if (typeof AOS !== 'undefined') {
@@ -1750,7 +1701,6 @@
       setTimeout(() => document.body.classList.add('show-all'), 1200);
     }
 
-    // Master Boot
     window.addEventListener('DOMContentLoaded', () => {
       applyDarkMode();
       applyLanguage(currentLang);
