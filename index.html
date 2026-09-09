@@ -51,34 +51,37 @@
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
 
-    /* Glassmorphism Ultra Premium */
+    /* Explicit Glassmorphism Effect */
     .glass-nav { 
-      background: rgba(235, 243, 254, 0.75); 
-      backdrop-filter: blur(20px); 
-      -webkit-backdrop-filter: blur(20px); 
-      border: 1px solid rgba(255, 255, 255, 0.4); 
+      background: rgba(235, 243, 254, 0.65) !important; 
+      backdrop-filter: blur(24px) !important; 
+      -webkit-backdrop-filter: blur(24px) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.6) !important; 
+      box-shadow: 0 8px 32px 0 rgba(4, 40, 98, 0.1) !important;
     }
     html.dark .glass-nav { 
-      background: rgba(19, 31, 61, 0.75); 
-      border: 1px solid rgba(255, 255, 255, 0.08); 
+      background: rgba(19, 31, 61, 0.65) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
     }
 
     .glass-card { 
-      background: rgba(255, 255, 255, 0.85); 
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(4, 40, 98, 0.08); 
-      box-shadow: 0 15px 35px -10px rgba(4, 40, 98, 0.06); 
+      background: rgba(255, 255, 255, 0.75) !important; 
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.8) !important; 
+      box-shadow: 0 15px 35px -10px rgba(4, 40, 98, 0.08) !important; 
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
     }
     html.dark .glass-card { 
-      background: rgba(19, 31, 61, 0.75); 
-      border: 1px solid rgba(255, 255, 255, 0.08); 
-      color: #ebf3fe; 
+      background: rgba(19, 31, 61, 0.7) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+      color: #ebf3fe !important; 
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.3) !important;
     }
     
     .hover-lift { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease; }
-    .hover-lift:hover { transform: translateY(-7px); box-shadow: 0 20px 40px -12px rgba(50, 128, 255, 0.22); }
+    .hover-lift:hover { transform: translateY(-7px); box-shadow: 0 22px 42px -12px rgba(50, 128, 255, 0.25); }
 
     .avatar-interactive-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.4s ease; }
     .avatar-wrapper:hover .avatar-interactive-img { filter: grayscale(0%) contrast(1); }
@@ -457,67 +460,104 @@
     </div>
   </div>
 
-  <!-- Edit Bio Modal WITH LIVE AUTO TRANSLATION & SYNC -->
+  <!-- Edit Bio Modal WITH SPLIT-SCREEN REALTIME AR & EN EDITING -->
   <div id="edit-bio-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
-    <div class="glass-card border border-[#042862]/15 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-5xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeEditBioModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
       
       <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-[#042862]/10 pb-3">
         <h3 class="text-base sm:text-lg font-bold text-[#042862] dark:text-white flex items-center gap-2">
-          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل نبذة عني (مزامنة وترجمة حية)</span>
+          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل نبذة عني (عرض متزامن: عربي وإنجليزي معاً)</span>
         </h3>
-        
-        <div class="flex items-center gap-1.5 bg-white/60 dark:bg-[#0b1329] p-1 rounded-xl border border-[#042862]/10">
-          <button type="button" id="bio-tab-ar" onclick="switchBioModalTab('ar')" class="px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white">العربية 🇪🇬</button>
-          <button type="button" id="bio-tab-en" onclick="switchBioModalTab('en')" class="px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300">English 🇬🇧</button>
-        </div>
+        <span class="text-xs text-slate-400 font-bold">يمكنك التعديل في أي من اللغتين بحرية تامة</span>
       </div>
 
-      <form id="edit-bio-form" class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
-        <div class="flex items-center justify-between bg-amber-400/10 border border-amber-400/30 p-2.5 rounded-xl text-xs text-amber-700 dark:text-amber-300">
-          <span class="flex items-center gap-1.5 font-bold"><i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> التعديل بالعربية يترجم ويتزامن تلقائياً للإنجليزية فور الحفظ!</span>
+      <form id="edit-bio-form" class="space-y-6 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
+        
+        <!-- Split Screen Container (Arabic Left/Right, English Right/Left depending on dir) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Column 1: Arabic Edition -->
+          <div class="space-y-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-black/5">
+            <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b pb-2">
+              <span>🇪🇬 النسخة العربية (Arabic)</span>
+            </h4>
+            
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-bold">فقرات النبذة:</label>
+                <button type="button" onclick="addBioParagraphField('ar')" class="bg-[#3280ff] text-white text-[10px] font-bold px-2 py-0.5 rounded active:scale-95">إضافة فقرة</button>
+              </div>
+              <div id="ar-paragraphs-inputs" class="space-y-2"></div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold mb-1">المؤهل الدراسي</label>
+              <input type="text" id="ar-edu-deg" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-edu-deg', 'en-edu-deg')">
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">المعهد وسنة التخرج</label>
+              <input type="text" id="ar-edu-inst" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-edu-inst', 'en-edu-inst')">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-bold mb-1">المسمى الوظيفي</label>
+                <input type="text" id="ar-exp-role" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-exp-role', 'en-exp-role')">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">الفترة</label>
+                <input type="text" id="ar-exp-period" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-exp-period', 'en-exp-period')">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">الشهادات (كل سطر شهادة)</label>
+              <textarea id="ar-certs" rows="3" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl p-2 text-xs" required oninput="autoTranslateField('ar-certs', 'en-certs')"></textarea>
+            </div>
+          </div>
+
+          <!-- Column 2: English Edition (Fully Editable & Live Translated) -->
+          <div class="space-y-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-black/5">
+            <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b pb-2">
+              <span>🇬🇧 النسخة الإنجليزية (English - Editable)</span>
+            </h4>
+            
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-bold">Bio Paragraphs:</label>
+                <button type="button" onclick="addBioParagraphField('en')" class="bg-[#3280ff] text-white text-[10px] font-bold px-2 py-0.5 rounded active:scale-95">Add Paragraph</button>
+              </div>
+              <div id="en-paragraphs-inputs" class="space-y-2"></div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold mb-1">Degree</label>
+              <input type="text" id="en-edu-deg" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Institute & Year</label>
+              <input type="text" id="en-edu-inst" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-bold mb-1">Role</label>
+                <input type="text" id="en-exp-role" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Period</label>
+                <input type="text" id="en-exp-period" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Certifications (One per line)</label>
+              <textarea id="en-certs" rows="3" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl p-2 text-xs" required></textarea>
+            </div>
+          </div>
+
         </div>
 
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <label class="text-xs font-bold" id="bio-label-paragraphs">فقرات نبذة عني:</label>
-            <button type="button" onclick="addBioParagraphField()" class="bg-[#3280ff] text-white text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95">
-              <i class="fa-solid fa-plus ml-1"></i> <span>إضافة فقرة</span>
-            </button>
-          </div>
-          <div id="bio-paragraphs-inputs" class="space-y-2"></div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-[#042862]/10 pt-3">
-          <div>
-            <label class="block text-xs font-bold mb-1" id="bio-label-degree">المؤهل الدراسي</label>
-            <input type="text" id="edit-edu-deg" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
-          </div>
-          <div>
-            <label class="block text-xs font-bold mb-1" id="bio-label-inst">المعهد وسنة التخرج</label>
-            <input type="text" id="edit-edu-inst" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold mb-1" id="bio-label-role">المسمى الوظيفي</label>
-            <input type="text" id="edit-exp-role" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
-          </div>
-          <div>
-            <label class="block text-xs font-bold mb-1" id="bio-label-period">الفترة</label>
-            <input type="text" id="edit-exp-period" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold mb-1" id="bio-label-certs">الشهادات والتدريب (كل سطر شهادة)</label>
-          <textarea id="edit-certs" rows="3" class="w-full bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required></textarea>
-        </div>
-
-        <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white/90 dark:bg-[#131f3d]/90 backdrop-blur-md py-2">
-          <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow-md active:scale-95">
-            حفظ وتحديث سحابي فوري
+        <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white/95 dark:bg-[#131f3d]/95 backdrop-blur-md py-3">
+          <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-sm shadow-md active:scale-95">
+            حفظ النسختين ومزامنة الكل سحابياً
           </button>
           <button type="button" onclick="closeEditBioModal()" class="px-5 bg-white/60 dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
@@ -782,9 +822,6 @@
     let editingProjectId = null;
     let editingImages = [];
 
-    let bioModalActiveTab = 'ar';
-    let modalBioState = { ar: null, en: null };
-
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-text').textContent = msg;
@@ -849,7 +886,7 @@
       showToast("تم تطبيق التنسيق على النص!");
     }
 
-    // Bio Engine with Live Auto Translation
+    // Bio Engine with Split Screen Live Translation
     function getStoredBio(lang) {
       const savedKey = `portfolio_bio_${lang}`;
       const saved = localStorage.getItem(savedKey);
@@ -886,86 +923,6 @@
       }
     }
 
-    function openEditBioModal() {
-      modalBioState.ar = JSON.parse(JSON.stringify(getStoredBio('ar')));
-      modalBioState.en = JSON.parse(JSON.stringify(getStoredBio('en')));
-      bioModalActiveTab = currentLang;
-      switchBioModalTab(bioModalActiveTab);
-      document.getElementById('edit-bio-modal').classList.remove('hidden');
-      document.getElementById('edit-bio-modal').classList.add('flex');
-    }
-
-    function switchBioModalTab(lang) {
-      saveCurrentBioTabInputs();
-      bioModalActiveTab = lang;
-      
-      const tabAr = document.getElementById('bio-tab-ar');
-      const tabEn = document.getElementById('bio-tab-en');
-      if (lang === 'ar') {
-        tabAr.className = "px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white";
-        tabEn.className = "px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300";
-        document.getElementById('bio-label-paragraphs').textContent = "فقرات نبذة عني (بالعربية):";
-        document.getElementById('bio-label-degree').textContent = "المؤهل الدراسي (بالعربية):";
-        document.getElementById('bio-label-inst').textContent = "المعهد وسنة التخرج (بالعربية):";
-        document.getElementById('bio-label-role').textContent = "المسمى الوظيفي (بالعربية):";
-        document.getElementById('bio-label-period').textContent = "الفترة (بالعربية):";
-        document.getElementById('bio-label-certs').textContent = "الشهادات والتدريب (بالعربية):";
-      } else {
-        tabEn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white";
-        tabAr.className = "px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300";
-        document.getElementById('bio-label-paragraphs').textContent = "Bio Paragraphs (English - Auto-Synced):";
-        document.getElementById('bio-label-degree').textContent = "Degree (English):";
-        document.getElementById('bio-label-inst').textContent = "Institute (English):";
-        document.getElementById('bio-label-role').textContent = "Role (English):";
-        document.getElementById('bio-label-period').textContent = "Period (English):";
-        document.getElementById('bio-label-certs').textContent = "Certifications (English):";
-      }
-
-      const currentData = modalBioState[lang];
-      document.getElementById('edit-edu-deg').value = currentData.eduDegree || '';
-      document.getElementById('edit-edu-inst').value = currentData.eduInst || '';
-      document.getElementById('edit-exp-role').value = currentData.expRole || '';
-      document.getElementById('edit-exp-period').value = currentData.expPeriod || '';
-      document.getElementById('edit-certs').value = (currentData.certs || []).join('\n');
-      renderBioParagraphInputs(currentData.paragraphs || []);
-    }
-
-    function saveCurrentBioTabInputs() {
-      if (!modalBioState[bioModalActiveTab]) return;
-      const paraInputs = document.querySelectorAll('.bio-para-input');
-      modalBioState[bioModalActiveTab].paragraphs = Array.from(paraInputs).map(i => i.value.trim()).filter(Boolean);
-      modalBioState[bioModalActiveTab].eduDegree = document.getElementById('edit-edu-deg').value.trim();
-      modalBioState[bioModalActiveTab].eduInst = document.getElementById('edit-edu-inst').value.trim();
-      modalBioState[bioModalActiveTab].expRole = document.getElementById('edit-exp-role').value.trim();
-      modalBioState[bioModalActiveTab].expPeriod = document.getElementById('edit-exp-period').value.trim();
-      modalBioState[bioModalActiveTab].certs = document.getElementById('edit-certs').value.split('\n').map(c => c.trim()).filter(Boolean);
-    }
-
-    function renderBioParagraphInputs(paragraphs) {
-      const wrapper = document.getElementById('bio-paragraphs-inputs');
-      wrapper.innerHTML = '';
-      paragraphs.forEach((text) => {
-        const row = document.createElement('div');
-        row.className = "flex items-center gap-2";
-        row.innerHTML = `
-          <textarea rows="2" class="bio-para-input flex-1 bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required>${text}</textarea>
-          <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
-        `;
-        wrapper.appendChild(row);
-      });
-    }
-
-    function addBioParagraphField() {
-      const wrapper = document.getElementById('bio-paragraphs-inputs');
-      const row = document.createElement('div');
-      row.className = "flex items-center gap-2";
-      row.innerHTML = `
-        <textarea rows="2" class="bio-para-input flex-1 bg-white/60 dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" placeholder="New paragraph..." required></textarea>
-        <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
-      `;
-      wrapper.appendChild(row);
-    }
-
     async function translateTextRemote(txt) {
       if (!txt) return "";
       try {
@@ -978,6 +935,64 @@
       }
     }
 
+    let isTranslating = false;
+    async function autoTranslateField(arId, enId) {
+      if (isTranslating) return;
+      const arVal = document.getElementById(arId).value;
+      if (!arVal) return;
+      const translated = await translateTextRemote(arVal);
+      document.getElementById(enId).value = translated;
+    }
+
+    async function openEditBioModal() {
+      const arData = getStoredBio('ar');
+      const enData = getStoredBio('en');
+
+      // Populate Arabic fields
+      document.getElementById('ar-edu-deg').value = arData.eduDegree || '';
+      document.getElementById('ar-edu-inst').value = arData.eduInst || '';
+      document.getElementById('ar-exp-role').value = arData.expRole || '';
+      document.getElementById('ar-exp-period').value = arData.expPeriod || '';
+      document.getElementById('ar-certs').value = (arData.certs || []).join('\n');
+      renderSplitParagraphInputs('ar', arData.paragraphs || []);
+
+      // Populate English fields
+      document.getElementById('en-edu-deg').value = enData.eduDegree || '';
+      document.getElementById('en-edu-inst').value = enData.eduInst || '';
+      document.getElementById('en-exp-role').value = enData.expRole || '';
+      document.getElementById('en-exp-period').value = enData.expPeriod || '';
+      document.getElementById('en-certs').value = (enData.certs || []).join('\n');
+      renderSplitParagraphInputs('en', enData.paragraphs || []);
+
+      document.getElementById('edit-bio-modal').classList.remove('hidden');
+      document.getElementById('edit-bio-modal').classList.add('flex');
+    }
+
+    function renderSplitParagraphInputs(lang, paragraphs) {
+      const wrapper = document.getElementById(`${lang}-paragraphs-inputs`);
+      wrapper.innerHTML = '';
+      paragraphs.forEach((text) => {
+        const row = document.createElement('div');
+        row.className = "flex items-center gap-2";
+        row.innerHTML = `
+          <textarea rows="2" class="split-para-${lang} flex-1 bg-white/80 dark:bg-[#0b1329] border rounded-xl p-2 text-xs" required>${text}</textarea>
+          <button type="button" onclick="this.parentElement.remove()" class="w-7 h-7 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
+        `;
+        wrapper.appendChild(row);
+      });
+    }
+
+    function addBioParagraphField(lang) {
+      const wrapper = document.getElementById(`${lang}-paragraphs-inputs`);
+      const row = document.createElement('div');
+      row.className = "flex items-center gap-2";
+      row.innerHTML = `
+        <textarea rows="2" class="split-para-${lang} flex-1 bg-white/80 dark:bg-[#0b1329] border rounded-xl p-2 text-xs" placeholder="New..." required></textarea>
+        <button type="button" onclick="this.parentElement.remove()" class="w-7 h-7 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
+      `;
+      wrapper.appendChild(row);
+    }
+
     function closeEditBioModal() {
       document.getElementById('edit-bio-modal').classList.add('hidden');
       document.getElementById('edit-bio-modal').classList.remove('flex');
@@ -985,40 +1000,41 @@
 
     async function handleSaveBio(e) {
       e.preventDefault();
-      saveCurrentBioTabInputs();
 
-      showToast("جاري ترجمة ومزامنة النسخة الإنجليزية حياً...");
-      const ar = modalBioState.ar;
-      const en = modalBioState.en;
+      const arParas = Array.from(document.querySelectorAll('.split-para-ar')).map(i => i.value.trim()).filter(Boolean);
+      const enParas = Array.from(document.querySelectorAll('.split-para-en')).map(i => i.value.trim()).filter(Boolean);
 
-      en.eduDegree = await translateTextRemote(ar.eduDegree);
-      en.eduInst = await translateTextRemote(ar.eduInst);
-      en.expRole = await translateTextRemote(ar.expRole);
-      en.expPeriod = await translateTextRemote(ar.expPeriod);
+      const arData = {
+        paragraphs: arParas,
+        eduDegree: document.getElementById('ar-edu-deg').value.trim(),
+        eduInst: document.getElementById('ar-edu-inst').value.trim(),
+        expRole: document.getElementById('ar-exp-role').value.trim(),
+        expPeriod: document.getElementById('ar-exp-period').value.trim(),
+        certs: document.getElementById('ar-certs').value.split('\n').map(c => c.trim()).filter(Boolean)
+      };
 
-      en.paragraphs = [];
-      for (const p of ar.paragraphs) {
-        en.paragraphs.push(await translateTextRemote(p));
-      }
+      const enData = {
+        paragraphs: enParas,
+        eduDegree: document.getElementById('en-edu-deg').value.trim(),
+        eduInst: document.getElementById('en-edu-inst').value.trim(),
+        expRole: document.getElementById('en-exp-role').value.trim(),
+        expPeriod: document.getElementById('en-exp-period').value.trim(),
+        certs: document.getElementById('en-certs').value.split('\n').map(c => c.trim()).filter(Boolean)
+      };
 
-      en.certs = [];
-      for (const c of ar.certs) {
-        en.certs.push(await translateTextRemote(c));
-      }
-
-      localStorage.setItem('portfolio_bio_ar', JSON.stringify(ar));
-      localStorage.setItem('portfolio_bio_en', JSON.stringify(en));
+      localStorage.setItem('portfolio_bio_ar', JSON.stringify(arData));
+      localStorage.setItem('portfolio_bio_en', JSON.stringify(enData));
 
       if (db) {
         try {
-          await db.collection("profile").doc("portfolio_bio_ar").set(ar);
-          await db.collection("profile").doc("portfolio_bio_en").set(en);
+          await db.collection("profile").doc("portfolio_bio_ar").set(arData);
+          await db.collection("profile").doc("portfolio_bio_en").set(enData);
         } catch (err) {}
       }
 
       renderBioSection();
       closeEditBioModal();
-      showToast("تم الحفظ والمزامنة الحية للغتين بنجاح!");
+      showToast("تم حفظ النسختين بنجاح!");
     }
 
     // Projects Engine
@@ -1109,7 +1125,7 @@
       updateSelectedCount();
     }
 
-    // Lightbox & Preview Slider WITH SWIPE
+    // Lightbox & Preview Slider WITH SWIPE & ARROWS
     function openCampaignLightbox(id) {
       activeCampaign = projects.find(p => p.id === id);
       if (!activeCampaign || !activeCampaign.images) return;
