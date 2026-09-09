@@ -13,8 +13,8 @@
       theme: {
         extend: {
           colors: {
-            brandDarkBg: '#0b1329',
-            brandDarkCard: '#131f3d',
+            brandDarkBg: '#090f1f',
+            brandDarkCard: '#101a36',
             brandBlue: '#3280ff',
             brandNavy: '#042862'
           }
@@ -47,13 +47,12 @@
     html { scroll-behavior: smooth; }
     body { 
       font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; 
-      /* خلفية طبيعية ساحرة تماثل الصورة المطلوبة لتعكس تأثير الزجاج الحقيقي */
-      background: linear-gradient(135deg, #1b3b2b 0%, #0f2218 50%, #1a2f23 100%);
-      color: #ffffff; 
-      min-height: 100vh;
+      background-color: var(--bg-light); 
+      color: var(--navy-dark); 
+      transition: background-color 0.35s ease, color 0.35s ease; 
     }
     html.dark body { 
-      background: linear-gradient(135deg, #091510 0%, #050d0a 50%, #0b1812 100%);
+      background-color: #090f1f; 
       color: #ebf3fe; 
     }
     section { scroll-margin-top: 105px; }
@@ -61,27 +60,37 @@
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
 
-    /* True Glassmorphism (مثل الصورة تماماً) */
+    /* True Glassmorphism متوافق مع هويتك الأصلية */
     .glass-nav { 
-      background: rgba(255, 255, 255, 0.08) !important; 
-      backdrop-filter: blur(25px) !important; 
-      -webkit-backdrop-filter: blur(25px) !important; 
-      border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+      background: rgba(235, 243, 254, 0.75) !important; 
+      backdrop-filter: blur(22px) !important; 
+      -webkit-backdrop-filter: blur(22px) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.6) !important; 
+      box-shadow: 0 10px 30px 0 rgba(4, 40, 98, 0.08) !important;
+    }
+    html.dark .glass-nav { 
+      background: rgba(16, 26, 54, 0.75) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3) !important;
     }
 
     .glass-card { 
-      background: rgba(255, 255, 255, 0.06) !important; 
-      backdrop-filter: blur(22px) !important;
-      -webkit-backdrop-filter: blur(22px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important; 
-      box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.35) !important; 
+      background: rgba(255, 255, 255, 0.85) !important; 
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.9) !important; 
+      box-shadow: 0 15px 35px -10px rgba(4, 40, 98, 0.08) !important; 
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
-      color: #ffffff !important;
+    }
+    html.dark .glass-card { 
+      background: rgba(16, 26, 54, 0.8) !important; 
+      border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+      color: #ebf3fe !important; 
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4) !important;
     }
     
     .hover-lift { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease; }
-    .hover-lift:hover { transform: translateY(-7px); box-shadow: 0 22px 42px -12px rgba(50, 128, 255, 0.4); border-color: rgba(50, 128, 255, 0.5) !important; }
+    .hover-lift:hover { transform: translateY(-7px); box-shadow: 0 22px 42px -12px rgba(50, 128, 255, 0.25); }
 
     .avatar-interactive-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.4s ease; }
     .avatar-wrapper:hover .avatar-interactive-img { filter: grayscale(0%) contrast(1); }
@@ -99,12 +108,12 @@
       position: absolute;
       z-index: 1000;
       display: none;
-      background: rgba(4, 40, 98, 0.9);
+      background: #042862;
       color: white;
       border-radius: 12px;
       padding: 4px 6px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(12px);
       align-items: center;
       gap: 4px;
@@ -130,13 +139,13 @@
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#3280ff] text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/30 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4 backdrop-blur-md">
+  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#042862] dark:bg-[#3280ff] text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
     <i class="fa-solid fa-circle-check"></i>
     <span id="toast-text">تم بنجاح!</span>
   </div>
 
   <!-- Admin Bar -->
-  <div id="admin-bar" class="hidden bg-[#042862]/90 backdrop-blur-md text-[#ebf3fe] text-xs py-2.5 px-4 sticky top-0 z-50 shadow-md border-b border-white/10">
+  <div id="admin-bar" class="hidden bg-[#042862] text-[#ebf3fe] text-xs py-2.5 px-4 sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center gap-2 font-bold tracking-wide">
         <i class="fa-solid fa-cloud-bolt text-amber-400 animate-pulse"></i>
@@ -155,27 +164,27 @@
   <div class="sticky top-4 z-40 px-4 max-w-5xl mx-auto" data-aos="fade-down" data-aos-duration="800">
     <header class="glass-nav rounded-2xl shadow-xl px-5 py-2.5 flex items-center justify-between transition-all">
       <div class="flex items-center gap-3">
-        <div class="eyes-container flex items-center gap-2.5 bg-white/10 border border-white/20 px-3.5 py-2 rounded-full shadow-sm">
-          <div class="eye w-8 h-8 bg-white/20 border border-white/30 rounded-full flex items-center justify-center relative overflow-hidden">
-            <div class="pupil w-3.5 h-3.5 bg-white rounded-full absolute transition-transform duration-75 ease-out"></div>
+        <div class="eyes-container flex items-center gap-2.5 bg-white dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/15 px-3.5 py-2 rounded-full shadow-sm">
+          <div class="eye w-8 h-8 bg-[#ebf3fe] dark:bg-[#101a36] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
+            <div class="pupil w-3.5 h-3.5 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute transition-transform duration-75 ease-out"></div>
           </div>
-          <div class="eye w-8 h-8 bg-white/20 border border-white/30 rounded-full flex items-center justify-center relative overflow-hidden">
-            <div class="pupil w-3.5 h-3.5 bg-white rounded-full absolute transition-transform duration-75 ease-out"></div>
+          <div class="eye w-8 h-8 bg-[#ebf3fe] dark:bg-[#101a36] border border-[#042862]/15 rounded-full flex items-center justify-center relative overflow-hidden">
+            <div class="pupil w-3.5 h-3.5 bg-[#042862] dark:bg-[#3280ff] rounded-full absolute transition-transform duration-75 ease-out"></div>
           </div>
         </div>
       </div>
 
-      <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-white/90">
+      <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-[#042862]/80 dark:text-[#ebf3fe]/80">
         <a href="#about" class="hover:text-[#3280ff] transition-colors" data-i18n="navAbout">نبذة عني</a>
         <a href="#gallery" class="hover:text-[#3280ff] transition-colors" data-i18n="navPortfolio">معرض الأعمال</a>
         <a href="#testimonials" class="hover:text-[#3280ff] transition-colors" data-i18n="navTestimonials">آراء العملاء</a>
       </nav>
 
       <div class="flex items-center gap-2">
-        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-amber-300 flex items-center justify-center text-xs shadow-sm active:scale-95 transition-all" title="الوضع الليلي">
-          <i id="dark-icon" class="fa-solid fa-sun"></i>
+        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm active:scale-95 transition-all" title="الوضع الليلي">
+          <i id="dark-icon" class="fa-solid fa-moon"></i>
         </button>
-        <button onclick="toggleLanguage()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-extrabold px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5 active:scale-95">
+        <button onclick="toggleLanguage()" class="bg-white dark:bg-[#101a36] hover:bg-[#ebf3fe] dark:hover:bg-[#1a2952] text-[#042862] dark:text-[#ebf3fe] border border-[#042862]/20 dark:border-white/20 text-xs font-extrabold px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5 active:scale-95">
           <i class="fa-solid fa-globe text-[#3280ff]"></i>
           <span id="lang-btn-text">English</span>
         </button>
@@ -190,32 +199,32 @@
   <!-- Hero Section -->
   <section class="max-w-4xl mx-auto px-4 pt-16 pb-8 text-center relative z-10" data-aos="fade-up" data-aos-duration="900">
     <div class="flex flex-col items-center justify-center mb-6 relative">
-      <span id="hero-name-logo" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-default drop-shadow-lg">
+      <span id="hero-name-logo" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-default">
         BOLA YOUSEF
       </span>
       <div class="flex items-center gap-3 -mt-3 sm:-mt-5">
-        <div class="h-[2px] w-8 sm:w-16 bg-white/30"></div>
-        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-white uppercase bg-white/10 border border-white/20 px-3.5 py-1 rounded-full shadow-sm backdrop-blur-md" data-i18n="jobTitleTag">GRAPHIC DESIGNER</span>
-        <div class="h-[2px] w-8 sm:w-16 bg-white/30"></div>
+        <div class="h-[2px] w-8 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
+        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm" data-i18n="jobTitleTag">GRAPHIC DESIGNER</span>
+        <div class="h-[2px] w-8 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
       </div>
     </div>
     <div class="mb-8">
-      <h1 id="hero-headline" class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight drop-shadow-md">فلنصنع معاً شيئاً رائعاً ومبهراً.</h1>
+      <h1 id="hero-headline" class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight">فلنصنع معاً شيئاً رائعاً ومبهراً.</h1>
     </div>
     <div class="flex items-center justify-center gap-4">
-      <a href="#gallery" class="bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-lg active:scale-95 backdrop-blur-md border border-white/20" data-i18n="exploreWork">تصفح المعرض والأعمال</a>
-      <a href="#about" class="bg-white/10 hover:bg-white/20 text-white border border-white/25 font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-sm active:scale-95 backdrop-blur-md" data-i18n="aboutBtn">نبذة عني</a>
+      <a href="#gallery" class="bg-[#042862] dark:bg-[#3280ff] hover:bg-[#3280ff] text-white font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-lg active:scale-95" data-i18n="exploreWork">تصفح المعرض والأعمال</a>
+      <a href="#about" class="bg-white dark:bg-[#101a36] hover:bg-[#ebf3fe] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-sm active:scale-95" data-i18n="aboutBtn">نبذة عني</a>
     </div>
   </section>
 
   <!-- About Me Section -->
   <section id="about" class="max-w-5xl mx-auto px-4 py-12 relative z-10" data-aos="fade-up" data-aos-duration="1000">
-    <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl">
-      <div class="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-white/10 pb-8">
+    <div class="glass-card rounded-3xl p-6 sm:p-10 border border-[#042862]/15 dark:border-white/10 shadow-xl">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-[#042862]/10 dark:border-white/10 pb-8">
         
         <!-- Profile Picture Box -->
         <div class="flex-shrink-0 flex flex-col items-center">
-          <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-2xl p-1 bg-white/10 relative group backdrop-blur-md">
+          <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-lg p-1 bg-white dark:bg-[#090f1f] relative group">
             <div class="w-full h-full rounded-t-[66px] rounded-b-xl overflow-hidden relative bg-[#042862] flex items-center justify-center">
               <div id="profile-transform-box" class="w-full h-full origin-center transition-transform duration-150 ease-out">
                 <img id="profile-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%233280ff'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Bola Yousef" class="avatar-interactive-img w-full h-full object-cover">
@@ -228,7 +237,7 @@
             <button onclick="document.getElementById('profile-file-input').click()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm flex items-center justify-center gap-1 active:scale-95">
               <i class="fa-solid fa-camera"></i> <span>تغيير الصورة</span>
             </button>
-            <button onclick="openAvatarCropModal()" class="bg-white/20 text-white hover:bg-[#3280ff] text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm border border-white/20 flex items-center justify-center gap-1 active:scale-95">
+            <button onclick="openAvatarCropModal()" class="bg-[#042862] dark:bg-[#101a36] text-white hover:bg-[#3280ff] text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm border border-white/20 flex items-center justify-center gap-1 active:scale-95">
               <i class="fa-solid fa-crop-simple"></i> <span>تعديل الموضع والأبعاد</span>
             </button>
           </div>
@@ -238,36 +247,36 @@
         <!-- Bio Details -->
         <div class="flex-1 text-center md:text-right rtl:md:text-right ltr:md:text-left">
           <div class="flex items-center justify-between gap-4 mb-3">
-            <h2 class="text-2xl sm:text-3xl font-black text-white drop-shadow-sm" data-i18n="aboutHeading">نبذة عني</h2>
-            <button id="edit-bio-btn" onclick="openEditBioModal()" class="hidden bg-white/20 hover:bg-[#3280ff] text-white border border-white/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm active:scale-95 backdrop-blur-md">
+            <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white" data-i18n="aboutHeading">نبذة عني</h2>
+            <button id="edit-bio-btn" onclick="openEditBioModal()" class="hidden bg-[#ebf3fe] dark:bg-[#1a2952] hover:bg-[#3280ff] hover:text-white text-[#042862] dark:text-white border border-[#3280ff]/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm active:scale-95">
               <i class="fa-solid fa-user-pen text-xs"></i> <span data-i18n="editBioBtn">تعديل نبذة عني</span>
             </button>
           </div>
-          <div id="bio-paragraphs-container" class="space-y-3 text-xs sm:text-sm text-white/90 leading-relaxed font-medium"></div>
+          <div id="bio-paragraphs-container" class="space-y-3 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 leading-relaxed font-medium"></div>
         </div>
       </div>
 
       <!-- Experience & Education Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
         <div class="space-y-6">
-          <div class="hover-lift p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md shadow-lg">
-            <h3 class="text-base font-black text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[#3280ff]"></i> <span data-i18n="eduHeading">المؤهل الدراسي</span></h3>
-            <p id="edu-degree" class="text-xs sm:text-sm font-bold text-white"></p>
-            <p id="edu-inst" class="text-xs text-white/70 font-medium"></p>
+          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[#3280ff]"></i> <span data-i18n="eduHeading">المؤهل الدراسي</span></h3>
+            <p id="edu-degree" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200"></p>
+            <p id="edu-inst" class="text-xs text-[#042862]/70 dark:text-slate-400 font-medium"></p>
           </div>
-          <div class="hover-lift p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md shadow-lg">
-            <h3 class="text-base font-black text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#3280ff]"></i> <span data-i18n="expHeading">الخبرة العملية</span></h3>
-            <p id="exp-role" class="text-xs sm:text-sm font-bold text-white"></p>
+          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#3280ff]"></i> <span data-i18n="expHeading">الخبرة العملية</span></h3>
+            <p id="exp-role" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200"></p>
             <p id="exp-period" class="text-xs text-[#3280ff] font-bold font-mono"></p>
           </div>
         </div>
         <div class="space-y-6">
-          <div class="hover-lift p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md shadow-lg">
-            <h3 class="text-base font-black text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-[#3280ff]"></i> <span data-i18n="certHeading">التدريب والشهادات</span></h3>
-            <ul id="certs-list" class="space-y-2.5 text-xs sm:text-sm text-white/90 font-medium"></ul>
+          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-[#3280ff]"></i> <span data-i18n="certHeading">التدريب والشهادات</span></h3>
+            <ul id="certs-list" class="space-y-2.5 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 font-medium"></ul>
           </div>
-          <div class="hover-lift p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md shadow-lg">
-            <h3 class="text-base font-black text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-swatchbook text-[#3280ff]"></i> <span data-i18n="toolsHeading">أدوات التصميم</span></h3>
+          <div class="hover-lift p-4 rounded-2xl bg-slate-50/50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+            <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-swatchbook text-[#3280ff]"></i> <span data-i18n="toolsHeading">أدوات التصميم</span></h3>
             <div class="flex flex-wrap items-center gap-2.5 font-eng-tag">
               <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md transition-transform hover:scale-110">Ps</div>
               <div class="w-10 h-10 rounded-xl bg-[#3280ff] text-white flex items-center justify-center font-extrabold text-sm shadow-md transition-transform hover:scale-110">Ai</div>
@@ -283,51 +292,51 @@
   <!-- Metrics -->
   <section class="max-w-4xl mx-auto px-4 py-8 relative z-10" data-aos="fade-up" data-aos-duration="900">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="glass-card hover-lift p-5 rounded-2xl text-center shadow-lg">
+      <div class="glass-card hover-lift p-5 rounded-2xl text-center">
         <div class="text-3xl sm:text-4xl font-black text-[#3280ff] mb-1 font-eng-tag">+150</div>
-        <p class="text-xs sm:text-sm font-bold text-white" data-i18n="stat1">تصميم تم تسليمه</p>
+        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-i18n="stat1">تصميم تم تسليمه</p>
       </div>
-      <div class="glass-card hover-lift p-5 rounded-2xl text-center shadow-lg">
-        <div class="text-3xl sm:text-4xl font-black text-white mb-1 font-eng-tag">+5</div>
-        <p class="text-xs sm:text-sm font-bold text-white" data-i18n="stat2">علامات تجارية</p>
+      <div class="glass-card hover-lift p-5 rounded-2xl text-center">
+        <div class="text-3xl sm:text-4xl font-black text-[#042862] dark:text-white mb-1 font-eng-tag">+5</div>
+        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-i18n="stat2">علامات تجارية</p>
       </div>
-      <div class="glass-card hover-lift p-5 rounded-2xl text-center shadow-lg">
+      <div class="glass-card hover-lift p-5 rounded-2xl text-center">
         <div class="text-3xl sm:text-4xl font-black text-[#3280ff] mb-1 font-eng-tag">100%</div>
-        <p class="text-xs sm:text-sm font-bold text-white" data-i18n="stat3">التزام بالمواعيد</p>
+        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-i18n="stat3">التزام بالمواعيد</p>
       </div>
     </div>
   </section>
 
   <!-- Admin Add Project Panel -->
   <section id="admin-panel" class="hidden max-w-3xl mx-auto px-4 mb-12 relative z-10" data-aos="zoom-in" data-aos-duration="600">
-    <div class="glass-card rounded-3xl p-6 shadow-2xl border-2 border-[#3280ff]">
-      <div class="flex items-center justify-between mb-5 border-b border-white/10 pb-3">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">
+    <div class="glass-card rounded-3xl p-6 shadow-xl border-2 border-[#3280ff]">
+      <div class="flex items-center justify-between mb-5 border-b border-[#042862]/10 dark:border-white/10 pb-3">
+        <h3 class="text-base font-bold text-[#042862] dark:text-white flex items-center gap-2">
           <i class="fa-solid fa-layer-group text-[#3280ff]"></i> <span data-i18n="adminNewProject">إضافة مشروع / كامبين جديد</span>
         </h3>
       </div>
       <form id="add-project-form" class="space-y-4" onsubmit="handleNewProject(event)">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="sm:col-span-2">
-            <label class="block text-xs font-bold mb-1 text-white" data-i18n="campaignName">اسم الحملة / المشروع</label>
-            <input type="text" id="proj-title" placeholder="مثال: هوية بصرية فاخرة" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white placeholder-white/50">
+            <label class="block text-xs font-bold mb-1" data-i18n="campaignName">اسم الحملة / المشروع</label>
+            <input type="text" id="proj-title" placeholder="مثال: هوية بصرية فاخرة" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
           <div>
-            <label class="block text-xs font-bold mb-1 text-white" data-i18n="orderLabel">رقم الترتيب</label>
-            <input type="number" id="proj-order" value="1" min="1" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+            <label class="block text-xs font-bold mb-1" data-i18n="orderLabel">رقم الترتيب</label>
+            <input type="number" id="proj-order" value="1" min="1" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white" data-i18n="campaignCategory">القسم / التصنيف</label>
-          <input type="text" id="proj-category" placeholder="مثال: هوية بصرية أو سوشيال ميديا" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white placeholder-white/50">
+          <label class="block text-xs font-bold mb-1" data-i18n="campaignCategory">القسم / التصنيف</label>
+          <input type="text" id="proj-category" placeholder="مثال: هوية بصرية أو سوشيال ميديا" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white" data-i18n="projectBrief">نبذة عن المشروع (تظهر عند فتح المعاينة)</label>
-          <textarea id="proj-desc" rows="3" placeholder="اكتب تفاصيل أو فكرة المشروع التسويقية... (ظلل الكلمات لتنسيقها)" class="w-full bg-white/10 border border-white/20 rounded-xl p-2.5 text-xs text-white placeholder-white/50"></textarea>
+          <label class="block text-xs font-bold mb-1" data-i18n="projectBrief">نبذة عن المشروع (تظهر عند فتح المعاينة)</label>
+          <textarea id="proj-desc" rows="3" placeholder="اكتب تفاصيل أو فكرة المشروع التسويقية... (ظلل الكلمات لتنسيقها)" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white" data-i18n="chooseImages">صور المشروع (يمكنك اختيار عدة صور معاً)</label>
-          <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-white border border-white/20 rounded-xl p-2.5 bg-white/10">
+          <label class="block text-xs font-bold mb-1" data-i18n="chooseImages">صور المشروع (يمكنك اختيار عدة صور معاً)</label>
+          <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-[#042862] dark:text-white border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 bg-[#ebf3fe] dark:bg-[#090f1f]">
         </div>
         <button type="submit" id="proj-submit-btn" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md active:scale-95" data-i18n="publishBtn">
           نشر المشروع وحفظه سحابياً
@@ -343,7 +352,7 @@
       
       <!-- Bulk Delete Controls -->
       <div id="bulk-delete-bar" class="hidden items-center gap-3">
-        <label class="flex items-center gap-2 text-xs font-bold cursor-pointer text-white">
+        <label class="flex items-center gap-2 text-xs font-bold cursor-pointer">
           <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAllProjects(this)" class="w-4 h-4 accent-[#3280ff]">
           <span>تحديد الكل</span>
         </label>
@@ -357,7 +366,7 @@
   </section>
 
   <!-- Sleek Lightbox Preview Modal WITH PROMINENT ARROWS & SWIPING -->
-  <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden flex-col justify-between p-3 sm:p-6 backdrop-blur-2xl modal-animate" onclick="closeLightbox()">
+  <div id="lightbox" class="fixed inset-0 z-50 bg-[#042862]/95 dark:bg-black/95 hidden flex-col justify-between p-3 sm:p-6 backdrop-blur-2xl modal-animate" onclick="closeLightbox()">
     <div class="flex items-center justify-between w-full max-w-5xl mx-auto z-10 flex-wrap gap-2" onclick="event.stopPropagation()">
       <div>
         <h4 id="lightbox-title" class="text-white text-base sm:text-lg font-bold"></h4>
@@ -374,16 +383,16 @@
     <!-- Swipe & Visible Arrows Interactive Container -->
     <div id="lightbox-swipe-area" class="relative w-full max-w-4xl mx-auto flex items-center justify-center flex-1 my-2 overflow-hidden touch-pan-y cursor-grab active:cursor-grabbing" onclick="event.stopPropagation()">
       <!-- Prominent Left/Right Arrow Buttons -->
-      <button id="prev-slide-btn" onclick="prevSlide()" class="absolute left-2 sm:left-4 z-30 bg-black/50 hover:bg-[#3280ff] text-white w-12 h-12 rounded-full flex items-center justify-center border border-white/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
+      <button id="prev-slide-btn" onclick="prevSlide()" class="absolute left-2 sm:left-4 z-30 bg-[#042862]/80 hover:bg-[#3280ff] text-white w-12 h-12 rounded-full flex items-center justify-center border border-white/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
         <i class="fa-solid fa-chevron-right text-base rtl:rotate-180"></i>
       </button>
       
       <div class="w-full flex flex-col items-center justify-center gap-3 px-12">
         <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[58vh] object-contain rounded-2xl shadow-2xl border border-white/20 transition-all duration-200 select-none pointer-events-none">
-        <div id="lightbox-desc-box" class="max-w-2xl bg-white/10 border border-white/15 p-3 rounded-2xl text-center text-xs text-slate-200 select-text backdrop-blur-md"></div>
+        <div id="lightbox-desc-box" class="max-w-2xl bg-white/10 dark:bg-[#101a36]/80 border border-white/15 p-3 rounded-2xl text-center text-xs text-slate-200 select-text backdrop-blur-md"></div>
       </div>
       
-      <button id="next-slide-btn" onclick="nextSlide()" class="absolute right-2 sm:right-4 z-30 bg-black/50 hover:bg-[#3280ff] text-white w-12 h-12 rounded-full flex items-center justify-center border border-white/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
+      <button id="next-slide-btn" onclick="nextSlide()" class="absolute right-2 sm:right-4 z-30 bg-[#042862]/80 hover:bg-[#3280ff] text-white w-12 h-12 rounded-full flex items-center justify-center border border-white/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
         <i class="fa-solid fa-chevron-left text-base rtl:rotate-180"></i>
       </button>
     </div>
@@ -392,68 +401,68 @@
   </div>
 
   <!-- Edit Project Modal -->
-  <div id="edit-modal" class="fixed inset-0 z-50 bg-black/70 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
-    <div class="glass-card border border-white/20 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
-      <button onclick="closeEditModal()" class="absolute top-4 left-4 text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-lg font-bold mb-4 text-white flex items-center gap-2">
+  <div id="edit-modal" class="fixed inset-0 z-50 bg-[#042862]/70 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
+      <button onclick="closeEditModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-lg font-bold mb-4 text-[#042862] dark:text-white flex items-center gap-2">
         <i class="fa-solid fa-pen-to-square text-[#3280ff]"></i> <span>تعديل المشروع وترتيب الصور</span>
       </h3>
       <div class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="sm:col-span-2">
-            <label class="block text-xs font-bold mb-1 text-white">اسم المشروع</label>
-            <input type="text" id="edit-title" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+            <label class="block text-xs font-bold mb-1">اسم المشروع</label>
+            <input type="text" id="edit-title" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
           <div>
-            <label class="block text-xs font-bold mb-1 text-white">رقم الترتيب</label>
-            <input type="number" id="edit-order" min="1" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+            <label class="block text-xs font-bold mb-1">رقم الترتيب</label>
+            <input type="number" id="edit-order" min="1" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white">القسم / التصنيف</label>
-          <input type="text" id="edit-category" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+          <label class="block text-xs font-bold mb-1">القسم / التصنيف</label>
+          <input type="text" id="edit-category" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white">نبذة عن المشروع (ظلل أي نص لتنسيقه)</label>
-          <textarea id="edit-desc" rows="3" class="w-full bg-white/10 border border-white/20 rounded-xl p-2.5 text-xs text-white"></textarea>
+          <label class="block text-xs font-bold mb-1">نبذة عن المشروع (ظلل أي نص لتنسيقه)</label>
+          <textarea id="edit-desc" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <div>
-          <label class="block text-xs font-bold mb-2 text-white">صور وسلايدات المشروع (تغيير الترتيب بالأسهم):</label>
+          <label class="block text-xs font-bold mb-2">صور وسلايدات المشروع (تغيير الترتيب بالأسهم):</label>
           <div id="edit-images-list" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
         </div>
-        <div class="border-t border-white/10 pt-3">
-          <label class="block text-xs font-bold mb-1.5 text-white">إضافة صور جديدة لهذا المشروع:</label>
+        <div class="border-t border-[#042862]/10 pt-3">
+          <label class="block text-xs font-bold mb-1.5">إضافة صور جديدة لهذا المشروع:</label>
           <div class="flex gap-2">
-            <button type="button" onclick="document.getElementById('edit-add-files').click()" class="bg-white/10 text-xs px-3 py-2 rounded-xl border border-white/20 font-bold text-white">من اللابتوب</button>
+            <button type="button" onclick="document.getElementById('edit-add-files').click()" class="bg-[#ebf3fe] dark:bg-[#090f1f] text-xs px-3 py-2 rounded-xl border border-[#042862]/15 dark:border-white/20 font-bold">من اللابتوب</button>
             <input type="file" id="edit-add-files" accept="image/*" multiple class="hidden" onchange="handleAddImagesToEdit(event)">
-            <input type="url" id="edit-add-url" placeholder="أو أضف رابط صورة مباشر" class="flex-1 bg-white/10 border border-white/20 rounded-xl px-3 py-1.5 text-xs text-white">
+            <input type="url" id="edit-add-url" placeholder="أو أضف رابط صورة مباشر" class="flex-1 bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-1.5 text-xs text-[#042862] dark:text-white">
             <button type="button" onclick="handleAddUrlToEdit()" class="bg-[#3280ff] text-xs px-3 py-1.5 rounded-xl text-white font-bold">إضافة</button>
           </div>
         </div>
-        <div class="flex gap-3 pt-3 border-t border-white/10">
+        <div class="flex gap-3 pt-3 border-t border-[#042862]/10">
           <button type="button" onclick="saveEditedCampaign()" class="flex-1 bg-[#3280ff] text-white font-bold py-2.5 rounded-xl text-xs shadow-md active:scale-95">حفظ التعديلات والترتيب</button>
-          <button type="button" onclick="closeEditModal()" class="px-5 bg-white/10 text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
+          <button type="button" onclick="closeEditModal()" class="px-5 bg-[#ebf3fe] dark:bg-[#090f1f] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Edit Bio Modal WITH TOGGLEABLE AUTO TRANSLATE -->
-  <div id="edit-bio-modal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
-    <div class="glass-card border border-white/20 w-full max-w-5xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
-      <button onclick="closeEditBioModal()" class="absolute top-4 left-4 text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+  <!-- Edit Bio Modal WITH AUTO TRANSLATE TOGGLE & SPLIT SCREEN -->
+  <div id="edit-bio-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-5xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
+      <button onclick="closeEditBioModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
       
-      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-white/10 pb-3">
-        <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-[#042862]/10 pb-3">
+        <h3 class="text-base sm:text-lg font-bold text-[#042862] dark:text-white flex items-center gap-2">
           <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل السيرة ونبذة عني (مزامنة متقدمة)</span>
         </h3>
         
         <!-- Toggle Button for Auto-Translate -->
-        <div class="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 text-white">
+        <div class="flex items-center gap-2 bg-[#ebf3fe] dark:bg-[#090f1f] px-3 py-1.5 rounded-xl border border-[#042862]/10 text-[#042862] dark:text-white">
           <span class="text-xs font-bold">الترجمة التلقائية:</span>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="auto-translate-toggle" class="sr-only peer" checked>
-            <div class="w-9 h-5 bg-white/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#3280ff]"></div>
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#3280ff]"></div>
           </label>
         </div>
       </div>
@@ -461,16 +470,16 @@
       <form id="edit-bio-form" class="space-y-6 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
         
         <!-- Hero & Font Settings Panel -->
-        <div class="p-4 rounded-2xl bg-white/10 border border-white/15 space-y-3 backdrop-blur-md">
+        <div class="p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-black/5 space-y-3">
           <h4 class="text-xs font-extrabold text-[#3280ff] uppercase tracking-wider">إعدادات عنوان البداية (Hero Headline) واسم BOLA YOUSEF</h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">جملة الهيرو (العربية):</label>
-              <input type="text" id="hero-headline-ar" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required>
+              <label class="block text-xs font-bold mb-1">جملة الهيرو (العربية):</label>
+              <input type="text" id="hero-headline-ar" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
             </div>
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">خط الاسم (Font Family):</label>
-              <select id="hero-font-family" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs font-bold text-white">
+              <label class="block text-xs font-bold mb-1">خط الاسم (Font Family):</label>
+              <select id="hero-font-family" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs font-bold text-[#042862] dark:text-white">
                 <option value="Just Another Hand">توقيع يدي (Just Another Hand)</option>
                 <option value="Reenie Beanie">ريني بيني (Reenie Beanie)</option>
                 <option value="Pacifico">باسيفيكو (Pacifico)</option>
@@ -485,13 +494,13 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           <!-- Column 1: Arabic Edition -->
-          <div class="space-y-4 p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md">
-            <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b border-white/10 pb-2 text-white">
+          <div class="space-y-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-black/5">
+            <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b pb-2">
               <span>🇪🇬 النسخة العربية (Arabic)</span>
             </h4>
             
             <div>
-              <div class="flex items-center justify-between mb-1 text-white">
+              <div class="flex items-center justify-between mb-1">
                 <label class="text-xs font-bold">فقرات النبذة:</label>
                 <button type="button" onclick="addBioParagraphField('ar')" class="bg-[#3280ff] text-white text-[10px] font-bold px-2 py-0.5 rounded active:scale-95">إضافة فقرة</button>
               </div>
@@ -499,37 +508,37 @@
             </div>
 
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">المؤهل الدراسي</label>
-              <input type="text" id="ar-edu-deg" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required oninput="triggerAutoTranslate('ar-edu-deg', 'en-edu-deg')">
+              <label class="block text-xs font-bold mb-1">المؤهل الدراسي</label>
+              <input type="text" id="ar-edu-deg" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-edu-deg', 'en-edu-deg')">
             </div>
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">المعهد وسنة التخرج</label>
-              <input type="text" id="ar-edu-inst" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required oninput="triggerAutoTranslate('ar-edu-inst', 'en-edu-inst')">
+              <label class="block text-xs font-bold mb-1">المعهد وسنة التخرج</label>
+              <input type="text" id="ar-edu-inst" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-edu-inst', 'en-edu-inst')">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-bold mb-1 text-white">المسمى الوظيفي</label>
-                <input type="text" id="ar-exp-role" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required oninput="triggerAutoTranslate('ar-exp-role', 'en-exp-role')">
+                <label class="block text-xs font-bold mb-1">المسمى الوظيفي</label>
+                <input type="text" id="ar-exp-role" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-exp-role', 'en-exp-role')">
               </div>
               <div>
-                <label class="block text-xs font-bold mb-1 text-white">الفترة</label>
-                <input type="text" id="ar-exp-period" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required oninput="triggerAutoTranslate('ar-exp-period', 'en-exp-period')">
+                <label class="block text-xs font-bold mb-1">الفترة</label>
+                <input type="text" id="ar-exp-period" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-exp-period', 'en-exp-period')">
               </div>
             </div>
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">الشهادات (كل سطر شهادة)</label>
-              <textarea id="ar-certs" rows="3" class="w-full bg-white/10 border border-white/20 rounded-xl p-2 text-xs text-white" required oninput="triggerAutoTranslate('ar-certs', 'en-certs')"></textarea>
+              <label class="block text-xs font-bold mb-1">الشهادات (كل سطر شهادة)</label>
+              <textarea id="ar-certs" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl p-2 text-xs" required oninput="triggerAutoTranslate('ar-certs', 'en-certs')"></textarea>
             </div>
           </div>
 
           <!-- Column 2: English Edition (Fully Editable) -->
-          <div class="space-y-4 p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md">
-            <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b border-white/10 pb-2 text-white">
+          <div class="space-y-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-black/5">
+            <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b pb-2">
               <span>🇬🇧 النسخة الإنجليزية (English - Editable)</span>
             </h4>
             
             <div>
-              <div class="flex items-center justify-between mb-1 text-white">
+              <div class="flex items-center justify-between mb-1">
                 <label class="text-xs font-bold">Bio Paragraphs:</label>
                 <button type="button" onclick="addBioParagraphField('en')" class="bg-[#3280ff] text-white text-[10px] font-bold px-2 py-0.5 rounded active:scale-95">Add Paragraph</button>
               </div>
@@ -537,36 +546,36 @@
             </div>
 
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">Degree</label>
-              <input type="text" id="en-edu-deg" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required>
+              <label class="block text-xs font-bold mb-1">Degree</label>
+              <input type="text" id="en-edu-deg" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required>
             </div>
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">Institute & Year</label>
-              <input type="text" id="en-edu-inst" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required>
+              <label class="block text-xs font-bold mb-1">Institute & Year</label>
+              <input type="text" id="en-edu-inst" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-bold mb-1 text-white">Role</label>
-                <input type="text" id="en-exp-role" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required>
+                <label class="block text-xs font-bold mb-1">Role</label>
+                <input type="text" id="en-exp-role" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required>
               </div>
               <div>
-                <label class="block text-xs font-bold mb-1 text-white">Period</label>
-                <input type="text" id="en-exp-period" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white" required>
+                <label class="block text-xs font-bold mb-1">Period</label>
+                <input type="text" id="en-exp-period" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl px-3 py-2 text-xs" required>
               </div>
             </div>
             <div>
-              <label class="block text-xs font-bold mb-1 text-white">Certifications (One per line)</label>
-              <textarea id="en-certs" rows="3" class="w-full bg-white/10 border border-white/20 rounded-xl p-2 text-xs text-white" required></textarea>
+              <label class="block text-xs font-bold mb-1">Certifications (One per line)</label>
+              <textarea id="en-certs" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl p-2 text-xs" required></textarea>
             </div>
           </div>
 
         </div>
 
-        <div class="flex items-center gap-3 pt-3 border-t border-white/10 sticky bottom-0 bg-[#0b1329]/95 backdrop-blur-md py-3">
+        <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white/95 dark:bg-[#101a36]/95 backdrop-blur-md py-3">
           <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-sm shadow-md active:scale-95">
             حفظ التعديلات والخطوط سحابياً
           </button>
-          <button type="button" onclick="closeEditBioModal()" class="px-5 bg-white/10 text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
+          <button type="button" onclick="closeEditBioModal()" class="px-5 bg-[#ebf3fe] dark:bg-[#090f1f] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
       </form>
     </div>
@@ -575,8 +584,8 @@
   <!-- Testimonials Section -->
   <section id="testimonials" class="max-w-5xl mx-auto px-4 py-16 relative z-10" data-aos="fade-up" data-aos-duration="1000">
     <div class="text-center mb-12 flex flex-col items-center">
-      <h2 class="text-2xl sm:text-3xl font-black mb-3 text-white" data-i18n="testimonialsTitle">آراء العملاء</h2>
-      <p class="text-white/70 text-sm max-w-lg mx-auto font-medium mb-4" data-i18n="testimonialsSubtitle">ما يقوله الشركاء والعملاء عن العمل المشترك.</p>
+      <h2 class="text-2xl sm:text-3xl font-black mb-3 text-[#042862] dark:text-white" data-i18n="testimonialsTitle">آراء العملاء</h2>
+      <p class="text-[#042862]/70 dark:text-slate-400 text-sm max-w-lg mx-auto font-medium mb-4" data-i18n="testimonialsSubtitle">ما يقوله الشركاء والعملاء عن العمل المشترك.</p>
       <button id="add-testi-btn" onclick="openTestimonialModal()" class="hidden bg-[#3280ff] hover:bg-[#256cd9] text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md items-center gap-1.5 active:scale-95">
         <i class="fa-solid fa-plus"></i> <span data-i18n="addTestiBtn">إضافة رأي جديد</span>
       </button>
@@ -585,25 +594,25 @@
   </section>
 
   <!-- Testimonial Add/Edit Modal -->
-  <div id="testi-modal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4 backdrop-blur-md">
-    <div class="glass-card border border-white/20 w-full max-w-md rounded-3xl p-6 shadow-2xl relative modal-animate" onclick="event.stopPropagation()">
-      <button onclick="closeTestimonialModal()" class="absolute top-4 left-4 text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
-      <h3 id="testi-modal-title" class="text-lg font-bold mb-4 text-white flex items-center gap-2">
+  <div id="testi-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-md rounded-3xl p-6 shadow-2xl relative modal-animate" onclick="event.stopPropagation()">
+      <button onclick="closeTestimonialModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="testi-modal-title" class="text-lg font-bold mb-4 text-[#042862] dark:text-white flex items-center gap-2">
         <i class="fa-solid fa-star text-[#3280ff]"></i> <span>إضافة رأي عميل</span>
       </h3>
       <form onsubmit="handleSaveTestimonial(event)" class="space-y-4">
         <input type="hidden" id="testi-id">
         <div>
-          <label class="block text-xs font-bold mb-1 text-white">اسم العميل</label>
-          <input type="text" id="testi-name" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+          <label class="block text-xs font-bold mb-1">اسم العميل</label>
+          <input type="text" id="testi-name" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white">المسمى الوظيفي / الشركة</label>
-          <input type="text" id="testi-role" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+          <label class="block text-xs font-bold mb-1">المسمى الوظيفي / الشركة</label>
+          <input type="text" id="testi-role" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-white">نص الرأي</label>
-          <textarea id="testi-text" rows="3" required class="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-xs text-white"></textarea>
+          <label class="block text-xs font-bold mb-1">نص الرأي</label>
+          <textarea id="testi-text" rows="3" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl p-3 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <button type="submit" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-sm shadow-md active:scale-95">حفظ ومزامنة الرأي</button>
       </form>
@@ -611,25 +620,25 @@
   </div>
 
   <!-- Avatar Crop/Adjustment Modal -->
-  <div id="avatar-crop-modal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
-    <div class="glass-card border border-white/20 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
-      <button onclick="closeAvatarCropModal()" class="absolute top-4 left-4 text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-3" data-i18n="cropModalTitle">ضبط أبعاد وموضع الصورة الشخصية</h3>
+  <div id="avatar-crop-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
+      <button onclick="closeAvatarCropModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-sm font-bold text-[#042862] dark:text-white flex items-center gap-2 mb-3" data-i18n="cropModalTitle">ضبط أبعاد وموضع الصورة الشخصية</h3>
       
       <div class="flex flex-col items-center justify-center mb-5">
-        <div class="w-32 h-44 rounded-t-[60px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-xl p-1 bg-white/10 relative backdrop-blur-md">
+        <div class="w-32 h-44 rounded-t-[60px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-xl p-1 bg-white dark:bg-[#090f1f] relative">
           <div class="w-full h-full rounded-t-[54px] rounded-b-xl overflow-hidden relative bg-[#042862] flex items-center justify-center">
             <div id="crop-preview-box" class="w-full h-full origin-center transition-transform duration-75 ease-out">
               <img id="crop-preview-img" src="" alt="Preview" class="avatar-interactive-img w-full h-full object-cover">
             </div>
           </div>
         </div>
-        <span class="text-[10px] text-white/70 font-bold mt-1.5 flex items-center gap-1">
+        <span class="text-[10px] text-slate-400 font-bold mt-1.5 flex items-center gap-1">
           <i class="fa-solid fa-eye text-[#3280ff]"></i> معاينة تفاعلية مباشرة
         </span>
       </div>
 
-      <div class="space-y-4 text-xs font-bold text-white">
+      <div class="space-y-4 text-xs font-bold text-[#042862] dark:text-slate-300">
         <div>
           <div class="flex justify-between mb-1"><label data-i18n="zoomLabel">التكبير / التصغير</label><span id="zoom-val" class="font-mono text-[#3280ff]">100%</span></div>
           <input type="range" id="crop-zoom" min="80" max="250" value="100" class="w-full accent-[#3280ff] cursor-pointer" oninput="updateCropTransform()">
@@ -643,22 +652,22 @@
           <input type="range" id="crop-pan-x" min="-100" max="100" value="0" class="w-full accent-[#3280ff] cursor-pointer" oninput="updateCropTransform()">
         </div>
       </div>
-      <div class="flex gap-2.5 pt-5 border-t border-white/10 mt-5">
+      <div class="flex gap-2.5 pt-5 border-t border-[#042862]/10 mt-5">
         <button type="button" onclick="saveCroppedAvatar()" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md active:scale-95">حفظ الموضع</button>
-        <button type="button" onclick="resetAvatarDimensions()" class="px-4 bg-white/10 text-white font-bold py-2 rounded-xl text-xs active:scale-95">استعادة</button>
+        <button type="button" onclick="resetAvatarDimensions()" class="px-4 bg-[#ebf3fe] dark:bg-[#090f1f] text-[#042862] dark:text-white font-bold py-2 rounded-xl text-xs active:scale-95">استعادة</button>
       </div>
     </div>
   </div>
 
   <!-- Change Password Modal -->
-  <div id="password-modal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
-    <div class="glass-card border border-white/20 w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-animate" onclick="event.stopPropagation()">
-      <button onclick="closePasswordModal()" class="absolute top-4 left-4 text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-sm font-bold mb-4 text-center text-white" data-i18n="passModalTitle">تغيير كلمة سر الأدمن (تشفير SHA-256)</h3>
+  <div id="password-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-animate" onclick="event.stopPropagation()">
+      <button onclick="closePasswordModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-sm font-bold mb-4 text-center text-[#042862] dark:text-white" data-i18n="passModalTitle">تغيير كلمة سر الأدمن (تشفير SHA-256)</h3>
       <form onsubmit="handlePasswordChange(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-bold mb-1 text-white" data-i18n="newPassLabel">كلمة المرور الجديدة</label>
-          <input type="password" id="new-password-input" minlength="6" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-xs text-white text-center">
+          <label class="block text-xs font-bold mb-1" data-i18n="newPassLabel">كلمة المرور الجديدة</label>
+          <input type="password" id="new-password-input" minlength="6" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white text-center">
         </div>
         <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md active:scale-95" data-i18n="savePassBtn">حفظ كلمة المرور</button>
       </form>
@@ -666,25 +675,25 @@
   </div>
 
   <!-- Admin Login Modal -->
-  <div id="login-modal" class="fixed inset-0 z-50 bg-black/70 hidden items-center justify-center p-4 backdrop-blur-sm">
-    <div class="glass-card border border-white/20 w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-animate" onclick="event.stopPropagation()">
-      <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-white p-2"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-base font-bold mb-4 text-center text-white" data-i18n="adminModalTitle">دخول الأدمن</h3>
+  <div id="login-modal" class="fixed inset-0 z-50 bg-[#042862]/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-animate" onclick="event.stopPropagation()">
+      <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white p-2"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-base font-bold mb-4 text-center text-[#042862] dark:text-white" data-i18n="adminModalTitle">دخول الأدمن</h3>
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold mb-1 text-white" data-i18n="passwordLabel">كلمة المرور</label>
-          <input type="password" id="admin-pass-input" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-sm text-center text-white">
+          <label class="block text-xs font-bold mb-1" data-i18n="passwordLabel">كلمة المرور</label>
+          <input type="password" id="admin-pass-input" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-center text-[#042862] dark:text-white">
         </div>
-        <p id="login-error" class="text-rose-400 text-xs hidden font-bold text-center" data-i18n="wrongPassword">كلمة المرور غير صحيحة!</p>
+        <p id="login-error" class="text-rose-600 text-xs hidden font-bold text-center" data-i18n="wrongPassword">كلمة المرور غير صحيحة!</p>
         <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md active:scale-95" data-i18n="loginBtn">دخول</button>
       </form>
     </div>
   </div>
 
   <!-- Footer -->
-  <footer class="text-center py-8 text-xs text-white/60 flex items-center justify-center gap-2 border-t border-white/10">
+  <footer class="text-center py-8 text-xs text-slate-400 flex items-center justify-center gap-2 border-t border-black/5 dark:border-white/5">
     <span>© 2026 Bola Yousef. All rights reserved.</span>
-    <button onclick="openLoginModal()" class="text-white/60 hover:text-[#3280ff] transition-all p-1 active:scale-90" title="دخول الأدمن">
+    <button onclick="openLoginModal()" class="text-slate-400 hover:text-[#3280ff] transition-all p-1 active:scale-90" title="دخول الأدمن">
       <i class="fa-solid fa-lock"></i>
     </button>
   </footer>
@@ -747,7 +756,7 @@
           headline: "فلنصنع معاً شيئاً رائعاً ومبهراً.",
           fontFamily: "Just Another Hand",
           paragraphs: [
-            "أنا <strong class=\"text-[#3280ff] font-black\">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.",
+            "أنا <strong class=\"text-[#042862] dark:text-[#3280ff] font-black\">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.",
             "بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي."
           ],
           eduDegree: "بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر",
@@ -782,7 +791,7 @@
           headline: "Let's create something exceptional together.",
           fontFamily: "Just Another Hand",
           paragraphs: [
-            "I’m <strong class=\"text-[#3280ff] font-black\">Bola Yousef</strong>, a graphic designer who enjoys turning ideas into visuals that feel clear, creative, and meaningful.",
+            "I’m <strong class=\"text-[#042862] dark:text-[#3280ff] font-black\">Bola Yousef</strong>, a graphic designer who enjoys turning ideas into visuals that feel clear, creative, and meaningful.",
             "My journey in design started with Applied Arts, where I developed a strong interest in visual communication, composition, and creative thinking."
           ],
           eduDegree: "Bachelor’s Degree in Applied Arts – Graphic Design & Advertising",
@@ -997,8 +1006,8 @@
         const row = document.createElement('div');
         row.className = "flex items-center gap-2";
         row.innerHTML = `
-          <textarea rows="2" class="split-para-${lang} flex-1 bg-white/10 border border-white/20 rounded-xl p-2 text-xs text-white" oninput="${lang === 'ar' ? 'syncParagraphAuto(this)' : ''}">${text}</textarea>
-          <button type="button" onclick="removeParagraphPair(this)" class="w-7 h-7 bg-rose-500/20 text-rose-300 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
+          <textarea rows="2" class="split-para-${lang} flex-1 bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl p-2 text-xs" oninput="${lang === 'ar' ? 'syncParagraphAuto(this)' : ''}">${text}</textarea>
+          <button type="button" onclick="removeParagraphPair(this)" class="w-7 h-7 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
         `;
         wrapper.appendChild(row);
       });
@@ -1025,16 +1034,16 @@
       const arRow = document.createElement('div');
       arRow.className = "flex items-center gap-2";
       arRow.innerHTML = `
-        <textarea rows="2" class="split-para-ar flex-1 bg-white/10 border border-white/20 rounded-xl p-2 text-xs text-white" placeholder="فقرة جديدة..." oninput="syncParagraphAuto(this)"></textarea>
-        <button type="button" onclick="removeParagraphPair(this)" class="w-7 h-7 bg-rose-500/20 text-rose-300 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
+        <textarea rows="2" class="split-para-ar flex-1 bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl p-2 text-xs" placeholder="فقرة جديدة..." oninput="syncParagraphAuto(this)"></textarea>
+        <button type="button" onclick="removeParagraphPair(this)" class="w-7 h-7 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
       `;
       arWrapper.appendChild(arRow);
 
       const enRow = document.createElement('div');
       enRow.className = "flex items-center gap-2";
       enRow.innerHTML = `
-        <textarea rows="2" class="split-para-en flex-1 bg-white/10 border border-white/20 rounded-xl p-2 text-xs text-white" placeholder="New paragraph..."></textarea>
-        <button type="button" onclick="removeParagraphPair(this)" class="w-7 h-7 bg-rose-500/20 text-rose-300 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
+        <textarea rows="2" class="split-para-en flex-1 bg-[#ebf3fe] dark:bg-[#090f1f] border rounded-xl p-2 text-xs" placeholder="New paragraph..."></textarea>
+        <button type="button" onclick="removeParagraphPair(this)" class="w-7 h-7 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
       `;
       enWrapper.appendChild(enRow);
     }
@@ -1136,13 +1145,13 @@
       if (!container) return;
       const categories = Array.from(new Set(projects.map(p => p.category ? p.category.trim() : '').filter(Boolean)));
       container.innerHTML = `
-        <button onclick="setFilter('all')" class="px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${currentFilter === 'all' ? 'bg-[#3280ff] text-white shadow-md' : 'bg-white/10 text-white border border-white/20'}">${translations[currentLang].allFilter}</button>
+        <button onclick="setFilter('all')" class="px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${currentFilter === 'all' ? 'bg-[#042862] dark:bg-[#3280ff] text-white shadow-md' : 'bg-white dark:bg-[#101a36] text-[#042862] dark:text-slate-200 border border-[#042862]/10'}">${translations[currentLang].allFilter}</button>
       `;
       categories.forEach(cat => {
         const isActive = currentFilter === cat;
         const btn = document.createElement('button');
         btn.onclick = () => setFilter(cat);
-        btn.className = `px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${isActive ? 'bg-[#3280ff] text-white shadow-md' : 'bg-white/10 text-white border border-white/20'}`;
+        btn.className = `px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${isActive ? 'bg-[#042862] dark:bg-[#3280ff] text-white shadow-md' : 'bg-white dark:bg-[#101a36] text-[#042862] dark:text-slate-200 border border-[#042862]/10'}`;
         btn.textContent = cat;
         container.appendChild(btn);
       });
@@ -1162,7 +1171,7 @@
 
       filtered.forEach((item) => {
         const card = document.createElement('div');
-        card.className = "hover-lift group relative rounded-3xl overflow-hidden border border-white/15 glass-card shadow-xl transition-all duration-300";
+        card.className = "hover-lift group relative rounded-3xl overflow-hidden border border-[#042862]/10 dark:border-white/10 glass-card shadow-lg hover:border-[#3280ff] transition-all duration-300";
         const count = item.images ? item.images.length : 1;
         const mainImage = item.images && item.images.length > 0 ? item.images[0] : '';
         
@@ -1175,17 +1184,17 @@
               <button onclick="event.stopPropagation(); openEditModal(${item.id})" class="bg-[#3280ff] text-white text-xs w-7 h-7 rounded-lg shadow-md flex items-center justify-center active:scale-90"><i class="fa-solid fa-pen"></i></button>
               <button onclick="event.stopPropagation(); deleteProject(${item.id})" class="bg-rose-600 text-white text-xs w-7 h-7 rounded-lg shadow-md flex items-center justify-center active:scale-90"><i class="fa-solid fa-trash-can"></i></button>
             ` : ''}
-            <button onclick="event.stopPropagation(); shareProjectDirect(${item.id})" class="bg-white/20 hover:bg-[#3280ff] text-white w-7 h-7 rounded-full shadow-md flex items-center justify-center active:scale-90 backdrop-blur-md"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+            <button onclick="event.stopPropagation(); shareProjectDirect(${item.id})" class="bg-white/90 dark:bg-[#101a36]/90 hover:bg-[#3280ff] text-[#042862] dark:text-white w-7 h-7 rounded-full shadow-md flex items-center justify-center active:scale-90"><i class="fa-solid fa-share-nodes text-xs"></i></button>
           </div>
 
-          <div class="w-full aspect-[3/4] overflow-hidden bg-black/40 cursor-pointer" onclick="openCampaignLightbox(${item.id})">
+          <div class="w-full aspect-[3/4] overflow-hidden bg-[#ebf3fe] dark:bg-[#090f1f] cursor-pointer" onclick="openCampaignLightbox(${item.id})">
             <img src="${mainImage}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
           </div>
           
           <div class="p-4 cursor-pointer" onclick="openCampaignLightbox(${item.id})">
             <span class="text-xs font-semibold text-[#3280ff] mb-1 block">${item.category}</span>
-            <h3 class="text-sm font-bold text-white truncate">${item.title}</h3>
-            ${item.desc ? `<div class="text-xs text-white/70 mt-1 line-clamp-2">${item.desc}</div>` : ''}
+            <h3 class="text-sm font-bold text-[#042862] dark:text-white truncate">${item.title}</h3>
+            ${item.desc ? `<div class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${item.desc}</div>` : ''}
           </div>
         `;
         grid.appendChild(card);
@@ -1367,16 +1376,16 @@
       container.innerHTML = '';
       editingImages.forEach((imgSrc, index) => {
         const item = document.createElement('div');
-        item.className = "flex items-center justify-between p-2 bg-white/10 rounded-xl border border-white/10 gap-2";
+        item.className = "flex items-center justify-between p-2 bg-[#ebf3fe] dark:bg-[#090f1f] rounded-xl border border-[#042862]/10 gap-2";
         item.innerHTML = `
           <div class="flex items-center gap-3 overflow-hidden">
             <span class="text-xs font-bold text-[#3280ff]">#${index + 1}</span>
             <img src="${imgSrc}" class="w-10 h-12 object-cover rounded-lg flex-shrink-0">
           </div>
           <div class="flex items-center gap-1.5 flex-shrink-0">
-            <button type="button" onclick="moveSlideUp(${index})" ${index === 0 ? 'disabled class="opacity-30"' : ''} class="w-7 h-7 bg-white/20 text-white rounded-lg shadow-sm active:scale-90"><i class="fa-solid fa-arrow-up text-xs"></i></button>
-            <button type="button" onclick="moveSlideDown(${index})" ${index === editingImages.length - 1 ? 'disabled class="opacity-30"' : ''} class="w-7 h-7 bg-white/20 text-white rounded-lg shadow-sm active:scale-90"><i class="fa-solid fa-arrow-down text-xs"></i></button>
-            <button type="button" onclick="removeSlideFromEdit(${index})" class="w-7 h-7 bg-rose-500/20 text-rose-300 rounded-lg active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
+            <button type="button" onclick="moveSlideUp(${index})" ${index === 0 ? 'disabled class="opacity-30"' : ''} class="w-7 h-7 bg-white dark:bg-[#101a36] rounded-lg shadow-sm active:scale-90"><i class="fa-solid fa-arrow-up text-xs"></i></button>
+            <button type="button" onclick="moveSlideDown(${index})" ${index === editingImages.length - 1 ? 'disabled class="opacity-30"' : ''} class="w-7 h-7 bg-white dark:bg-[#101a36] rounded-lg shadow-sm active:scale-90"><i class="fa-solid fa-arrow-down text-xs"></i></button>
+            <button type="button" onclick="removeSlideFromEdit(${index})" class="w-7 h-7 bg-rose-50 text-rose-600 rounded-lg active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
           </div>
         `;
         container.appendChild(item);
@@ -1474,7 +1483,7 @@
       grid.innerHTML = '';
       testimonials.forEach(t => {
         const card = document.createElement('div');
-        card.className = "hover-lift glass-card p-6 rounded-3xl relative shadow-xl";
+        card.className = "hover-lift glass-card p-6 rounded-3xl relative";
         card.innerHTML = `
           ${isAdmin ? `
             <div class="absolute top-4 left-4 flex gap-1.5">
@@ -1483,10 +1492,10 @@
             </div>
           ` : ''}
           <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-          <p class="text-xs sm:text-sm text-white/90 font-medium mb-4">"${t.text}"</p>
+          <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"${t.text}"</p>
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">${(t.name || 'C').charAt(0)}</div>
-            <div><h4 class="font-bold text-xs text-white">${t.name}</h4><p class="text-[10px] text-white/60">${t.role}</p></div>
+            <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">${t.name}</h4><p class="text-[10px] text-slate-400">${t.role}</p></div>
           </div>
         `;
         grid.appendChild(card);
