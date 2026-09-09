@@ -25,13 +25,13 @@
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Just+Another+Hand&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Icons -->
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Optional Firebase Compat (Fail-safe) -->
+  <!-- Safe Firebase Fallback -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -46,22 +46,22 @@
     html.dark body { background-color: #090f1f; color: #ebf3fe; }
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
-    .glass-nav { background: rgba(235, 243, 254, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(4, 40, 98, 0.1); }
-    html.dark .glass-nav { background: rgba(16, 26, 54, 0.92); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-nav { background: rgba(235, 243, 254, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(4, 40, 98, 0.1); }
+    html.dark .glass-nav { background: rgba(16, 26, 54, 0.94); border: 1px solid rgba(255, 255, 255, 0.1); }
     .glass-card { background: #ffffff; border: 1px solid rgba(4, 40, 98, 0.08); box-shadow: 0 10px 30px -10px rgba(4, 40, 98, 0.05); }
     html.dark .glass-card { background: #101a36; border: 1px solid rgba(255, 255, 255, 0.08); color: #ebf3fe; }
-    .avatar-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.4s ease, transform 0.2s ease; }
+    .avatar-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.4s ease; }
     .avatar-wrapper:hover .avatar-img { filter: grayscale(0%) contrast(1); }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes modalIn { 0% { opacity: 0; transform: scale(0.96) translateY(8px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes modalIn { 0% { opacity: 0; transform: scale(0.96) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
     .modal-active { animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   </style>
 </head>
-<body class="selection:bg-[#3280ff] selection:text-white pb-20 relative overflow-x-hidden">
+<body class="selection:bg-[#3280ff] selection:text-white pb-24 relative overflow-x-hidden">
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#042862] dark:bg-[#3280ff] text-white px-5 py-2 rounded-full shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
+  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#042862] dark:bg-[#3280ff] text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
     <i class="fa-solid fa-circle-check"></i>
     <span id="toast-text">تم بنجاح!</span>
   </div>
@@ -70,16 +70,19 @@
   <div id="admin-bar" class="hidden bg-[#042862] text-[#ebf3fe] text-xs py-2 px-4 sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center gap-2 font-bold">
-        <i class="fa-solid fa-bolt text-amber-400"></i>
-        <span data-ar="وضع الأدمن نشط — التعديل المباشر متاح" data-en="Admin Mode Active — Direct sync ready">وضع الأدمن نشط — التعديل المباشر متاح</span>
+        <i class="fa-solid fa-shield-halved text-amber-400"></i>
+        <span>وضع الأدمن نشط (حفظ مشفر ومباشر)</span>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="logoutAdmin()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white px-3 py-1 rounded-lg font-bold" data-ar="خروج" data-en="Logout">خروج</button>
+        <button onclick="openChangePasswordModal()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1 rounded-lg font-bold">
+          <i class="fa-solid fa-key ml-1"></i> تغيير كلمة السر
+        </button>
+        <button onclick="logoutAdmin()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white px-3 py-1 rounded-lg font-bold">خروج</button>
       </div>
     </div>
   </div>
 
-  <!-- Navbar -->
+  <!-- Floating Navigation -->
   <div class="sticky top-4 z-40 px-4 max-w-5xl mx-auto">
     <header class="glass-nav rounded-2xl shadow-lg px-5 py-2.5 flex items-center justify-between transition-all">
       <div class="flex items-center gap-3">
@@ -95,12 +98,12 @@
 
       <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-[#042862]/85 dark:text-slate-200">
         <a href="#about" class="hover:text-[#3280ff] transition-colors" data-ar="نبذة عني" data-en="About Me">نبذة عني</a>
-        <a href="#gallery" class="hover:text-[#3280ff] transition-colors" data-ar="الأعمال" data-en="Portfolio">الأعمال</a>
+        <a href="#gallery" class="hover:text-[#3280ff] transition-colors" data-ar="معرض الأعمال" data-en="Portfolio">معرض الأعمال</a>
         <a href="#testimonials" class="hover:text-[#3280ff] transition-colors" data-ar="آراء العملاء" data-en="Testimonials">آراء العملاء</a>
       </nav>
 
       <div class="flex items-center gap-2">
-        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm" title="Dark Mode">
+        <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 text-[#042862] dark:text-amber-400 flex items-center justify-center text-xs shadow-sm">
           <i id="dark-icon" class="fa-solid fa-moon"></i>
         </button>
         <button onclick="toggleLanguage()" class="bg-white dark:bg-[#101a36] hover:bg-[#ebf3fe] dark:hover:bg-[#1a2952] text-[#042862] dark:text-white border border-[#042862]/20 dark:border-white/20 text-xs font-black px-3 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
@@ -118,17 +121,17 @@
   <!-- Hero Section -->
   <section class="max-w-4xl mx-auto px-4 pt-16 pb-8 text-center relative z-10">
     <div class="flex flex-col items-center justify-center mb-6">
-      <span ondblclick="openLoginModal()" title="اضغط مرتين لفتح تسجيل دخول الأدمن" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-pointer">
+      <span ondblclick="openLoginModal()" title="انقر مرتين لتسجيل دخول الأدمن" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-pointer">
         BOLA YOUSEF
       </span>
       <div class="flex items-center gap-3 -mt-3 sm:-mt-5">
         <div class="h-[2px] w-10 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
-        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm" data-ar="مصمم جرافيك" data-en="GRAPHIC DESIGNER">GRAPHIC DESIGNER</span>
+        <span class="font-eng-tag text-[10px] sm:text-xs tracking-[0.3em] font-extrabold text-[#042862] dark:text-[#ebf3fe] uppercase bg-white dark:bg-[#101a36] border border-[#042862]/15 dark:border-white/15 px-3.5 py-1 rounded-full shadow-sm">GRAPHIC DESIGNER</span>
         <div class="h-[2px] w-10 sm:w-16 bg-[#042862]/20 dark:bg-white/20"></div>
       </div>
     </div>
     <div class="mb-8">
-      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight" data-ar="فلنصنع معاً شيئاً رائعاً ومبهراً." data-en="Let's create something exceptional together.">
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight" data-ar="فلنصنع معاً شيئاً رائعاً ومبهراً." data-en="Let's create something great together.">
         فلنصنع معاً شيئاً رائعاً ومبهراً.
       </h1>
     </div>
@@ -143,7 +146,7 @@
     <div class="glass-card rounded-3xl p-6 sm:p-10 border border-[#042862]/15 dark:border-white/10 shadow-xl">
       <div class="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-[#042862]/10 dark:border-white/10 pb-8">
         
-        <!-- Profile Picture & Controls -->
+        <!-- Profile Picture Box -->
         <div class="flex-shrink-0 flex flex-col items-center">
           <div class="avatar-wrapper w-36 h-48 sm:w-44 sm:h-56 rounded-t-[70px] rounded-b-2xl border-4 border-[#3280ff] overflow-hidden shadow-lg p-1 bg-white dark:bg-[#090f1f] relative">
             <div class="w-full h-full rounded-t-[66px] rounded-b-xl overflow-hidden relative bg-slate-900 flex items-center justify-center">
@@ -153,13 +156,13 @@
             </div>
           </div>
 
-          <!-- Admin Avatar Options -->
+          <!-- Admin Avatar Buttons -->
           <div id="avatar-admin-controls" class="hidden flex flex-col gap-1.5 mt-3 w-full">
             <button onclick="document.getElementById('profile-file-input').click()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white text-[11px] font-bold py-1.5 px-3 rounded-xl shadow-sm flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-camera"></i> <span data-ar="رفع صورة جديدة" data-en="Upload Photo">رفع صورة جديدة</span>
+              <i class="fa-solid fa-camera"></i> <span>تغيير الصورة</span>
             </button>
             <button onclick="openAvatarCropModal()" class="bg-[#042862] dark:bg-[#1a2952] hover:bg-[#3280ff] text-white text-[11px] font-bold py-1.5 px-3 rounded-xl shadow-sm border border-white/20 flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-crop-simple"></i> <span data-ar="تعديل موضع وأبعاد الصورة" data-en="Adjust Framing">تعديل موضع وأبعاد الصورة</span>
+              <i class="fa-solid fa-crop-simple"></i> <span>تعديل الأبعاد والموضع</span>
             </button>
           </div>
           <input type="file" id="profile-file-input" accept="image/*" class="hidden" onchange="handleProfileUpload(event)">
@@ -169,14 +172,14 @@
         <div class="flex-1 text-center md:text-right rtl:md:text-right ltr:md:text-left">
           <div class="flex items-center justify-between gap-4 mb-3">
             <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white" data-ar="نبذة عني" data-en="About Me">نبذة عني</h2>
-            <button id="edit-bio-btn" onclick="openBioModal()" class="hidden bg-[#ebf3fe] dark:bg-[#1a2952] hover:bg-[#3280ff] hover:text-white text-[#042862] dark:text-white border border-[#3280ff]/30 px-3 py-1 rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-sm">
-              <i class="fa-solid fa-pen-to-square"></i> <span data-ar="تعديل النبذة" data-en="Edit Bio">تعديل النبذة</span>
-            </button>
           </div>
-          
-          <div id="bio-paragraphs-container" class="space-y-3 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 leading-relaxed font-medium">
-            <p data-ar="أنا <strong class='text-[#042862] dark:text-[#3280ff] font-black'>بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة." data-en="I'm <strong class='text-[#042862] dark:text-[#3280ff] font-black'>Bola Yousef</strong>, a graphic designer dedicated to crafting clear, creative, and purposeful visual solutions.">أنا <strong class="text-[#042862] dark:text-[#3280ff] font-black">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.</p>
-            <p class="text-[#3280ff] font-bold italic" data-ar="بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي." data-en="My background in Applied Arts laid a solid foundation in visual communication, aesthetic balance, and innovative design thinking.">بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي.</p>
+          <div class="space-y-3 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 leading-relaxed font-medium">
+            <p data-ar="أنا <strong class='text-[#042862] dark:text-[#3280ff] font-black'>بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة." data-en="I'm <strong class='text-[#042862] dark:text-[#3280ff] font-black'>Bola Yousef</strong>, a graphic designer dedicated to crafting clear, creative, and purposeful visual solutions.">
+              أنا <strong class="text-[#042862] dark:text-[#3280ff] font-black">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.
+            </p>
+            <p class="text-[#3280ff] font-bold italic" data-ar="بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي." data-en="My journey started in Applied Arts, nurturing deep expertise in visual composition, balance, and creative execution.">
+              بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي.
+            </p>
           </div>
         </div>
       </div>
@@ -186,21 +189,21 @@
         <div class="space-y-6">
           <div>
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[#3280ff]"></i> <span data-ar="المؤهل الدراسي" data-en="Education">المؤهل الدراسي</span></h3>
-            <p id="edu-degree" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200" data-ar="بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر" data-en="Bachelor’s Degree in Applied Arts – Graphic Design & Advertising">بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر</p>
-            <p id="edu-inst" class="text-xs text-[#042862]/70 dark:text-slate-400 font-medium" data-ar="المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025" data-en="Higher Institute of Applied Arts, 6th of October City - 2025">المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025</p>
+            <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200" data-ar="بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر" data-en="Bachelor’s in Applied Arts – Advertising, Print & Publishing">بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر</p>
+            <p class="text-xs text-[#042862]/70 dark:text-slate-400 font-medium" data-ar="المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025" data-en="Higher Institute of Applied Arts, 6th of October City - 2025">المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025</p>
           </div>
           <div>
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#3280ff]"></i> <span data-ar="الخبرة العملية" data-en="Experience">الخبرة العملية</span></h3>
-            <p id="exp-role" class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200" data-ar="مصمم جرافيك — Amplify Growth Network" data-en="Graphic Designer — Amplify Growth Network">مصمم جرافيك — Amplify Growth Network</p>
-            <p id="exp-period" class="text-xs text-[#3280ff] font-bold font-mono" data-ar="ديسمبر 2025 – حتى الآن" data-en="Dec 2025 – Present">ديسمبر 2025 – حتى الآن</p>
+            <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-200" data-ar="مصمم جرافيك — Amplify Growth Network" data-en="Graphic Designer — Amplify Growth Network">مصمم جرافيك — Amplify Growth Network</p>
+            <p class="text-xs text-[#3280ff] font-bold font-mono" data-ar="ديسمبر 2025 – حتى الآن" data-en="Dec 2025 – Present">ديسمبر 2025 – حتى الآن</p>
           </div>
         </div>
         <div class="space-y-6">
           <div>
             <h3 class="text-base font-black text-[#042862] dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-[#3280ff]"></i> <span data-ar="التدريب والشهادات" data-en="Certifications">التدريب والشهادات</span></h3>
-            <ul id="certs-list" class="space-y-2 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 font-medium">
+            <ul class="space-y-2 text-xs sm:text-sm text-[#042862]/85 dark:text-slate-300 font-medium">
               <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span data-ar="مبادرة مليون مبرمج للذكاء الاصطناعي (2026)" data-en="1 Million Prompters Initiative – Dubai Future Foundation (2026)">مبادرة مليون مبرمج للذكاء الاصطناعي (2026)</span></li>
-              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span data-ar="برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)" data-en="Graphic Design Professional Training – Media Shades (2023)">برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)</span></li>
+              <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span data-ar="برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)" data-en="Graphic Design Training – Media Shades (2023)">برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)</span></li>
             </ul>
           </div>
           <div>
@@ -217,47 +220,33 @@
     </div>
   </section>
 
-  <!-- Metrics -->
-  <section class="max-w-4xl mx-auto px-4 py-6 relative z-10">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="glass-card p-5 rounded-2xl text-center">
-        <div class="text-3xl sm:text-4xl font-black text-[#3280ff] mb-1 font-eng-tag">+150</div>
-        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-ar="تصميم تم تسليمه" data-en="Delivered Projects">تصميم تم تسليمه</p>
-      </div>
-      <div class="glass-card p-5 rounded-2xl text-center">
-        <div class="text-3xl sm:text-4xl font-black text-[#042862] dark:text-white mb-1 font-eng-tag">+5</div>
-        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-ar="علامات تجارية" data-en="Partner Brands">علامات تجارية</p>
-      </div>
-      <div class="glass-card p-5 rounded-2xl text-center">
-        <div class="text-3xl sm:text-4xl font-black text-[#3280ff] mb-1 font-eng-tag">100%</div>
-        <p class="text-xs sm:text-sm font-bold text-[#042862] dark:text-slate-300" data-ar="التزام بالمواعيد" data-en="On-Time Delivery">التزام بالمواعيد</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Admin Panel for Projects -->
+  <!-- Admin Add Project Panel -->
   <section id="admin-panel" class="hidden max-w-3xl mx-auto px-4 my-8 relative z-10">
     <div class="glass-card rounded-3xl p-6 shadow-xl border-2 border-[#3280ff]">
       <h3 class="text-base font-bold text-[#042862] dark:text-white flex items-center gap-2 mb-4 border-b border-[#042862]/10 pb-3">
-        <i class="fa-solid fa-cloud-arrow-up text-[#3280ff]"></i> <span data-ar="إضافة مشروع جديد للمعرض" data-en="Add New Project to Portfolio">إضافة مشروع جديد للمعرض</span>
+        <i class="fa-solid fa-cloud-arrow-up text-[#3280ff]"></i> <span>إضافة مشروع جديد للمعرض</span>
       </h3>
       <form id="add-project-form" class="space-y-4" onsubmit="handleProjectSubmit(event)">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold mb-1" data-ar="اسم المشروع" data-en="Project Title">اسم المشروع</label>
+            <label class="block text-xs font-bold mb-1">اسم المشروع</label>
             <input type="text" id="proj-title" placeholder="مثال: هوية بصرية كاملة" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
           <div>
-            <label class="block text-xs font-bold mb-1" data-ar="التصنيف" data-en="Category">التصنيف</label>
-            <input type="text" id="proj-category" placeholder="مثال: سوشيال ميديا أو Branding" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+            <label class="block text-xs font-bold mb-1">التصنيف</label>
+            <input type="text" id="proj-category" placeholder="مثال: سوشيال ميديا / Branding" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1" data-ar="صور المشروع (اختر صورة أو أكثر)" data-en="Project Images (Select one or more)">صور المشروع (اختر صورة أو أكثر)</label>
+          <label class="block text-xs font-bold mb-1">نبذة عن المشروع (تظهر عند فتح تفاصيل المشروع)</label>
+          <textarea id="proj-desc" rows="3" placeholder="اكتب وصفاً أو تفاصيل حول المشروع وفكرته التسويقية..." class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl p-3 text-xs text-[#042862] dark:text-white"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">صور المشروع (اختر صورة أو أكثر معاً)</label>
           <input type="file" id="proj-files" accept="image/*" multiple required class="w-full text-xs text-[#042862] dark:text-white border border-[#042862]/15 dark:border-white/20 rounded-xl p-2 bg-[#ebf3fe] dark:bg-[#090f1f]">
         </div>
         <button type="submit" id="proj-submit-btn" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition-all">
-          نشر المشروع وحفظه
+          نشر المشروع ومزامنته سحابياً
         </button>
       </form>
     </div>
@@ -265,49 +254,125 @@
 
   <!-- Portfolio Section -->
   <section id="gallery" class="max-w-6xl mx-auto px-4 py-10 relative z-10">
-    <div class="text-center mb-8">
+    <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
       <h2 class="text-2xl sm:text-3xl font-black text-[#042862] dark:text-white" data-ar="معرض الأعمال" data-en="Portfolio Gallery">معرض الأعمال</h2>
+      <!-- Bulk Delete Controls (Admin Mode) -->
+      <div id="bulk-delete-bar" class="hidden items-center gap-3">
+        <label class="flex items-center gap-2 text-xs font-bold cursor-pointer">
+          <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAllProjects(this)" class="w-4 h-4 accent-[#3280ff]">
+          <span>تحديد الكل</span>
+        </label>
+        <button onclick="handleBulkDelete()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1">
+          <i class="fa-solid fa-trash-can"></i> <span>حذف المحدد (<span id="selected-count">0</span>)</span>
+        </button>
+      </div>
     </div>
     <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
+
+  <!-- Project Details Lightbox / Slider Modal -->
+  <div id="project-lightbox" class="fixed inset-0 z-50 bg-[#042862]/95 dark:bg-black/95 hidden flex-col justify-between p-4 backdrop-blur-2xl modal-active" onclick="closeProjectLightbox()">
+    <div class="flex items-center justify-between w-full max-w-4xl mx-auto z-10" onclick="event.stopPropagation()">
+      <div>
+        <h3 id="lightbox-title" class="text-white text-base sm:text-lg font-bold"></h3>
+        <span id="lightbox-category" class="text-xs text-[#3280ff] font-bold"></span>
+      </div>
+      <button onclick="closeProjectLightbox()" class="text-white/80 hover:text-white text-2xl p-2"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <div class="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center flex-1 my-2" onclick="event.stopPropagation()">
+      <div class="relative w-full flex items-center justify-center">
+        <button onclick="prevProjectSlide()" class="absolute left-2 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/20"><i class="fa-solid fa-chevron-left"></i></button>
+        <img id="lightbox-main-img" src="" alt="Project Preview" class="max-w-full max-h-[50vh] object-contain rounded-2xl shadow-2xl border border-white/15">
+        <button onclick="nextProjectSlide()" class="absolute right-2 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/20"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div id="lightbox-thumbs" class="flex items-center gap-2 mt-3 overflow-x-auto max-w-md py-1 no-scrollbar"></div>
+      <div class="mt-4 p-4 bg-white/5 border border-white/10 rounded-2xl max-w-2xl w-full text-center">
+        <p id="lightbox-desc" class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium"></p>
+      </div>
+    </div>
+  </div>
 
   <!-- Testimonials Section -->
   <section id="testimonials" class="max-w-5xl mx-auto px-4 py-12 relative z-10">
     <div class="text-center mb-8 flex flex-col items-center">
       <h2 class="text-2xl sm:text-3xl font-black mb-2 text-[#042862] dark:text-white" data-ar="آراء العملاء" data-en="Client Testimonials">آراء العملاء</h2>
-      <p class="text-[#042862]/70 dark:text-slate-400 text-xs font-medium mb-3" data-ar="ما يقوله الشركاء والعملاء عن العمل المشترك." data-en="What partners and clients say about working together.">ما يقوله الشركاء والعملاء عن العمل المشترك.</p>
+      <p class="text-[#042862]/70 dark:text-slate-400 text-xs font-medium mb-3">ما يقوله الشركاء والعملاء عن العمل المشترك.</p>
       <button id="add-testi-btn" onclick="openTestiModal()" class="hidden bg-[#3280ff] hover:bg-[#256cd9] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-md items-center gap-1.5">
-        <i class="fa-solid fa-plus"></i> <span data-ar="إضافة رأي" data-en="Add Review">إضافة رأي</span>
+        <i class="fa-solid fa-plus"></i> <span>إضافة رأي جديد</span>
       </button>
     </div>
     <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
   </section>
 
-  <!-- Avatar Adjustment / Crop Modal -->
+  <!-- Testimonial Add / Edit Modal -->
+  <div id="testi-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative modal-active" onclick="event.stopPropagation()">
+      <button onclick="closeTestiModal()" class="absolute top-4 left-4 text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="testi-modal-title" class="text-sm font-bold text-[#042862] dark:text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-comment-dots text-[#3280ff]"></i> <span>إضافة رأي عميل</span>
+      </h3>
+      <form onsubmit="handleTestimonialSubmit(event)" class="space-y-3">
+        <input type="hidden" id="testi-id">
+        <div>
+          <label class="block text-xs font-bold mb-1">اسم العميل</label>
+          <input type="text" id="testi-name" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">المنصب / الشركة</label>
+          <input type="text" id="testi-role" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">نص الرأي</label>
+          <textarea id="testi-text" rows="3" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md">
+          حفظ ومزامنة
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Avatar Adjustment Modal -->
   <div id="avatar-crop-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md">
     <div class="glass-card border border-[#042862]/15 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative modal-active">
       <button onclick="closeAvatarCropModal()" class="absolute top-4 left-4 text-lg text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
       <h3 class="text-sm font-bold text-[#042862] dark:text-white mb-4 flex items-center gap-2">
-        <i class="fa-solid fa-crop-simple text-[#3280ff]"></i> <span data-ar="تعديل أبعاد وموضع الصورة الحالية" data-en="Adjust Current Image Framing">تعديل أبعاد وموضع الصورة الحالية</span>
+        <i class="fa-solid fa-crop-simple text-[#3280ff]"></i> <span>تعديل موضع وأبعاد الصورة</span>
       </h3>
       <div class="space-y-4 text-xs font-bold text-[#042862] dark:text-slate-200">
         <div>
-          <div class="flex justify-between mb-1"><span data-ar="التكبير / التصغير" data-en="Zoom">التكبير / التصغير</span><span id="zoom-txt" class="text-[#3280ff]">100%</span></div>
+          <div class="flex justify-between mb-1"><span>التكبير / التصغير</span><span id="zoom-txt" class="text-[#3280ff]">100%</span></div>
           <input type="range" id="crop-zoom" min="80" max="250" value="100" class="w-full accent-[#3280ff]" oninput="applyLiveCropTransform()">
         </div>
         <div>
-          <div class="flex justify-between mb-1"><span data-ar="التحريك الرأسي" data-en="Vertical Position">التحريك الرأسي</span><span id="pan-y-txt" class="text-[#3280ff]">0px</span></div>
+          <div class="flex justify-between mb-1"><span>التحريك الرأسي</span><span id="pan-y-txt" class="text-[#3280ff]">0px</span></div>
           <input type="range" id="crop-pan-y" min="-120" max="120" value="0" class="w-full accent-[#3280ff]" oninput="applyLiveCropTransform()">
         </div>
         <div>
-          <div class="flex justify-between mb-1"><span data-ar="التحريك الأفقي" data-en="Horizontal Position">التحريك الأفقي</span><span id="pan-x-txt" class="text-[#3280ff]">0px</span></div>
+          <div class="flex justify-between mb-1"><span>التحريك الأفقي</span><span id="pan-x-txt" class="text-[#3280ff]">0px</span></div>
           <input type="range" id="crop-pan-x" min="-100" max="100" value="0" class="w-full accent-[#3280ff]" oninput="applyLiveCropTransform()">
         </div>
       </div>
       <div class="flex gap-2 mt-6">
-        <button onclick="saveCropTransform()" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md" data-ar="حفظ التعديل" data-en="Save Changes">حفظ التعديل</button>
-        <button onclick="resetCropTransform()" class="px-4 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-bold py-2 rounded-xl text-xs" data-ar="استعادة" data-en="Reset">استعادة</button>
+        <button onclick="saveCropTransform()" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md">حفظ التعديل</button>
+        <button onclick="resetCropTransform()" class="px-4 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-bold py-2 rounded-xl text-xs">استعادة</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div id="change-password-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md">
+    <div class="glass-card border border-[#042862]/15 w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-active">
+      <button onclick="closeChangePasswordModal()" class="absolute top-4 left-4 text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-sm font-bold text-[#042862] dark:text-white mb-4 text-center">تغيير كلمة السر (تشفير آمن)</h3>
+      <form onsubmit="handleChangePasswordSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold mb-1">كلمة السر الجديدة</label>
+          <input type="password" id="new-admin-pass" required minlength="6" class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white text-center">
+        </div>
+        <button type="submit" class="w-full bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2 rounded-xl text-xs shadow-md">حفظ وتشفير</button>
+      </form>
     </div>
   </div>
 
@@ -315,14 +380,14 @@
   <div id="login-modal" class="fixed inset-0 z-50 bg-[#042862]/75 hidden items-center justify-center p-4 backdrop-blur-sm">
     <div class="glass-card w-full max-w-xs rounded-3xl p-6 shadow-2xl relative modal-active">
       <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-base font-bold mb-4 text-center text-[#042862] dark:text-white" data-ar="دخول الأدمن" data-en="Admin Access">دخول الأدمن</h3>
+      <h3 class="text-base font-bold mb-4 text-center text-[#042862] dark:text-white">دخول الأدمن</h3>
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold mb-1" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+          <label class="block text-xs font-bold mb-1">كلمة المرور</label>
           <input type="password" id="admin-pass-input" required class="w-full bg-[#ebf3fe] dark:bg-[#090f1f] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-center text-[#042862] dark:text-white">
         </div>
-        <p id="login-error" class="text-rose-600 text-xs hidden font-bold text-center" data-ar="كلمة المرور غير صحيحة!" data-en="Incorrect password!">كلمة المرور غير صحيحة!</p>
-        <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+        <p id="login-error" class="text-rose-600 text-xs hidden font-bold text-center">كلمة المرور غير صحيحة!</p>
+        <button type="submit" class="w-full bg-[#3280ff] text-white font-bold py-2 rounded-xl text-xs shadow-md">تسجيل الدخول</button>
       </form>
     </div>
   </div>
@@ -333,23 +398,34 @@
     <button onclick="openLoginModal()" class="text-slate-300 hover:text-[#3280ff] transition-colors" title="Admin Login"><i class="fa-solid fa-lock"></i></button>
   </footer>
 
-  <!-- WhatsApp Floating Icon -->
+  <!-- Floating WhatsApp -->
   <a href="https://wa.me/201278150042?text=Hi%20Bola,%20I%20viewed%20your%20portfolio." target="_blank" class="fixed bottom-6 right-6 z-40 bg-[#3280ff] hover:bg-[#256cd9] text-white w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-xl animate-bounce border-2 border-white">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- Core JavaScript Engine -->
+  <!-- ========================================== -->
+  <!-- ⚙️ السكربت البرمجي الكامل والمستقر -->
+  <!-- ========================================== -->
   <script>
-    // Global Config
+    // 1. API Configuration
     const IMGBB_KEY = "8e8214feb5c37acb29350ebd89b0a001";
-    const ADMIN_PASSWORD = "bola2026admin";
+    const DEFAULT_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"; // SHA-256 for bola2026admin
 
     // App State
     let isAdmin = localStorage.getItem('is_admin_session') === 'true';
     let currentLang = localStorage.getItem('app_lang') || 'ar';
     let isDarkMode = localStorage.getItem('app_theme') === 'dark';
+    let currentLightboxProject = null;
+    let currentSlideIdx = 0;
 
-    // Safe Firebase init
+    // Cryptographic SHA-256 Hasher
+    async function hashString(str) {
+      const buf = new TextEncoder().encode(str);
+      const digest = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Firebase Initalization
     let db = null;
     try {
       if (typeof firebase !== 'undefined') {
@@ -363,43 +439,45 @@
         });
         db = firebase.firestore();
       }
-    } catch(e) {
-      console.warn("Offline or Local mode active.");
-    }
+    } catch(e) {}
 
-    // Default Fallback Projects
+    // Default Seed Data
     let defaultProjects = [
       {
-        id: 1,
+        id: 101,
         title: "NOIR & AURA — Luxury Identity",
         category: "Branding",
+        desc: "تصميم هوية بصرية كاملة لعلامة تجارية متخصصة في الساعات الفاخرة، تعتمد على الخطوط الحادة والأناقة الداكنة.",
         images: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80"]
       },
       {
-        id: 2,
+        id: 102,
         title: "The Exo-Morph — Social Campaign",
-        category: "Social Media",
+        category: "سوشيال ميديا",
+        desc: "حملة إعلانية مخصصة لمنتج تقني مبتكر، تتضمن بوسترات تفاعلية وتصاميم لوسائل التواصل الاجتماعي لزيادة المبيعات.",
         images: ["https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80"]
       }
     ];
 
-    // Default Testimonials
     let defaultTestimonials = [
       {
-        id: 1,
+        id: 201,
         name: "Mahmoud Khaled",
         role: "Marketing Director",
         text: "بولا سلّم تصاميم الهوية قبل الموعد بجودة ودقة واضحة جداً، مبدع وملتزم بالتفاصيل!"
       },
       {
-        id: 2,
+        id: 202,
         name: "Sara Ahmed",
         role: "Brand Owner",
         text: "تصاميم سوشيال ميديا ممتازة وعصرية، زادت من تفاعل الحملة التسويقية بشكل ملحوظ."
       }
     ];
 
-    // Toast Alert
+    let projects = [];
+    let testimonials = [];
+
+    // Toast
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-text').textContent = msg;
@@ -411,65 +489,323 @@
       }, 2500);
     }
 
-    // Language Toggle Engine (Direct DOM Swap - No Crash)
-    function toggleLanguage() {
-      currentLang = (currentLang === 'ar') ? 'en' : 'ar';
-      localStorage.setItem('app_lang', currentLang);
-      applyLanguage();
-    }
-
-    function applyLanguage() {
-      const isAr = currentLang === 'ar';
-      document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
-      document.documentElement.setAttribute('lang', currentLang);
-      document.getElementById('lang-btn-text').textContent = isAr ? 'English' : 'العربية';
-
-      document.querySelectorAll('[data-ar]').forEach(el => {
-        const text = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
-        if (text) el.innerHTML = text;
-      });
-    }
-
-    // Theme Engine
-    function toggleDarkMode() {
-      isDarkMode = !isDarkMode;
-      localStorage.setItem('app_theme', isDarkMode ? 'dark' : 'light');
-      applyTheme();
-    }
-
-    function applyTheme() {
-      const icon = document.getElementById('dark-icon');
-      if (isDarkMode) {
-        document.documentElement.classList.add('dark');
-        if (icon) icon.className = "fa-solid fa-sun";
+    // Projects Engine
+    async function initProjects() {
+      const local = localStorage.getItem('bola_projects_store');
+      if (local) {
+        projects = JSON.parse(local);
       } else {
-        document.documentElement.classList.remove('dark');
-        if (icon) icon.className = "fa-solid fa-moon";
+        projects = [...defaultProjects];
+      }
+      renderProjects();
+
+      if (db) {
+        try {
+          const snap = await db.collection("campaigns").get();
+          if (!snap.empty) {
+            projects = [];
+            snap.forEach(d => projects.push(d.data()));
+            localStorage.setItem('bola_projects_store', JSON.stringify(projects));
+            renderProjects();
+          }
+        } catch(e) {}
       }
     }
 
-    // Eyes Tracker
-    function initEyes() {
-      const pupils = document.querySelectorAll('.pupil');
-      window.addEventListener('mousemove', (e) => {
-        pupils.forEach(pupil => {
-          const eye = pupil.parentElement;
-          const rect = eye.getBoundingClientRect();
-          const eyeCenterX = rect.left + rect.width / 2;
-          const eyeCenterY = rect.top + rect.height / 2;
-          const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
-          const distance = Math.min(rect.width / 4, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 12);
-          pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+    function renderProjects() {
+      const grid = document.getElementById('portfolio-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      projects.forEach((p, index) => {
+        const card = document.createElement('div');
+        card.className = "glass-card rounded-3xl overflow-hidden shadow-lg border border-[#042862]/10 group relative transition-all";
+        card.innerHTML = `
+          <!-- Admin Controls on Card -->
+          ${isAdmin ? `
+            <div class="absolute top-3 left-3 z-30 flex items-center gap-1.5 bg-slate-900/80 p-1.5 rounded-xl backdrop-blur-sm">
+              <input type="checkbox" value="${p.id}" class="project-select-checkbox w-4 h-4 accent-[#3280ff] cursor-pointer" onchange="updateSelectedCount()">
+              <button onclick="event.stopPropagation(); moveProjectUp(${index})" ${index === 0 ? 'disabled class="opacity-30"' : ''} class="w-6 h-6 bg-white/20 hover:bg-[#3280ff] text-white rounded flex items-center justify-center text-xs"><i class="fa-solid fa-arrow-up"></i></button>
+              <button onclick="event.stopPropagation(); moveProjectDown(${index})" ${index === projects.length - 1 ? 'disabled class="opacity-30"' : ''} class="w-6 h-6 bg-white/20 hover:bg-[#3280ff] text-white rounded flex items-center justify-center text-xs"><i class="fa-solid fa-arrow-down"></i></button>
+              <button onclick="event.stopPropagation(); deleteSingleProject(${p.id})" class="w-6 h-6 bg-rose-600 hover:bg-rose-700 text-white rounded flex items-center justify-center text-xs"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          ` : ''}
+          
+          <div class="aspect-[3/4] overflow-hidden bg-slate-900 cursor-pointer" onclick="openProjectLightbox(${p.id})">
+            <img src="${p.images[0]}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+          </div>
+          
+          <div class="p-4 cursor-pointer" onclick="openProjectLightbox(${p.id})">
+            <span class="text-[11px] font-bold text-[#3280ff]">${p.category}</span>
+            <h3 class="text-sm font-bold text-[#042862] dark:text-white truncate">${p.title}</h3>
+            ${p.desc ? `<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${p.desc}</p>` : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      updateSelectedCount();
+    }
+
+    // Lightbox / Modal View
+    function openProjectLightbox(id) {
+      const proj = projects.find(p => p.id === id);
+      if (!proj) return;
+      currentLightboxProject = proj;
+      currentSlideIdx = 0;
+
+      document.getElementById('lightbox-title').textContent = proj.title;
+      document.getElementById('lightbox-category').textContent = proj.category;
+      document.getElementById('lightbox-desc').textContent = proj.desc || "لا توجد نبذة إضافية لهذا المشروع.";
+      updateLightboxSlide();
+
+      const thumbsBox = document.getElementById('lightbox-thumbs');
+      thumbsBox.innerHTML = '';
+      if (proj.images.length > 1) {
+        proj.images.forEach((img, idx) => {
+          const t = document.createElement('img');
+          t.src = img;
+          t.className = `w-12 h-12 object-cover rounded-lg cursor-pointer border-2 ${idx === 0 ? 'border-[#3280ff]' : 'border-transparent opacity-60'}`;
+          t.onclick = () => { currentSlideIdx = idx; updateLightboxSlide(); };
+          thumbsBox.appendChild(t);
         });
+      }
+
+      document.getElementById('project-lightbox').classList.remove('hidden');
+      document.getElementById('project-lightbox').classList.add('flex');
+    }
+
+    function updateLightboxSlide() {
+      if (!currentLightboxProject) return;
+      document.getElementById('lightbox-main-img').src = currentLightboxProject.images[currentSlideIdx];
+    }
+    function prevProjectSlide() {
+      if (!currentLightboxProject || currentLightboxProject.images.length <= 1) return;
+      currentSlideIdx = (currentSlideIdx - 1 + currentLightboxProject.images.length) % currentLightboxProject.images.length;
+      updateLightboxSlide();
+    }
+    function nextProjectSlide() {
+      if (!currentLightboxProject || currentLightboxProject.images.length <= 1) return;
+      currentSlideIdx = (currentSlideIdx + 1) % currentLightboxProject.images.length;
+      updateLightboxSlide();
+    }
+    function closeProjectLightbox() {
+      document.getElementById('project-lightbox').classList.add('hidden');
+      document.getElementById('project-lightbox').classList.remove('flex');
+      currentLightboxProject = null;
+    }
+
+    // Reordering Projects
+    function moveProjectUp(idx) {
+      if (idx <= 0) return;
+      const temp = projects[idx];
+      projects[idx] = projects[idx - 1];
+      projects[idx - 1] = temp;
+      saveProjectsState();
+    }
+    function moveProjectDown(idx) {
+      if (idx >= projects.length - 1) return;
+      const temp = projects[idx];
+      projects[idx] = projects[idx + 1];
+      projects[idx + 1] = temp;
+      saveProjectsState();
+    }
+    function saveProjectsState() {
+      localStorage.setItem('bola_projects_store', JSON.stringify(projects));
+      renderProjects();
+      if (db) {
+        projects.forEach((p, i) => {
+          db.collection("campaigns").doc(String(p.id)).set({ ...p, order: i }, { merge: true }).catch(()=>{});
+        });
+      }
+      showToast("تم تحديث وحفظ الترتيب!");
+    }
+
+    // Add Project Submission
+    async function handleProjectSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('proj-title').value.trim();
+      const category = document.getElementById('proj-category').value.trim();
+      const desc = document.getElementById('proj-desc').value.trim();
+      const files = Array.from(document.getElementById('proj-files').files);
+      const btn = document.getElementById('proj-submit-btn');
+
+      if (files.length === 0) return;
+      btn.disabled = true;
+      btn.textContent = "جاري رفع الصور إلى السحابة...";
+      showToast("جاري الرفع...");
+
+      const uploadedUrls = [];
+      for (const f of files) {
+        const url = await uploadToImgBB(f);
+        if (url) uploadedUrls.push(url);
+      }
+
+      if (uploadedUrls.length > 0) {
+        const newProj = { id: Date.now(), title, category, desc, images: uploadedUrls };
+        projects.unshift(newProj);
+        localStorage.setItem('bola_projects_store', JSON.stringify(projects));
+        renderProjects();
+        if (db) db.collection("campaigns").doc(String(newProj.id)).set(newProj).catch(()=>{});
+        document.getElementById('add-project-form').reset();
+        showToast("تم نشر وحفظ المشروع بنجاح!");
+      } else {
+        alert("فشل رفع الصور، يرجى المحاولة مرة أخرى.");
+      }
+      btn.disabled = false;
+      btn.textContent = "نشر المشروع ومزامنته سحابياً";
+    }
+
+    // Single & Bulk Delete
+    function deleteSingleProject(id) {
+      if (!confirm("هل أنت متأكد من حذف هذا المشروع؟")) return;
+      projects = projects.filter(p => p.id !== id);
+      localStorage.setItem('bola_projects_store', JSON.stringify(projects));
+      renderProjects();
+      if (db) db.collection("campaigns").doc(String(id)).delete().catch(()=>{});
+      showToast("تم الحذف بنجاح!");
+    }
+
+    function toggleSelectAllProjects(master) {
+      document.querySelectorAll('.project-select-checkbox').forEach(cb => cb.checked = master.checked);
+      updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+      const selected = document.querySelectorAll('.project-select-checkbox:checked');
+      const countEl = document.getElementById('selected-count');
+      if (countEl) countEl.textContent = selected.length;
+    }
+
+    function handleBulkDelete() {
+      const selected = Array.from(document.querySelectorAll('.project-select-checkbox:checked')).map(cb => Number(cb.value));
+      if (selected.length === 0) { alert("يرجى تحديد مشاريع لحذفها."); return; }
+      if (!confirm(`هل أنت متأكد من حذف ${selected.length} مشاريع محددة؟`)) return;
+
+      projects = projects.filter(p => !selected.includes(p.id));
+      localStorage.setItem('bola_projects_store', JSON.stringify(projects));
+      renderProjects();
+      if (db) {
+        selected.forEach(id => db.collection("campaigns").doc(String(id)).delete().catch(()=>{}));
+      }
+      showToast(`تم حذف ${selected.length} مشاريع بنجاح!`);
+    }
+
+    // Testimonials CRUD
+    async function initTestimonials() {
+      const local = localStorage.getItem('bola_testimonials_store');
+      if (local) {
+        testimonials = JSON.parse(local);
+      } else {
+        testimonials = [...defaultTestimonials];
+      }
+      renderTestimonials();
+
+      if (db) {
+        try {
+          const snap = await db.collection("testimonials").get();
+          if (!snap.empty) {
+            testimonials = [];
+            snap.forEach(d => testimonials.push(d.data()));
+            localStorage.setItem('bola_testimonials_store', JSON.stringify(testimonials));
+            renderTestimonials();
+          }
+        } catch(e) {}
+      }
+    }
+
+    function renderTestimonials() {
+      const grid = document.getElementById('testimonials-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      testimonials.forEach(t => {
+        const card = document.createElement('div');
+        card.className = "glass-card p-6 rounded-3xl relative";
+        card.innerHTML = `
+          ${isAdmin ? `
+            <div class="absolute top-4 left-4 flex gap-1.5">
+              <button onclick="openEditTestiModal(${t.id})" class="bg-[#3280ff] text-white w-7 h-7 rounded-lg text-xs flex items-center justify-center shadow-sm"><i class="fa-solid fa-pen"></i></button>
+              <button onclick="deleteTestimonial(${t.id})" class="bg-rose-600 text-white w-7 h-7 rounded-lg text-xs flex items-center justify-center shadow-sm"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          ` : ''}
+          <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"${t.text}"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">${t.name.charAt(0)}</div>
+            <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">${t.name}</h4><p class="text-[10px] text-slate-400">${t.role}</p></div>
+          </div>
+        `;
+        grid.appendChild(card);
       });
     }
 
-    // Profile & Crop Manager
+    function openTestiModal() {
+      document.getElementById('testi-id').value = '';
+      document.getElementById('testi-name').value = '';
+      document.getElementById('testi-role').value = '';
+      document.getElementById('testi-text').value = '';
+      document.getElementById('testi-modal-title').innerHTML = '<i class="fa-solid fa-comment-dots text-[#3280ff]"></i> <span>إضافة رأي عميل</span>';
+      document.getElementById('testi-modal').classList.remove('hidden');
+      document.getElementById('testi-modal').classList.add('flex');
+    }
+
+    function openEditTestiModal(id) {
+      const t = testimonials.find(item => item.id === id);
+      if (!t) return;
+      document.getElementById('testi-id').value = t.id;
+      document.getElementById('testi-name').value = t.name;
+      document.getElementById('testi-role').value = t.role;
+      document.getElementById('testi-text').value = t.text;
+      document.getElementById('testi-modal-title').innerHTML = '<i class="fa-solid fa-pen text-[#3280ff]"></i> <span>تعديل رأي العميل</span>';
+      document.getElementById('testi-modal').classList.remove('hidden');
+      document.getElementById('testi-modal').classList.add('flex');
+    }
+
+    function closeTestiModal() {
+      document.getElementById('testi-modal').classList.add('hidden');
+      document.getElementById('testi-modal').classList.remove('flex');
+    }
+
+    function handleTestimonialSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('testi-id').value;
+      const name = document.getElementById('testi-name').value.trim();
+      const role = document.getElementById('testi-role').value.trim();
+      const text = document.getElementById('testi-text').value.trim();
+
+      if (id) {
+        // Edit existing
+        const idx = testimonials.findIndex(t => t.id === Number(id));
+        if (idx !== -1) {
+          testimonials[idx] = { id: Number(id), name, role, text };
+          if (db) db.collection("testimonials").doc(String(id)).set(testimonials[idx]);
+        }
+      } else {
+        // Add new
+        const newT = { id: Date.now(), name, role, text };
+        testimonials.unshift(newT);
+        if (db) db.collection("testimonials").doc(String(newT.id)).set(newT);
+      }
+
+      localStorage.setItem('bola_testimonials_store', JSON.stringify(testimonials));
+      renderTestimonials();
+      closeTestiModal();
+      showToast("تم حفظ الرأي بنجاح!");
+    }
+
+    function deleteTestimonial(id) {
+      if (!confirm("هل أنت متأكد من حذف هذا الرأي؟")) return;
+      testimonials = testimonials.filter(t => t.id !== id);
+      localStorage.setItem('bola_testimonials_store', JSON.stringify(testimonials));
+      renderTestimonials();
+      if (db) db.collection("testimonials").doc(String(id)).delete().catch(()=>{});
+      showToast("تم الحذف بنجاح!");
+    }
+
+    // Profile & Crop Image Management
     async function loadProfileAvatar() {
       const imgEl = document.getElementById('profile-img');
       const box = document.getElementById('profile-transform-box');
-      
-      // Check cloud first
       if (db) {
         try {
           const doc = await db.collection("profile").doc("avatar").get();
@@ -480,8 +816,6 @@
           }
         } catch(e) {}
       }
-
-      // Check local cache
       const localUrl = localStorage.getItem('bola_profile_img');
       const localTrans = localStorage.getItem('bola_profile_trans');
       if (localUrl) imgEl.src = localUrl;
@@ -502,15 +836,13 @@
     async function handleProfileUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
-      showToast("جاري رفع وتحديث صورتك...");
+      showToast("جاري رفع صورتك...");
       const url = await uploadToImgBB(file);
       if (url) {
         document.getElementById('profile-img').src = url;
         localStorage.setItem('bola_profile_img', url);
         if (db) db.collection("profile").doc("avatar").set({ url }, { merge: true });
-        showToast("تم تحديث صورتك بنجاح!");
-      } else {
-        alert("فشل رفع الصورة، يرجى إعادة المحاولة.");
+        showToast("تم تحديث وحفظ صورتك بنجاح!");
       }
     }
 
@@ -522,7 +854,6 @@
       document.getElementById('avatar-crop-modal').classList.add('hidden');
       document.getElementById('avatar-crop-modal').classList.remove('flex');
     }
-
     function applyLiveCropTransform() {
       const zoom = document.getElementById('crop-zoom').value;
       const panY = document.getElementById('crop-pan-y').value;
@@ -532,7 +863,6 @@
       document.getElementById('pan-x-txt').textContent = `${panX}px`;
       document.getElementById('profile-transform-box').style.transform = `scale(${zoom / 100}) translate(${panX}px, ${panY}px)`;
     }
-
     function saveCropTransform() {
       const zoom = document.getElementById('crop-zoom').value;
       const panY = document.getElementById('crop-pan-y').value;
@@ -543,134 +873,34 @@
       closeAvatarCropModal();
       showToast("تم حفظ موضع الصورة بنجاح!");
     }
-
     function resetCropTransform() {
       document.getElementById('profile-transform-box').style.transform = "scale(1) translate(0px, 0px)";
       localStorage.removeItem('bola_profile_trans');
       if (db) db.collection("profile").doc("avatar").set({ transform: "scale(1) translate(0px, 0px)" }, { merge: true });
       closeAvatarCropModal();
-      showToast("تمت استعادة الموضع الافتراضي!");
+      showToast("تمت استعادة الأبعاد الأصلية!");
     }
 
-    // Projects Engine
-    async function loadProjects() {
-      let projects = defaultProjects;
-      if (db) {
-        try {
-          const snap = await db.collection("campaigns").get();
-          if (!snap.empty) {
-            projects = [];
-            snap.forEach(d => projects.push(d.data()));
-          }
-        } catch(e) {}
-      } else {
-        const local = localStorage.getItem('bola_projects');
-        if (local) projects = JSON.parse(local);
-      }
-      renderProjects(projects);
-    }
-
-    function renderProjects(list) {
-      const grid = document.getElementById('portfolio-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      list.forEach(p => {
-        const card = document.createElement('div');
-        card.className = "glass-card rounded-3xl overflow-hidden shadow-lg border border-[#042862]/10 group relative";
-        card.innerHTML = `
-          ${isAdmin ? `<button onclick="deleteProject(${p.id})" class="absolute top-3 left-3 z-20 bg-rose-600 text-white w-7 h-7 rounded-lg text-xs flex items-center justify-center shadow-md"><i class="fa-solid fa-trash-can"></i></button>` : ''}
-          <div class="aspect-[3/4] overflow-hidden bg-slate-900">
-            <img src="${p.images[0]}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
-          </div>
-          <div class="p-4">
-            <span class="text-[11px] font-bold text-[#3280ff]">${p.category}</span>
-            <h3 class="text-sm font-bold text-[#042862] dark:text-white">${p.title}</h3>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    async function handleProjectSubmit(e) {
+    // Password & Admin Session
+    async function handleAdminLogin(e) {
       e.preventDefault();
-      const title = document.getElementById('proj-title').value.trim();
-      const category = document.getElementById('proj-category').value.trim();
-      const files = Array.from(document.getElementById('proj-files').files);
-      const btn = document.getElementById('proj-submit-btn');
+      const val = document.getElementById('admin-pass-input').value;
+      const enteredHash = await hashString(val);
+      const targetHash = localStorage.getItem('bola_admin_hash') || DEFAULT_HASH;
 
-      if (files.length === 0) return;
-      btn.disabled = true;
-      btn.textContent = "جاري رفع الصور...";
-      showToast("جاري رفع المشروع...");
-
-      const uploaded = [];
-      for (const file of files) {
-        const url = await uploadToImgBB(file);
-        if (url) uploaded.push(url);
-      }
-
-      if (uploaded.length > 0) {
-        const newProj = { id: Date.now(), title, category, images: uploaded };
-        let projects = JSON.parse(localStorage.getItem('bola_projects') || JSON.stringify(defaultProjects));
-        projects.unshift(newProj);
-        localStorage.setItem('bola_projects', JSON.stringify(projects));
-        if (db) db.collection("campaigns").doc(String(newProj.id)).set(newProj);
-        renderProjects(projects);
-        document.getElementById('add-project-form').reset();
-        showToast("تم نشر المشروع بنجاح!");
-      }
-      btn.disabled = false;
-      btn.textContent = "نشر المشروع وحفظه";
-    }
-
-    async function deleteProject(id) {
-      if (!confirm("هل أنت متأكد من حذف هذا المشروع؟")) return;
-      let projects = JSON.parse(localStorage.getItem('bola_projects') || JSON.stringify(defaultProjects));
-      projects = projects.filter(p => p.id !== id);
-      localStorage.setItem('bola_projects', JSON.stringify(projects));
-      if (db) db.collection("campaigns").doc(String(id)).delete();
-      renderProjects(projects);
-      showToast("تم الحذف بنجاح!");
-    }
-
-    // Testimonials Engine
-    async function loadTestimonials() {
-      let list = defaultTestimonials;
-      if (db) {
-        try {
-          const snap = await db.collection("testimonials").get();
-          if (!snap.empty) {
-            list = [];
-            snap.forEach(d => list.push(d.data()));
-          }
-        } catch(e) {}
+      if (enteredHash === targetHash) {
+        isAdmin = true;
+        localStorage.setItem('is_admin_session', 'true');
+        closeLoginModal();
+        updateAdminUI();
+        renderProjects();
+        renderTestimonials();
+        showToast("مرحباً بك يا بولا! تم تفعيل وضع الأدمن.");
       } else {
-        const local = localStorage.getItem('bola_testimonials');
-        if (local) list = JSON.parse(local);
+        document.getElementById('login-error').classList.remove('hidden');
       }
-      renderTestimonials(list);
     }
 
-    function renderTestimonials(list) {
-      const grid = document.getElementById('testimonials-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      list.forEach(t => {
-        const card = document.createElement('div');
-        card.className = "glass-card p-6 rounded-3xl relative";
-        card.innerHTML = `
-          <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-          <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"${t.text}"</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">${t.name.charAt(0)}</div>
-            <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">${t.name}</h4><p class="text-[10px] text-slate-400">${t.role}</p></div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // Admin Access Engine
     function openLoginModal() {
       document.getElementById('login-modal').classList.remove('hidden');
       document.getElementById('login-modal').classList.add('flex');
@@ -679,70 +909,125 @@
       document.getElementById('login-modal').classList.add('hidden');
       document.getElementById('login-modal').classList.remove('flex');
     }
-
-    function handleAdminLogin(e) {
-      e.preventDefault();
-      const val = document.getElementById('admin-pass-input').value;
-      if (val === ADMIN_PASSWORD) {
-        isAdmin = true;
-        localStorage.setItem('is_admin_session', 'true');
-        closeLoginModal();
-        updateAdminUI();
-        loadProjects();
-        showToast("مرحباً بك يا بولا! وضع الأدمن نشط.");
-      } else {
-        document.getElementById('login-error').classList.remove('hidden');
-      }
-    }
-
     function logoutAdmin() {
       isAdmin = false;
       localStorage.removeItem('is_admin_session');
       updateAdminUI();
-      loadProjects();
-      showToast("تم تسجيل الخروج من الأدمن.");
+      renderProjects();
+      renderTestimonials();
+      showToast("تم تسجيل الخروج.");
+    }
+
+    function openChangePasswordModal() {
+      document.getElementById('change-password-modal').classList.remove('hidden');
+      document.getElementById('change-password-modal').classList.add('flex');
+    }
+    function closeChangePasswordModal() {
+      document.getElementById('change-password-modal').classList.add('hidden');
+      document.getElementById('change-password-modal').classList.remove('flex');
+    }
+    async function handleChangePasswordSubmit(e) {
+      e.preventDefault();
+      const newP = document.getElementById('new-admin-pass').value;
+      if (!newP || newP.length < 6) { alert("كلمة السر يجب أن تكون 6 أحرف على الأقل."); return; }
+      const hashed = await hashString(newP);
+      localStorage.setItem('bola_admin_hash', hashed);
+      closeChangePasswordModal();
+      showToast("تم تغيير كلمة السر بنجاح (مشفرة بـ SHA-256)!");
     }
 
     function updateAdminUI() {
       const adminBar = document.getElementById('admin-bar');
       const adminPanel = document.getElementById('admin-panel');
       const avatarControls = document.getElementById('avatar-admin-controls');
-      const editBioBtn = document.getElementById('edit-bio-btn');
       const addTestiBtn = document.getElementById('add-testi-btn');
+      const bulkDeleteBar = document.getElementById('bulk-delete-bar');
 
       if (isAdmin) {
         adminBar.classList.remove('hidden');
         adminPanel.classList.remove('hidden');
         avatarControls.classList.remove('hidden');
         avatarControls.classList.add('flex');
-        if (editBioBtn) { editBioBtn.classList.remove('hidden'); editBioBtn.classList.add('inline-flex'); }
-        if (addTestiBtn) { addTestiBtn.classList.remove('hidden'); addTestiBtn.classList.add('inline-flex'); }
+        addTestiBtn.classList.remove('hidden');
+        addTestiBtn.classList.add('inline-flex');
+        bulkDeleteBar.classList.remove('hidden');
+        bulkDeleteBar.classList.add('flex');
       } else {
         adminBar.classList.add('hidden');
         adminPanel.classList.add('hidden');
         avatarControls.classList.add('hidden');
         avatarControls.classList.remove('flex');
-        if (editBioBtn) { editBioBtn.classList.add('hidden'); editBioBtn.classList.remove('inline-flex'); }
-        if (addTestiBtn) { addTestiBtn.classList.add('hidden'); addTestiBtn.classList.remove('inline-flex'); }
+        addTestiBtn.classList.add('hidden');
+        addTestiBtn.classList.remove('inline-flex');
+        bulkDeleteBar.classList.add('hidden');
+        bulkDeleteBar.classList.remove('flex');
       }
     }
 
-    // Secret URL Trigger
+    // Localization & Theme
+    function toggleLanguage() {
+      currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+      localStorage.setItem('app_lang', currentLang);
+      applyLanguage();
+    }
+    function applyLanguage() {
+      const isAr = currentLang === 'ar';
+      document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+      document.documentElement.setAttribute('lang', currentLang);
+      document.getElementById('lang-btn-text').textContent = isAr ? 'English' : 'العربية';
+      document.querySelectorAll('[data-ar]').forEach(el => {
+        const txt = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+        if (txt) el.innerHTML = txt;
+      });
+    }
+
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      localStorage.setItem('app_theme', isDarkMode ? 'dark' : 'light');
+      applyTheme();
+    }
+    function applyTheme() {
+      const icon = document.getElementById('dark-icon');
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+        if (icon) icon.className = "fa-solid fa-sun";
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (icon) icon.className = "fa-solid fa-moon";
+      }
+    }
+
+    function initEyes() {
+      const pupils = document.querySelectorAll('.pupil');
+      window.addEventListener('mousemove', (e) => {
+        pupils.forEach(pupil => {
+          const eye = pupil.parentElement;
+          const rect = eye.getBoundingClientRect();
+          const eyeCenterX = rect.left + rect.width / 2;
+          const eyeCenterY = rect.top + rect.height / 2;
+          const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
+          const distance = Math.min(rect.width / 4, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 12);
+          pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+        });
+      });
+    }
+
+    // Auto-login via ?secret=bola2026admin
     function checkUrlSecret() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('secret') === 'bola2026admin') {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get('secret') === 'bola2026admin') {
         openLoginModal();
       }
     }
 
-    // Master Boot
+    // Boot
     window.addEventListener('DOMContentLoaded', () => {
       applyTheme();
       applyLanguage();
       updateAdminUI();
       loadProfileAvatar();
-      loadProjects();
-      loadTestimonials();
+      initProjects();
+      initTestimonials();
       initEyes();
       checkUrlSecret();
     });
