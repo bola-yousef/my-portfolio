@@ -488,7 +488,7 @@
       }
     } catch (err) {
       console.error("Firebase Error:", err);
-      document.documentElement.classList.add('show-all'); // Show UI even if Firebase crashes
+      document.documentElement.classList.add('show-all');
     }
 
     const DEFAULT_ADMIN_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
@@ -602,32 +602,34 @@
 
     function getActiveBioData() {
       const savedKey = `portfolio_bio_${currentLang}`;
-      const saved = localStorage.getItem(savedKey);
-      if (saved) return JSON.parse(saved);
+      try {
+        const saved = localStorage.getItem(savedKey);
+        if (saved) return JSON.parse(saved);
+      } catch(e) {}
       return translations[currentLang].defaultBio;
     }
 
     function renderBioSection() {
-      const data = getActiveBioData();
+      const data = getActiveBioData() || translations[currentLang].defaultBio;
       const container = document.getElementById('bio-paragraphs-container');
       if (container) {
         container.innerHTML = '';
-        data.paragraphs.forEach((pText, idx) => {
+        (data.paragraphs || translations[currentLang].defaultBio.paragraphs || []).forEach((pText, idx) => {
           const p = document.createElement('p');
-          if (idx === data.paragraphs.length - 1) p.className = 'text-[#3280ff] font-bold italic';
+          if (idx === (data.paragraphs || []).length - 1) p.className = 'text-[#3280ff] font-bold italic';
           p.innerHTML = pText;
           container.appendChild(p);
         });
       }
-      document.getElementById('edu-degree').textContent = data.eduDegree;
-      document.getElementById('edu-inst').textContent = data.eduInst;
-      document.getElementById('exp-role').textContent = data.expRole;
-      document.getElementById('exp-period').textContent = data.expPeriod;
+      document.getElementById('edu-degree').textContent = data.eduDegree || '';
+      document.getElementById('edu-inst').textContent = data.eduInst || '';
+      document.getElementById('exp-role').textContent = data.expRole || '';
+      document.getElementById('exp-period').textContent = data.expPeriod || '';
 
       const certsList = document.getElementById('certs-list');
-      if (certsList && data.certs) {
+      if (certsList) {
         certsList.innerHTML = '';
-        data.certs.forEach(cert => {
+        (data.certs || []).forEach(cert => {
           const li = document.createElement('li');
           li.className = 'flex items-start gap-2';
           li.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-[#3280ff] mt-1.5 flex-shrink-0"></span><span>${cert}</span>`;
@@ -637,11 +639,11 @@
     }
 
     function openEditBioModal() {
-      const data = getActiveBioData();
-      document.getElementById('edit-edu-deg').value = data.eduDegree;
-      document.getElementById('edit-edu-inst').value = data.eduInst;
-      document.getElementById('edit-exp-role').value = data.expRole;
-      document.getElementById('edit-exp-period').value = data.expPeriod;
+      const data = getActiveBioData() || translations[currentLang].defaultBio;
+      document.getElementById('edit-edu-deg').value = data.eduDegree || '';
+      document.getElementById('edit-edu-inst').value = data.eduInst || '';
+      document.getElementById('edit-exp-role').value = data.expRole || '';
+      document.getElementById('edit-exp-period').value = data.expPeriod || '';
       document.getElementById('edit-certs').value = (data.certs || []).join('\n');
       renderBioParagraphInputs(data.paragraphs || []);
       document.getElementById('edit-bio-modal').classList.remove('hidden');
@@ -651,7 +653,7 @@
     function renderBioParagraphInputs(paragraphs) {
       const wrapper = document.getElementById('bio-paragraphs-inputs');
       wrapper.innerHTML = '';
-      paragraphs.forEach((text) => {
+      (paragraphs || []).forEach((text) => {
         const row = document.createElement('div');
         row.className = "flex items-center gap-2";
         row.innerHTML = `
@@ -709,7 +711,7 @@
 
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
+        if (translations[lang] && translations[lang][key]) {
           if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[lang][key];
           else el.textContent = translations[lang][key];
         }
@@ -870,7 +872,7 @@
       const container = document.getElementById('testimonials-grid');
       if (!container) return;
       container.innerHTML = '';
-      testimonials.forEach(t => {
+      (testimonials || []).forEach(t => {
         const card = document.createElement('div');
         card.className = "glass-card p-6 rounded-3xl relative group";
         card.innerHTML = `
@@ -878,7 +880,7 @@
           <div class="flex items-center gap-1 text-amber-400 mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
           <p class="text-xs sm:text-sm text-[#042862]/80 dark:text-slate-300 font-medium mb-4">"${t.text}"</p>
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">${t.name.charAt(0)}</div>
+            <div class="w-10 h-10 rounded-full bg-[#3280ff] text-white font-bold flex items-center justify-center text-xs">${(t.name || 'U').charAt(0)}</div>
             <div><h4 class="font-bold text-xs text-[#042862] dark:text-white">${t.name}</h4><p class="text-[10px] text-slate-400">${t.role}</p></div>
           </div>
         `;
@@ -940,15 +942,15 @@
             snapshot.forEach(doc => projects.push(doc.data()));
           } else {
             const local = localStorage.getItem('my_portfolio_campaigns');
-            projects = local ? JSON.parse(local) : [];
+            if (local) projects = JSON.parse(local);
           }
         } catch (e) {
           const local = localStorage.getItem('my_portfolio_campaigns');
-          projects = local ? JSON.parse(local) : [];
+          if (local) projects = JSON.parse(local);
         }
       } else {
         const local = localStorage.getItem('my_portfolio_campaigns');
-        projects = local ? JSON.parse(local) : [];
+        if (local) projects = JSON.parse(local);
       }
       projects.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
       renderFilters();
@@ -979,7 +981,7 @@
         initEyesTracking();
         checkUrlHashForCampaign();
         checkSecretAdminAccess();
-        // Initialize AOS safely
+        
         if(typeof AOS !== 'undefined') {
           AOS.init({ duration: 900, once: true, offset: 60 });
         } else {
@@ -1389,8 +1391,8 @@
       document.getElementById('login-modal').classList.remove('flex');
     }
 
-    // Run initialization
-    window.addEventListener('DOMContentLoaded', initUI);
+    // Call initUI directly to ensure it runs regardless of DOM load state
+    initUI();
   </script>
 </body>
 </html>
