@@ -26,7 +26,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Just+Another+Hand&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Just+Another+Hand&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Reenie+Beanie&family=Pacifico&family=Sacramento&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -48,10 +48,11 @@
     body { font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-light); color: var(--navy-dark); transition: background-color 0.35s ease, color 0.35s ease; }
     html.dark body { background-color: #0b1329; color: #ebf3fe; }
     section { scroll-margin-top: 105px; }
+    
     .font-signature { font-family: 'Just Another Hand', cursive; letter-spacing: 2px; }
     .font-eng-tag { font-family: 'Montserrat', sans-serif; }
 
-    /* Glassmorphism Effect */
+    /* Glassmorphism Ultra Premium */
     .glass-nav { 
       background: rgba(235, 243, 254, 0.7) !important; 
       backdrop-filter: blur(24px) !important; 
@@ -95,7 +96,6 @@
     .slide-fade-enter { animation: slideFade 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes slideFade { from { opacity: 0.3; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
 
-    /* Floating Formatting Toolbar */
     #text-format-toolbar {
       position: absolute;
       z-index: 1000;
@@ -112,29 +112,8 @@
       transform: translate(-50%, -100%);
       margin-top: -8px;
     }
-    #text-format-toolbar::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 6px 6px 0 6px;
-      border-style: solid;
-      border-color: #042862 transparent transparent transparent;
-    }
     #text-format-toolbar button {
-      background: transparent;
-      border: none;
-      color: white;
-      padding: 5px 9px;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
+      background: transparent; border: none; color: white; padding: 5px 9px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;
     }
     #text-format-toolbar button:hover { background: rgba(255, 255, 255, 0.2); color: #3280ff; }
 
@@ -162,18 +141,18 @@
     <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center gap-2 font-bold tracking-wide">
         <i class="fa-solid fa-cloud-bolt text-amber-400 animate-pulse"></i>
-        <span data-i18n="adminActive">وضع الأدمن نشط — التعديل والمزامنة متاحة</span>
+        <span>وضع الأدمن نشط — التعديل والمزامنة متاحة</span>
       </div>
       <div class="flex items-center gap-2">
         <button onclick="openChangePasswordModal()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1 rounded-lg transition-all font-semibold flex items-center gap-1 active:scale-95">
-          <i class="fa-solid fa-key text-[10px]"></i> <span data-i18n="changePassBtn">تغيير كلمة السر</span>
+          <i class="fa-solid fa-key text-[10px]"></i> <span>تغيير كلمة السر</span>
         </button>
-        <button onclick="logoutAdmin()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white px-3 py-1 rounded-lg transition-all font-semibold active:scale-95" data-i18n="adminLogout">خروج</button>
+        <button onclick="logoutAdmin()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white px-3 py-1 rounded-lg transition-all font-semibold active:scale-95">خروج</button>
       </div>
     </div>
   </div>
 
-  <!-- Floating Header (Glassmorphic) -->
+  <!-- Floating Header -->
   <div class="sticky top-4 z-40 px-4 max-w-5xl mx-auto" data-aos="fade-down" data-aos-duration="800">
     <header class="glass-nav rounded-2xl shadow-xl px-5 py-2.5 flex items-center justify-between transition-all">
       <div class="flex items-center gap-3">
@@ -212,7 +191,7 @@
   <!-- Hero Section -->
   <section class="max-w-4xl mx-auto px-4 pt-16 pb-8 text-center relative z-10" data-aos="fade-up" data-aos-duration="900">
     <div class="flex flex-col items-center justify-center mb-6 relative">
-      <span class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-default">
+      <span id="hero-name-logo" class="font-signature text-7xl sm:text-9xl text-[#3280ff] select-none leading-none py-1 cursor-default">
         BOLA YOUSEF
       </span>
       <div class="flex items-center gap-3 -mt-3 sm:-mt-5">
@@ -222,7 +201,7 @@
       </div>
     </div>
     <div class="mb-8">
-      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight" data-i18n="heroTitle">فلنصنع معاً شيئاً رائعاً ومبهراً.</h1>
+      <h1 id="hero-headline" class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#042862] dark:text-white leading-tight">فلنصنع معاً شيئاً رائعاً ومبهراً.</h1>
     </div>
     <div class="flex items-center justify-center gap-4">
       <a href="#gallery" class="bg-[#042862] dark:bg-[#3280ff] hover:bg-[#3280ff] text-white font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-lg active:scale-95" data-i18n="exploreWork">تصفح المعرض والأعمال</a>
@@ -248,10 +227,10 @@
           <!-- Admin Controls for Avatar -->
           <div id="avatar-admin-controls" class="hidden flex-col gap-1.5 mt-2.5 w-full">
             <button onclick="document.getElementById('profile-file-input').click()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm flex items-center justify-center gap-1 active:scale-95">
-              <i class="fa-solid fa-camera"></i> <span data-i18n="changePhoto">تغيير الصورة</span>
+              <i class="fa-solid fa-camera"></i> <span>تغيير الصورة</span>
             </button>
             <button onclick="openAvatarCropModal()" class="bg-[#042862] dark:bg-[#131f3d] text-white hover:bg-[#3280ff] text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm border border-white/20 flex items-center justify-center gap-1 active:scale-95">
-              <i class="fa-solid fa-crop-simple"></i> <span data-i18n="adjustPhoto">تعديل الموضع والأبعاد</span>
+              <i class="fa-solid fa-crop-simple"></i> <span>تعديل الموضع والأبعاد</span>
             </button>
           </div>
           <input type="file" id="profile-file-input" accept="image/*" class="hidden" onchange="handleProfileUpload(event)">
@@ -460,20 +439,49 @@
     </div>
   </div>
 
-  <!-- Edit Bio Modal WITH SPLIT-SCREEN REALTIME AR & EN EDITING -->
+  <!-- Edit Bio Modal WITH AUTO TRANSLATE TOGGLE & SPLIT SCREEN -->
   <div id="edit-bio-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
     <div class="glass-card border border-[#042862]/15 w-full max-w-5xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeEditBioModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
       
       <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-[#042862]/10 pb-3">
         <h3 class="text-base sm:text-lg font-bold text-[#042862] dark:text-white flex items-center gap-2">
-          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل نبذة عني (عرض متزامن: عربي وإنجليزي معاً)</span>
+          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل السيرة ونبذة عني (عربي وإنجليزي متزامن)</span>
         </h3>
-        <span class="text-xs text-slate-400 font-bold">يمكنك التعديل في أي من اللغتين بحرية تامة</span>
+        
+        <!-- Toggle Switch for Auto-Translate -->
+        <div class="flex items-center gap-2 bg-white/60 dark:bg-[#0b1329] px-3 py-1.5 rounded-xl border border-[#042862]/10">
+          <span class="text-xs font-bold">الترجمة التلقائية:</span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="auto-translate-toggle" class="sr-only peer" checked>
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#3280ff]"></div>
+          </label>
+        </div>
       </div>
 
       <form id="edit-bio-form" class="space-y-6 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
         
+        <!-- Hero Headline & Font Settings Panel Inside Bio Modal -->
+        <div class="p-4 rounded-2xl bg-white/50 dark:bg-black/30 border border-black/5 space-y-3">
+          <h4 class="text-xs font-extrabold text-[#3280ff] uppercase tracking-wider">إعدادات عنوان البداية (Hero Headline) واسم BOLA YOUSEF</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold mb-1">جملة الهيرو (العربية):</label>
+              <input type="text" id="hero-headline-ar" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">خط الاسم (Font Family):</label>
+              <select id="hero-font-family" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs font-bold">
+                <option value="Just Another Hand">توقيع يدي (Just Another Hand)</option>
+                <option value="Reenie Beanie">ريني بيني (Reenie Beanie)</option>
+                <option value="Pacifico">باسيفيكو (Pacifico)</option>
+                <option value="Sacramento">ساكرامنتو (Sacramento)</option>
+                <option value="Montserrat">عصري ثقيل (Montserrat)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <!-- Split Screen Container -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
@@ -493,29 +501,29 @@
 
             <div>
               <label class="block text-xs font-bold mb-1">المؤهل الدراسي</label>
-              <input type="text" id="ar-edu-deg" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-edu-deg', 'en-edu-deg')">
+              <input type="text" id="ar-edu-deg" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-edu-deg', 'en-edu-deg')">
             </div>
             <div>
               <label class="block text-xs font-bold mb-1">المعهد وسنة التخرج</label>
-              <input type="text" id="ar-edu-inst" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-edu-inst', 'en-edu-inst')">
+              <input type="text" id="ar-edu-inst" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-edu-inst', 'en-edu-inst')">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block text-xs font-bold mb-1">المسمى الوظيفي</label>
-                <input type="text" id="ar-exp-role" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-exp-role', 'en-exp-role')">
+                <input type="text" id="ar-exp-role" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-exp-role', 'en-exp-role')">
               </div>
               <div>
                 <label class="block text-xs font-bold mb-1">الفترة</label>
-                <input type="text" id="ar-exp-period" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="autoTranslateField('ar-exp-period', 'en-exp-period')">
+                <input type="text" id="ar-exp-period" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl px-3 py-2 text-xs" required oninput="triggerAutoTranslate('ar-exp-period', 'en-exp-period')">
               </div>
             </div>
             <div>
               <label class="block text-xs font-bold mb-1">الشهادات (كل سطر شهادة)</label>
-              <textarea id="ar-certs" rows="3" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl p-2 text-xs" required oninput="autoTranslateField('ar-certs', 'en-certs')"></textarea>
+              <textarea id="ar-certs" rows="3" class="w-full bg-white/80 dark:bg-[#0b1329] border rounded-xl p-2 text-xs" required oninput="triggerAutoTranslate('ar-certs', 'en-certs')"></textarea>
             </div>
           </div>
 
-          <!-- Column 2: English Edition (Fully Editable & Live Translated) -->
+          <!-- Column 2: English Edition (Fully Editable) -->
           <div class="space-y-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-black/5">
             <h4 class="text-sm font-black text-[#3280ff] flex items-center gap-1.5 border-b pb-2">
               <span>🇬🇧 النسخة الإنجليزية (English - Editable)</span>
@@ -557,7 +565,7 @@
 
         <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white/95 dark:bg-[#131f3d]/95 backdrop-blur-md py-3">
           <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-sm shadow-md active:scale-95">
-            حفظ النسختين ومزامنة الكل سحابياً
+            حفظ التعديلات والخطوط سحابياً
           </button>
           <button type="button" onclick="closeEditBioModal()" class="px-5 bg-white/60 dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
@@ -721,7 +729,7 @@
       ar: {
         jobTitleTag: "مصمم جرافيك",
         navAbout: "نبذة عني", navPortfolio: "معرض الأعمال", navTestimonials: "آراء العملاء",
-        startProject: "طلب مشروع", aboutBtn: "نبذة عني", heroTitle: "فلنصنع معاً شيئاً رائعاً ومبهراً.",
+        startProject: "طلب مشروع", aboutBtn: "نبذة عني",
         exploreWork: "تصفح المعرض والأعمال", stat1: "تصميم تم تسليمه", stat2: "علامات تجارية", stat3: "التزام بالمواعيد",
         aboutHeading: "نبذة عني", changePhoto: "تغيير الصورة", adjustPhoto: "تعديل الموضع والأبعاد", editBioBtn: "تعديل نبذة عني",
         editBioModalTitle: "تعديل بيانات وسيرة نبذة عني", bioParagraphsLabel: "فقرات نبذة عني:", addParagraphBtn: "إضافة فقرة",
@@ -737,6 +745,8 @@
         addTestiBtn: "إضافة رأي جديد", cancelBtn: "إلغاء", adminModalTitle: "دخول الأدمن", passwordLabel: "كلمة المرور",
         wrongPassword: "كلمة المرور غير صحيحة!", loginBtn: "دخول", shareBtn: "مشاركة", allFilter: "الكل",
         defaultBio: {
+          headline: "فلنصنع معاً شيئاً رائعاً ومبهراً.",
+          fontFamily: "Just Another Hand",
           paragraphs: [
             "أنا <strong class=\"text-[#042862] dark:text-[#3280ff] font-black\">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.",
             "بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي."
@@ -754,7 +764,7 @@
       en: {
         jobTitleTag: "GRAPHIC DESIGNER",
         navAbout: "About Me", navPortfolio: "Portfolio", navTestimonials: "Testimonials",
-        startProject: "Let's Talk", aboutBtn: "About Me", heroTitle: "Let's create something exceptional together.",
+        startProject: "Let's Talk", aboutBtn: "About Me",
         exploreWork: "Explore Portfolio", stat1: "Designs Delivered", stat2: "Brands Partnered", stat3: "On-Time Delivery",
         aboutHeading: "About Me", changePhoto: "Change Photo", adjustPhoto: "Adjust Framing", editBioBtn: "Edit Bio",
         editBioModalTitle: "Edit Bio & Experience Details", bioParagraphsLabel: "Bio Paragraphs:", addParagraphBtn: "Add Paragraph",
@@ -770,6 +780,8 @@
         addTestiBtn: "Add Testimonial", cancelBtn: "Cancel", adminModalTitle: "Admin Access", passwordLabel: "Password",
         wrongPassword: "Incorrect password!", loginBtn: "Login", shareBtn: "Share", allFilter: "All",
         defaultBio: {
+          headline: "Let's create something exceptional together.",
+          fontFamily: "Just Another Hand",
           paragraphs: [
             "I’m <strong class=\"text-[#042862] dark:text-[#3280ff] font-black\">Bola Yousef</strong>, a graphic designer who enjoys turning ideas into visuals that feel clear, creative, and meaningful.",
             "My journey in design started with Applied Arts, where I developed a strong interest in visual communication, composition, and creative thinking."
@@ -886,7 +898,7 @@
       showToast("تم تطبيق التنسيق على النص!");
     }
 
-    // Bio Engine with Split Screen Live Translation
+    // Bio & Headline Engine with Toggleable Auto-Translation
     function getStoredBio(lang) {
       const savedKey = `portfolio_bio_${lang}`;
       const saved = localStorage.getItem(savedKey);
@@ -896,6 +908,17 @@
 
     function renderBioSection() {
       const data = getStoredBio(currentLang);
+      
+      // Render Headline & Font Family
+      const headlineEl = document.getElementById('hero-headline');
+      if (headlineEl) headlineEl.textContent = data.headline || translations[currentLang].defaultBio.headline;
+
+      const logoEl = document.getElementById('hero-name-logo');
+      if (logoEl) {
+        const fontName = data.fontFamily || 'Just Another Hand';
+        logoEl.style.fontFamily = `'${fontName}', cursive, sans-serif`;
+      }
+
       const container = document.getElementById('bio-paragraphs-container');
       if (container) {
         container.innerHTML = '';
@@ -935,9 +958,10 @@
       }
     }
 
-    let isTranslating = false;
     async function autoTranslateField(arId, enId) {
-      if (isTranslating) return;
+      const toggle = document.getElementById('auto-translate-toggle');
+      if (!toggle || !toggle.checked) return; // If toggle is OFF, do not auto translate
+      
       const arVal = document.getElementById(arId).value;
       if (!arVal) return;
       const translated = await translateTextRemote(arVal);
@@ -947,6 +971,10 @@
     async function openEditBioModal() {
       const arData = getStoredBio('ar');
       const enData = getStoredBio('en');
+
+      document.getElementById('hero-headline-ar').value = arData.headline || '';
+      const fontSelect = document.getElementById('hero-font-family');
+      if (fontSelect) fontSelect.value = arData.fontFamily || 'Just Another Hand';
 
       document.getElementById('ar-edu-deg').value = arData.eduDegree || '';
       document.getElementById('ar-edu-inst').value = arData.eduInst || '';
@@ -1002,7 +1030,13 @@
       const arParas = Array.from(document.querySelectorAll('.split-para-ar')).map(i => i.value.trim()).filter(Boolean);
       const enParas = Array.from(document.querySelectorAll('.split-para-en')).map(i => i.value.trim()).filter(Boolean);
 
+      const headlineAr = document.getElementById('hero-headline-ar').value.trim();
+      const fontFamily = document.getElementById('hero-font-family').value;
+      const headlineEn = await translateTextRemote(headlineAr);
+
       const arData = {
+        headline: headlineAr,
+        fontFamily: fontFamily,
         paragraphs: arParas,
         eduDegree: document.getElementById('ar-edu-deg').value.trim(),
         eduInst: document.getElementById('ar-edu-inst').value.trim(),
@@ -1012,6 +1046,8 @@
       };
 
       const enData = {
+        headline: headlineEn,
+        fontFamily: fontFamily,
         paragraphs: enParas,
         eduDegree: document.getElementById('en-edu-deg').value.trim(),
         eduInst: document.getElementById('en-edu-inst').value.trim(),
@@ -1032,7 +1068,7 @@
 
       renderBioSection();
       closeEditBioModal();
-      showToast("تم حفظ النسختين بنجاح!");
+      showToast("تم حفظ النسخ والخطوط بنجاح!");
     }
 
     // Projects Engine
