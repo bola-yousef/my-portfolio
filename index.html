@@ -62,6 +62,12 @@
 
     @keyframes modalPop { 0% { opacity: 0; transform: scale(0.95) translateY(12px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
     .modal-animate { animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    /* Failsafe to show elements if JS fails */
+    .show-all [data-aos] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   </style>
 </head>
 <body class="selection:bg-[#3280ff] selection:text-white pb-28 relative overflow-x-hidden">
@@ -159,7 +165,6 @@
               <span class="text-[11px] font-bold" data-i18n="changePhoto">Change Photo</span>
             </div>
           </div>
-          <!-- Admin Control Buttons under Avatar -->
           <div id="avatar-admin-controls" class="hidden flex flex-col gap-1.5 mt-2.5 w-full">
             <button onclick="document.getElementById('profile-file-input').click()" class="bg-[#3280ff] hover:bg-[#256cd9] text-white text-[11px] font-bold py-1 px-2 rounded-lg shadow-sm flex items-center justify-center gap-1">
               <i class="fa-solid fa-upload"></i> <span data-i18n="uploadNewPhoto">Change Photo</span>
@@ -460,18 +465,32 @@
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAgbW0PtZio7QGeHwMMOlLOdyKX83et08U",
-      authDomain: "my-portfolio-3470b.firebaseapp.com",
-      projectId: "my-portfolio-3470b",
-      storageBucket: "my-portfolio-3470b.firebasestorage.app",
-      messagingSenderId: "750115307323",
-      appId: "1:750115307323:web:abb6a83bb1eafc9fb6811e",
-      measurementId: "G-XYTVX9J1QZ"
-    };
+    // Failsafe: Show all elements immediately if any JS error happens
+    window.addEventListener('error', function() { document.documentElement.classList.add('show-all'); });
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    // Firebase Setup with Crash Protection
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        const firebaseConfig = {
+          apiKey: "AIzaSyAgbW0PtZio7QGeHwMMOlLOdyKX83et08U",
+          authDomain: "my-portfolio-3470b.firebaseapp.com",
+          projectId: "my-portfolio-3470b",
+          storageBucket: "my-portfolio-3470b.firebasestorage.app",
+          messagingSenderId: "750115307323",
+          appId: "1:750115307323:web:abb6a83bb1eafc9fb6811e",
+          measurementId: "G-XYTVX9J1QZ"
+        };
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+      } else {
+        console.warn("Firebase scripts not loaded.");
+      }
+    } catch (err) {
+      console.error("Firebase Error:", err);
+      document.documentElement.classList.add('show-all'); // Show UI even if Firebase crashes
+    }
+
     const DEFAULT_ADMIN_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
 
     async function sha256(message) {
@@ -494,19 +513,19 @@
         aboutHeading: "About Me", changePhoto: "Change Photo", adjustCurrentPhoto: "Edit Current", resetDimensions: "Reset Dimensions", editBioBtn: "Edit Bio",
         editBioModalTitle: "Edit Bio & Experience Details", bioParagraphsLabel: "Bio Paragraphs:", addParagraphBtn: "Add",
         eduDegreeLabel: "Education Degree", eduInstLabel: "Institute & Year", expRoleLabel: "Experience Role", expPeriodLabel: "Period",
-        certsLabel: "Certifications", saveBioBtn: "Save Bio Changes (Cloud Sync)", cropModalTitle: "Adjust Profile Picture Dimensions",
-        zoomLabel: "Zoom / Scale", verticalLabel: "Vertical Position", horizontalLabel: "Horizontal Position", saveAvatar: "Save & Sync Photo",
+        certsLabel: "Certifications", saveBioBtn: "Save Bio Changes", cropModalTitle: "Adjust Profile Picture",
+        zoomLabel: "Zoom / Scale", verticalLabel: "Vertical Position", horizontalLabel: "Horizontal Position", saveAvatar: "Save Photo",
         eduHeading: "Education", expHeading: "Experience", certHeading: "Training & Certifications", toolsHeading: "Creative Toolkit",
-        adminActive: "Admin Mode - Cloud Sync Active", adminLogout: "Logout", changePassBtn: "Change Password",
+        adminActive: "Admin Mode - Active", adminLogout: "Logout", changePassBtn: "Change Password",
         passModalTitle: "Change Admin Password", newPassLabel: "New Password", savePassBtn: "Save Password",
         adminNewProject: "Add New Campaign", fromLaptop: "From Laptop", fromUrls: "Image URLs", campaignName: "Campaign Title",
         campaignCategory: "Category", orderLabel: "Display Order", chooseImages: "Campaign Images", dropImages: "Click here to choose images",
-        urlsLabel: "Image URLs", readyImages: "Ready:", clearAll: "Clear", publishBtn: "Publish Campaign (Cloud Sync)",
+        urlsLabel: "Image URLs", readyImages: "Ready:", clearAll: "Clear", publishBtn: "Publish Campaign",
         testimonialsTitle: "Client Testimonials", testimonialsSubtitle: "What partners and clients say about working together.",
         addTestiBtn: "Add Testimonial", testiModalTitle: "Add Client Testimonial",
-        clientNameLabel: "Client Name", clientRoleLabel: "Client Role / Company", clientTextLabel: "Testimonial Text", saveTestiBtn: "Save & Sync Testimonial",
-        editModalTitle: "Edit Campaign & Reorder Slides", campaignSlides: "Slides:", addNewImages: "Add new images:",
-        addBtn: "Add", saveChanges: "Save Changes & Order", cancelBtn: "Cancel", adminModalTitle: "Admin Access",
+        clientNameLabel: "Client Name", clientRoleLabel: "Client Role / Company", clientTextLabel: "Testimonial Text", saveTestiBtn: "Save Testimonial",
+        editModalTitle: "Edit Campaign", campaignSlides: "Slides:", addNewImages: "Add new images:",
+        addBtn: "Add", saveChanges: "Save Changes", cancelBtn: "Cancel", adminModalTitle: "Admin Access",
         passwordLabel: "Password", wrongPassword: "Incorrect password!", loginBtn: "Login", shareBtn: "Share",
         allFilter: "All", noProjects: "No projects in this category yet.", toastCopied: "Link copied to clipboard!",
         defaultBio: {
@@ -518,48 +537,42 @@
           eduInst: "Higher Institute of Applied Arts, 6th of October City - 2025",
           expRole: "Graphic Designer — Amplify Growth Network",
           expPeriod: "Dec 2025 – Present",
-          certs: [
-            "1 Million Prompters – Dubai Future Foundation (2026)",
-            "Graphic Design Training – Media Shades (2023)"
-          ]
+          certs: ["1 Million Prompters – Dubai Future Foundation (2026)", "Graphic Design Training – Media Shades (2023)"]
         }
       },
       ar: {
         jobTitleTag: "مصمم جرافيك",
         navAbout: "نبذة عني", navPortfolio: "معرض الأعمال", navTestimonials: "آراء العملاء",
         startProject: "طلب مشروع", aboutBtn: "نبذة عني", heroTitle: "فلنصنع معاً شيئاً رائعاً ومبهراً.",
-        exploreWork: "تصفح المعرض والأعمال", stat1: "تصميم تم تسليمه", stat2: "علامات تجارية", stat3: "التزام بالمواعيد",
-        aboutHeading: "نبذة عني", changePhoto: "تغيير الصورة", adjustCurrentPhoto: "تعديل الحالية", resetDimensions: "استعادة الأبعاد", editBioBtn: "تعديل نبذة عني",
-        editBioModalTitle: "تعديل بيانات وسيرة نبذة عني", bioParagraphsLabel: "فقرات نبذة عني:", addParagraphBtn: "إضافة",
+        exploreWork: "تصفح الأعمال", stat1: "تصميم تم تسليمه", stat2: "علامات تجارية", stat3: "التزام بالمواعيد",
+        aboutHeading: "نبذة عني", changePhoto: "تغيير الصورة", adjustCurrentPhoto: "تعديل الحالية", resetDimensions: "استعادة الأبعاد", editBioBtn: "تعديل النبذة",
+        editBioModalTitle: "تعديل النبذة والخبرات", bioParagraphsLabel: "الفقرات:", addParagraphBtn: "إضافة",
         eduDegreeLabel: "المؤهل الدراسي", eduInstLabel: "المعهد وسنة التخرج", expRoleLabel: "المسمى الوظيفي", expPeriodLabel: "الفترة",
-        certsLabel: "الشهادات", saveBioBtn: "حفظ وتعديل سحابي", cropModalTitle: "ضبط أبعاد وموضع الصورة الشخصية",
-        zoomLabel: "التكبير / التصغير", verticalLabel: "التحريك الرأسي", horizontalLabel: "التحريك الأفقي", saveAvatar: "حفظ ومزامنة سحابياً",
+        certsLabel: "الشهادات", saveBioBtn: "حفظ التعديلات", cropModalTitle: "ضبط أبعاد الصورة",
+        zoomLabel: "التكبير / التصغير", verticalLabel: "التحريك الرأسي", horizontalLabel: "التحريك الأفقي", saveAvatar: "حفظ الصورة",
         eduHeading: "المؤهل الدراسي", expHeading: "الخبرة العملية", certHeading: "التدريب والشهادات", toolsHeading: "أدوات التصميم",
-        adminActive: "وضع الأدمن نشط - جلسة سحابية آمنة", adminLogout: "خروج", changePassBtn: "تغيير كلمة المرور",
-        passModalTitle: "تغيير كلمة سر الأدمن", newPassLabel: "كلمة المرور الجديدة", savePassBtn: "حفظ كلمة المرور",
-        adminNewProject: "إضافة كامبين جديد", fromLaptop: "من اللاب توب", fromUrls: "روابط URLs", campaignName: "اسم الحملة",
-        campaignCategory: "القسم / التصنيف", orderLabel: "رقم الترتيب", chooseImages: "صور الحملة", dropImages: "اضغط هنا لاختيار الصور",
-        urlsLabel: "روابط الصور", readyImages: "تم تجهيز:", clearAll: "مسح الكل", publishBtn: "نشر الحملة سحابياً",
+        adminActive: "وضع الأدمن - نشط", adminLogout: "خروج", changePassBtn: "تغيير كلمة المرور",
+        passModalTitle: "تغيير كلمة السر", newPassLabel: "كلمة المرور الجديدة", savePassBtn: "حفظ",
+        adminNewProject: "إضافة مشروع جديد", fromLaptop: "من الجهاز", fromUrls: "روابط URLs", campaignName: "اسم المشروع",
+        campaignCategory: "التصنيف", orderLabel: "الترتيب", chooseImages: "صور المشروع", dropImages: "اضغط لاختيار الصور",
+        urlsLabel: "روابط الصور", readyImages: "تم التجهيز:", clearAll: "مسح الكل", publishBtn: "نشر المشروع",
         testimonialsTitle: "آراء العملاء", testimonialsSubtitle: "ما يقوله الشركاء والعملاء عن العمل المشترك.",
-        addTestiBtn: "إضافة رأي جديد", testiModalTitle: "إضافة رأي عميل",
-        clientNameLabel: "اسم العميل", clientRoleLabel: "المسمى الوظيفي / الشركة", clientTextLabel: "نص الرأي", saveTestiBtn: "حفظ ومزامنة الرأي",
-        editModalTitle: "تعديل الحملة وترتيب الصور", campaignSlides: "الصور:", addNewImages: "إضافة صور جديدة:",
-        addBtn: "إضافة", saveChanges: "حفظ التعديلات والترتيب", cancelBtn: "إلغاء", adminModalTitle: "دخول الأدمن",
+        addTestiBtn: "إضافة رأي", testiModalTitle: "إضافة رأي عميل",
+        clientNameLabel: "اسم العميل", clientRoleLabel: "المسمى / الشركة", clientTextLabel: "نص الرأي", saveTestiBtn: "حفظ الرأي",
+        editModalTitle: "تعديل المشروع", campaignSlides: "الصور:", addNewImages: "إضافة صور:",
+        addBtn: "إضافة", saveChanges: "حفظ التعديلات", cancelBtn: "إلغاء", adminModalTitle: "دخول الأدمن",
         passwordLabel: "كلمة المرور", wrongPassword: "كلمة المرور غير صحيحة!", loginBtn: "دخول", shareBtn: "مشاركة",
-        allFilter: "الكل", noProjects: "لا توجد أعمال في هذا القسم حالياً.", toastCopied: "تم نسخ رابط المشروع بنجاح!",
+        allFilter: "الكل", noProjects: "لا توجد أعمال حالياً.", toastCopied: "تم نسخ الرابط بنجاح!",
         defaultBio: {
           paragraphs: [
             "أنا <strong class=\"text-[#042862] dark:text-[#3280ff] font-black\">بولا يوسف</strong>، مصمم جرافيك شغوف بتحويل الأفكار إلى تصاميم بصرية واضحة ومبتكرة.",
             "بدأت رحلتي في التصميم من خلال دراسة الفنون التطبيقية، حيث طوّرت اهتماماً عميقاً بالتواصل البصري والتكوين الإبداعي."
           ],
           eduDegree: "بكالوريوس الفنون التطبيقية – قسم الإعلان والطباعة والنشر",
-          eduInst: "المعهد العالي للفنون التطبيقية بمدينة 6 أكتوبر - 2025",
+          eduInst: "المعهد العالي للفنون التطبيقية - 2025",
           expRole: "مصمم جرافيك — Amplify Growth Network",
           expPeriod: "ديسمبر 2025 – حتى الآن",
-          certs: [
-            "مبادرة مليون مبرمج للذكاء الاصطناعي (2026)",
-            "برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)"
-          ]
+          certs: ["مبادرة مليون مبرمج للذكاء الاصطناعي (2026)", "برنامج تدريب التصميم الجرافيكي – ميديا شيدز (2023)"]
         }
       }
     };
@@ -681,10 +694,10 @@
 
       const currentKey = `portfolio_bio_${currentLang}`;
       localStorage.setItem(currentKey, JSON.stringify(updated));
-      await db.collection("profile").doc(currentKey).set(updated);
+      if(db) { try { await db.collection("profile").doc(currentKey).set(updated); } catch(err){} }
       renderBioSection();
       closeEditBioModal();
-      showToast(currentLang === 'ar' ? 'تم الحفظ سحابياً بنجاح!' : 'Saved to cloud successfully!');
+      showToast(currentLang === 'ar' ? 'تم الحفظ بنجاح!' : 'Saved successfully!');
     }
 
     function applyLanguage(lang) {
@@ -711,32 +724,29 @@
       applyLanguage(currentLang === 'en' ? 'ar' : 'en');
     }
 
-    // Cloud Profile Image Handling (Fixed: No old girl placeholder)
-    const DEFAULT_BOLA_IMG = "https://i.ibb.co/6y450Xy/default-bola.jpg"; // Fallback placeholder if empty
     let originalAvatarDataUrl = '';
 
     async function loadCloudProfileImage() {
       const imgEl = document.getElementById('profile-img');
       const transformBox = document.getElementById('profile-transform-box');
-      try {
-        const doc = await db.collection("profile").doc("avatar").get();
-        if (doc.exists) {
-          const data = doc.data();
-          if (imgEl && data.url) {
-            imgEl.src = data.url;
-            originalAvatarDataUrl = data.url;
+      if(db) {
+        try {
+          const doc = await db.collection("profile").doc("avatar").get();
+          if (doc.exists) {
+            const data = doc.data();
+            if (imgEl && data.url) { imgEl.src = data.url; originalAvatarDataUrl = data.url; }
+            if (transformBox && data.transform) transformBox.style.transform = data.transform;
+            return;
           }
-          if (transformBox && data.transform) transformBox.style.transform = data.transform;
-          return;
-        }
-      } catch (e) {}
+        } catch (e) {}
+      }
       const savedImg = localStorage.getItem('my_profile_avatar');
       const savedTransform = localStorage.getItem('my_profile_avatar_transform');
       if (imgEl && savedImg) {
         imgEl.src = savedImg;
         originalAvatarDataUrl = savedImg;
       } else if (imgEl) {
-        imgEl.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80"; // Professional generic default placeholder instead of old girl image
+        imgEl.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80"; 
         originalAvatarDataUrl = imgEl.src;
       }
       if (transformBox && savedTransform) transformBox.style.transform = savedTransform;
@@ -756,7 +766,7 @@
     async function openAvatarCropModal(event) {
       const file = event.target.files[0];
       if (!file) return;
-      showToast(currentLang === 'ar' ? 'جاري الرفع سحابياً...' : 'Uploading...');
+      showToast(currentLang === 'ar' ? 'جاري الرفع...' : 'Uploading...');
       const cloudUrl = await uploadImageToCloud(file);
       if (!cloudUrl) { alert("Upload failed."); return; }
       originalAvatarDataUrl = cloudUrl;
@@ -766,7 +776,6 @@
       event.target.value = '';
     }
 
-    // New Function: Open crop modal for existing image without uploading new one
     function openExistingAvatarCropModal() {
       const currentImgSrc = document.getElementById('profile-img').src;
       if (!currentImgSrc) return;
@@ -801,21 +810,20 @@
       document.getElementById('profile-transform-box').style.transform = transformCss;
 
       const profileData = { url: originalAvatarDataUrl, transform: transformCss };
-      await db.collection("profile").doc("avatar").set(profileData);
+      if(db) { try { await db.collection("profile").doc("avatar").set(profileData); } catch(e){} }
       localStorage.setItem('my_profile_avatar', originalAvatarDataUrl);
       localStorage.setItem('my_profile_avatar_transform', transformCss);
-      showToast(currentLang === 'ar' ? 'تم الحفظ والمزامنة سحابياً بنجاح!' : 'Profile picture synced!');
+      showToast(currentLang === 'ar' ? 'تم الحفظ بنجاح!' : 'Photo saved!');
       closeAvatarCropModal();
     }
 
     async function resetAvatarDimensions() {
       document.getElementById('profile-transform-box').style.transform = 'scale(1) translate(0px, 0px)';
-      await db.collection("profile").doc("avatar").update({ transform: 'scale(1) translate(0px, 0px)' }).catch(()=>{});
+      if(db) { try { await db.collection("profile").doc("avatar").update({ transform: 'scale(1) translate(0px, 0px)' }); } catch(e){} }
       localStorage.removeItem('my_profile_avatar_transform');
-      showToast(currentLang === 'ar' ? 'تمت استعادة الأبعاد بنجاح!' : 'Dimensions reset!');
+      showToast(currentLang === 'ar' ? 'تمت استعادة الأبعاد!' : 'Dimensions reset!');
     }
 
-    // Password Change
     function openChangePasswordModal() {
       document.getElementById('password-modal').classList.remove('hidden');
       document.getElementById('password-modal').classList.add('flex');
@@ -831,26 +839,30 @@
       if (!newPass) return;
       localStorage.setItem('portfolio_admin_hash', await sha256(newPass));
       closePasswordModal();
-      showToast(currentLang === 'ar' ? 'تم تغيير كلمة المرور بنجاح!' : 'Password updated!');
+      showToast(currentLang === 'ar' ? 'تم التغيير بنجاح!' : 'Password updated!');
     }
 
-    // Testimonials Management
     let testimonials = [
       { id: 1, name: "Mahmoud Khaled", role: "Marketing Director", text: "Bola delivered exceptional branding assets ahead of schedule. Highly creative and detail-oriented!" },
       { id: 2, name: "Sara Ahmed", role: "Brand Owner", text: "Incredible aesthetic and professional social media designs. Boosted our campaign engagement immediately." }
     ];
 
     async function loadCloudTestimonials() {
-      try {
-        const snapshot = await db.collection("testimonials").get();
-        if (!snapshot.empty) {
-          testimonials = [];
-          snapshot.forEach(doc => testimonials.push(doc.data()));
-        } else {
-          const local = localStorage.getItem('my_portfolio_testimonials');
-          if (local) testimonials = JSON.parse(local);
-        }
-      } catch(e) {}
+      if(db) {
+        try {
+          const snapshot = await db.collection("testimonials").get();
+          if (!snapshot.empty) {
+            testimonials = [];
+            snapshot.forEach(doc => testimonials.push(doc.data()));
+          } else {
+            const local = localStorage.getItem('my_portfolio_testimonials');
+            if (local) testimonials = JSON.parse(local);
+          }
+        } catch(e) {}
+      } else {
+        const local = localStorage.getItem('my_portfolio_testimonials');
+        if (local) testimonials = JSON.parse(local);
+      }
       renderTestimonials();
     }
 
@@ -893,25 +905,22 @@
       const text = document.getElementById('testi-text').value.trim();
       const newTesti = { id: Date.now(), name, role, text };
       testimonials.push(newTesti);
-      try {
-        await db.collection("testimonials").doc(String(newTesti.id)).set(newTesti);
-      } catch(e) {}
+      if(db) { try { await db.collection("testimonials").doc(String(newTesti.id)).set(newTesti); } catch(e) {} }
       localStorage.setItem('my_portfolio_testimonials', JSON.stringify(testimonials));
       closeTestimonialModal();
       renderTestimonials();
-      showToast(currentLang === 'ar' ? 'تم إضافة الرأي بنجاح!' : 'Testimonial added!');
+      showToast(currentLang === 'ar' ? 'تم إضافة الرأي!' : 'Testimonial added!');
     }
 
     async function deleteTestimonial(id) {
       if (confirm("Delete this testimonial?")) {
         testimonials = testimonials.filter(t => t.id !== id);
-        try { await db.collection("testimonials").doc(String(id)).delete(); } catch(e){}
+        if(db) { try { await db.collection("testimonials").doc(String(id)).delete(); } catch(e){} }
         localStorage.setItem('my_portfolio_testimonials', JSON.stringify(testimonials));
         renderTestimonials();
       }
     }
 
-    // Projects & Cloud
     let projects = [];
     let isAdmin = localStorage.getItem('is_portfolio_admin') === 'true';
     let currentFilter = 'all';
@@ -923,16 +932,21 @@
     let currentSlideIndex = 0;
 
     async function loadCloudProjects() {
-      try {
-        const snapshot = await db.collection("campaigns").get();
-        if (!snapshot.empty) {
-          projects = [];
-          snapshot.forEach(doc => projects.push(doc.data()));
-        } else {
+      if(db) {
+        try {
+          const snapshot = await db.collection("campaigns").get();
+          if (!snapshot.empty) {
+            projects = [];
+            snapshot.forEach(doc => projects.push(doc.data()));
+          } else {
+            const local = localStorage.getItem('my_portfolio_campaigns');
+            projects = local ? JSON.parse(local) : [];
+          }
+        } catch (e) {
           const local = localStorage.getItem('my_portfolio_campaigns');
           projects = local ? JSON.parse(local) : [];
         }
-      } catch (e) {
+      } else {
         const local = localStorage.getItem('my_portfolio_campaigns');
         projects = local ? JSON.parse(local) : [];
       }
@@ -943,28 +957,38 @@
     }
 
     async function saveProjectToCloud(proj) {
-      try { await db.collection("campaigns").doc(String(proj.id)).set(proj); } catch(e){}
+      if(db) { try { await db.collection("campaigns").doc(String(proj.id)).set(proj); } catch(e){} }
       projects.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
       localStorage.setItem('my_portfolio_campaigns', JSON.stringify(projects));
     }
 
     async function deleteProjectFromCloud(id) {
-      try { await db.collection("campaigns").doc(String(id)).delete(); } catch(e){}
+      if(db) { try { await db.collection("campaigns").doc(String(id)).delete(); } catch(e){} }
       projects.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
       localStorage.setItem('my_portfolio_campaigns', JSON.stringify(projects));
     }
 
     function initUI() {
-      applyDarkMode();
-      updateAdminUI();
-      applyLanguage(currentLang);
-      loadCloudProfileImage();
-      loadCloudProjects();
-      loadCloudTestimonials();
-      initEyesTracking();
-      AOS.init({ duration: 900, once: true, offset: 60 });
-      checkUrlHashForCampaign();
-      checkSecretAdminAccess();
+      try {
+        applyDarkMode();
+        updateAdminUI();
+        applyLanguage(currentLang);
+        loadCloudProfileImage();
+        loadCloudProjects();
+        loadCloudTestimonials();
+        initEyesTracking();
+        checkUrlHashForCampaign();
+        checkSecretAdminAccess();
+        // Initialize AOS safely
+        if(typeof AOS !== 'undefined') {
+          AOS.init({ duration: 900, once: true, offset: 60 });
+        } else {
+          document.documentElement.classList.add('show-all');
+        }
+      } catch (error) {
+        console.error("UI Init Error:", error);
+        document.documentElement.classList.add('show-all');
+      }
     }
 
     function initEyesTracking() {
@@ -1207,7 +1231,7 @@
       renderFilters();
       renderPortfolio();
       updateCategoryDatalist();
-      showToast(currentLang === 'ar' ? 'تم نشر الحملة سحابياً بنجاح!' : 'Campaign published!');
+      showToast(currentLang === 'ar' ? 'تم نشر الحملة بنجاح!' : 'Campaign published!');
     }
 
     function openEditModal(id) {
@@ -1286,7 +1310,7 @@
       closeEditModal();
       renderFilters();
       renderPortfolio();
-      showToast(currentLang === 'ar' ? 'تم التحديث سحابياً!' : 'Updated!');
+      showToast(currentLang === 'ar' ? 'تم التحديث!' : 'Updated!');
     }
 
     async function deleteProject(id) {
@@ -1365,7 +1389,8 @@
       document.getElementById('login-modal').classList.remove('flex');
     }
 
-    initUI();
+    // Run initialization
+    window.addEventListener('DOMContentLoaded', initUI);
   </script>
 </body>
 </html>
