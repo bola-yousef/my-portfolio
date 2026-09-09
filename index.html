@@ -54,11 +54,11 @@
     .glass-nav { background: rgba(235, 243, 254, 0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(4, 40, 98, 0.1); }
     html.dark .glass-nav { background: rgba(19, 31, 61, 0.92); border: 1px solid rgba(255, 255, 255, 0.1); }
 
-    .glass-card { background: #ffffff; border: 1px solid rgba(4, 40, 98, 0.08); box-shadow: 0 10px 30px -10px rgba(4, 40, 98, 0.06); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .glass-card { background: #ffffff; border: 1px solid rgba(4, 40, 98, 0.08); box-shadow: 0 10px 30px -10px rgba(4, 40, 98, 0.06); transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
     html.dark .glass-card { background: #131f3d; border: 1px solid rgba(255, 255, 255, 0.08); color: #ebf3fe; }
     
     .hover-lift { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease; }
-    .hover-lift:hover { transform: translateY(-6px); box-shadow: 0 18px 35px -10px rgba(50, 128, 255, 0.18); }
+    .hover-lift:hover { transform: translateY(-7px); box-shadow: 0 20px 40px -12px rgba(50, 128, 255, 0.22); }
 
     .avatar-interactive-img { filter: grayscale(100%) contrast(1.05); transition: filter 0.4s ease; }
     .avatar-wrapper:hover .avatar-interactive-img { filter: grayscale(0%) contrast(1); }
@@ -69,11 +69,67 @@
     @keyframes modalPop { 0% { opacity: 0; transform: scale(0.96) translateY(12px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
     .modal-animate { animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     
-    /* Animation Fail-Safe */
+    .slide-fade-enter { animation: slideFade 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes slideFade { from { opacity: 0.3; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+    /* Floating Formatting Toolbar Styles */
+    #text-format-toolbar {
+      position: absolute;
+      z-index: 1000;
+      display: none;
+      background: #042862;
+      color: white;
+      border-radius: 12px;
+      padding: 4px 6px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      gap: 4px;
+      transform: translate(-50%, -100%);
+      margin-top: -8px;
+    }
+    #text-format-toolbar::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px 6px 0 6px;
+      border-style: solid;
+      border-color: #042862 transparent transparent transparent;
+    }
+    #text-format-toolbar button {
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 5px 9px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    #text-format-toolbar button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #3280ff;
+    }
+
     body.show-all [data-aos] { opacity: 1 !important; transform: none !important; }
   </style>
 </head>
 <body class="selection:bg-[#3280ff] selection:text-white pb-28 relative overflow-x-hidden">
+
+  <!-- Floating Text Format Toolbar -->
+  <div id="text-format-toolbar">
+    <button type="button" onmousedown="applyFormat('bold', event)" title="Bold"><i class="fa-solid fa-bold"></i></button>
+    <button type="button" onmousedown="applyFormat('italic', event)" title="Italic"><i class="fa-solid fa-italic"></i></button>
+    <button type="button" onmousedown="applyFormat('underline', event)" title="Underline"><i class="fa-solid fa-underline"></i></button>
+    <button type="button" onmousedown="applyFormat('color', event)" title="Brand Blue Accent" class="text-[#3280ff]"><i class="fa-solid fa-droplet"></i></button>
+  </div>
 
   <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#042862] dark:bg-[#3280ff] text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
@@ -269,7 +325,7 @@
         </div>
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="projectBrief">نبذة عن المشروع (تظهر عند فتح المعاينة)</label>
-          <textarea id="proj-desc" rows="3" placeholder="اكتب تفاصيل أو فكرة المشروع التسويقية..." class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
+          <textarea id="proj-desc" rows="3" placeholder="اكتب تفاصيل أو فكرة المشروع التسويقية... (ظلل الكلمات لتنسيقها)" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <div>
           <label class="block text-xs font-bold mb-1" data-i18n="chooseImages">صور المشروع (يمكنك اختيار عدة صور معاً)</label>
@@ -302,7 +358,7 @@
     <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- Sleek Lightbox Preview Modal -->
+  <!-- Sleek Lightbox Preview Modal WITH TOUCH & DRAG SWIPING -->
   <div id="lightbox" class="fixed inset-0 z-50 bg-[#042862]/95 dark:bg-black/95 hidden flex-col justify-between p-3 sm:p-6 backdrop-blur-2xl modal-animate" onclick="closeLightbox()">
     <div class="flex items-center justify-between w-full max-w-5xl mx-auto z-10 flex-wrap gap-2" onclick="event.stopPropagation()">
       <div>
@@ -316,14 +372,19 @@
         <button onclick="closeLightbox()" class="text-white/80 hover:text-white text-2xl p-1.5 transition-transform hover:scale-110"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
-    <div class="relative w-full max-w-4xl mx-auto flex items-center justify-center flex-1 my-2 overflow-y-auto no-scrollbar scroll-smooth" onclick="event.stopPropagation()">
-      <button id="prev-slide-btn" onclick="prevSlide()" class="absolute left-2 sm:-left-14 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/20 transition-all active:scale-95"><i class="fa-solid fa-chevron-left"></i></button>
+
+    <!-- Swipe Interactive Container -->
+    <div id="lightbox-swipe-area" class="relative w-full max-w-4xl mx-auto flex items-center justify-center flex-1 my-2 overflow-hidden touch-pan-y cursor-grab active:cursor-grabbing" onclick="event.stopPropagation()">
+      <button id="prev-slide-btn" onclick="prevSlide()" class="absolute left-2 sm:-left-14 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-11 h-11 rounded-full flex items-center justify-center border border-white/20 transition-all active:scale-95 shadow-xl"><i class="fa-solid fa-chevron-left text-sm"></i></button>
+      
       <div class="w-full flex flex-col items-center justify-center gap-3">
-        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/20 transition-all duration-300">
-        <div id="lightbox-desc-box" class="max-w-2xl bg-white/10 dark:bg-[#131f3d]/80 border border-white/15 p-3 rounded-2xl text-center text-xs text-slate-200"></div>
+        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/20 transition-all duration-200 select-none pointer-events-none">
+        <div id="lightbox-desc-box" class="max-w-2xl bg-white/10 dark:bg-[#131f3d]/80 border border-white/15 p-3 rounded-2xl text-center text-xs text-slate-200 select-text"></div>
       </div>
-      <button id="next-slide-btn" onclick="nextSlide()" class="absolute right-2 sm:-right-14 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/20 transition-all active:scale-95"><i class="fa-solid fa-chevron-right"></i></button>
+      
+      <button id="next-slide-btn" onclick="nextSlide()" class="absolute right-2 sm:-right-14 z-20 bg-white/10 hover:bg-[#3280ff] text-white w-11 h-11 rounded-full flex items-center justify-center border border-white/20 transition-all active:scale-95 shadow-xl"><i class="fa-solid fa-chevron-right text-sm"></i></button>
     </div>
+
     <div id="lightbox-thumbs" class="w-full max-w-3xl mx-auto flex items-center justify-center gap-2 overflow-x-auto py-1 no-scrollbar z-10" onclick="event.stopPropagation()"></div>
   </div>
 
@@ -350,7 +411,7 @@
           <input type="text" id="edit-category" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1">نبذة عن المشروع</label>
+          <label class="block text-xs font-bold mb-1">نبذة عن المشروع (ظلل أي نص لتنسيقه)</label>
           <textarea id="edit-desc" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white"></textarea>
         </div>
         <div>
@@ -374,50 +435,71 @@
     </div>
   </div>
 
-  <!-- Edit Bio Modal -->
+  <!-- Edit Bio Modal WITH BILINGUAL TABS & AUTO-TRANSLATION -->
   <div id="edit-bio-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
     <div class="glass-card border border-[#042862]/15 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeEditBioModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="text-lg font-bold mb-4 text-[#042862] dark:text-white flex items-center gap-2">
-        <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span data-i18n="editBioModalTitle">تعديل بيانات وسيرة نبذة عني</span>
-      </h3>
+      
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-[#042862]/10 pb-3">
+        <h3 class="text-base sm:text-lg font-bold text-[#042862] dark:text-white flex items-center gap-2">
+          <i class="fa-solid fa-user-pen text-[#3280ff]"></i> <span>تعديل نبذة عني (ثنائي اللغة)</span>
+        </h3>
+        
+        <!-- Language Switcher Tabs inside the Modal -->
+        <div class="flex items-center gap-1.5 bg-[#ebf3fe] dark:bg-[#0b1329] p-1 rounded-xl border border-[#042862]/10">
+          <button type="button" id="bio-tab-ar" onclick="switchBioModalTab('ar')" class="px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white">العربية 🇪🇬</button>
+          <button type="button" id="bio-tab-en" onclick="switchBioModalTab('en')" class="px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300">English 🇬🇧</button>
+        </div>
+      </div>
+
       <form id="edit-bio-form" class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" onsubmit="handleSaveBio(event)">
+        <!-- Auto-Translate Magic Button -->
+        <div class="flex justify-end">
+          <button type="button" onclick="autoTranslateBio()" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-600 dark:text-amber-300 border border-amber-400/40 text-[11px] font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-all active:scale-95">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> <span>ترجمة تلقائية للإنجليزية ✨</span>
+          </button>
+        </div>
+
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label class="text-xs font-bold" data-i18n="bioParagraphsLabel">فقرات نبذة عني:</label>
-            <button type="button" onclick="addBioParagraphField()" class="bg-[#3280ff] text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">
-              <i class="fa-solid fa-plus ml-1"></i> <span data-i18n="addParagraphBtn">إضافة فقرة</span>
+            <label class="text-xs font-bold" id="bio-label-paragraphs">فقرات نبذة عني (ظلل النص لتنسيقه):</label>
+            <button type="button" onclick="addBioParagraphField()" class="bg-[#3280ff] text-white text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95">
+              <i class="fa-solid fa-plus ml-1"></i> <span>إضافة فقرة</span>
             </button>
           </div>
           <div id="bio-paragraphs-inputs" class="space-y-2"></div>
         </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-[#042862]/10 pt-3">
           <div>
-            <label class="block text-xs font-bold mb-1" data-i18n="eduDegreeLabel">المؤهل الدراسي</label>
+            <label class="block text-xs font-bold mb-1" id="bio-label-degree">المؤهل الدراسي</label>
             <input type="text" id="edit-edu-deg" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
           <div>
-            <label class="block text-xs font-bold mb-1" data-i18n="eduInstLabel">المعهد وسنة التخرج</label>
+            <label class="block text-xs font-bold mb-1" id="bio-label-inst">المعهد وسنة التخرج</label>
             <input type="text" id="edit-edu-inst" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
         </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold mb-1" data-i18n="expRoleLabel">المسمى الوظيفي</label>
+            <label class="block text-xs font-bold mb-1" id="bio-label-role">المسمى الوظيفي</label>
             <input type="text" id="edit-exp-role" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
           <div>
-            <label class="block text-xs font-bold mb-1" data-i18n="expPeriodLabel">الفترة</label>
+            <label class="block text-xs font-bold mb-1" id="bio-label-period">الفترة</label>
             <input type="text" id="edit-exp-period" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-[#042862] dark:text-white" required>
           </div>
         </div>
+
         <div>
-          <label class="block text-xs font-bold mb-1" data-i18n="certsLabel">الشهادات والتدريب (كل سطر يعتبر شهادة منفصلة)</label>
+          <label class="block text-xs font-bold mb-1" id="bio-label-certs">الشهادات والتدريب (كل سطر يعتبر شهادة منفصلة)</label>
           <textarea id="edit-certs" rows="3" class="w-full bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required></textarea>
         </div>
+
         <div class="flex items-center gap-3 pt-3 border-t border-[#042862]/10 sticky bottom-0 bg-white dark:bg-[#131f3d] py-2">
-          <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow-md active:scale-95" data-i18n="saveBioBtn">
-            حفظ وتعديل سحابي
+          <button type="submit" class="flex-1 bg-[#3280ff] hover:bg-[#256cd9] text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow-md active:scale-95">
+            حفظ التعديلات (للغتين ومزامنة سحابية)
           </button>
           <button type="button" onclick="closeEditBioModal()" class="px-5 bg-[#ebf3fe] dark:bg-[#0b1329] text-[#042862] dark:text-white font-bold py-2.5 rounded-xl text-xs active:scale-95">إلغاء</button>
         </div>
@@ -463,7 +545,7 @@
     </div>
   </div>
 
-  <!-- Avatar Adjustment Modal WITH LIVE INTERACTIVE PREVIEW -->
+  <!-- Avatar Crop/Adjustment Modal WITH LIVE INTERACTIVE PREVIEW -->
   <div id="avatar-crop-modal" class="fixed inset-0 z-50 bg-[#042862]/80 hidden items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
     <div class="glass-card border border-[#042862]/15 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative my-8 modal-animate" onclick="event.stopPropagation()">
       <button onclick="closeAvatarCropModal()" class="absolute top-4 left-4 text-[#042862]/60 dark:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
@@ -687,6 +769,9 @@
     let editingProjectId = null;
     let editingImages = [];
 
+    let bioModalActiveTab = 'ar';
+    let modalBioState = { ar: null, en: null };
+
     // Toast Alert
     function showToast(msg) {
       const toast = document.getElementById('toast');
@@ -699,16 +784,84 @@
       }, 2500);
     }
 
+    // ==========================================
+    // ✨ Floating Text Formatting System
+    // ==========================================
+    let currentActiveInput = null;
+
+    function initFloatingToolbar() {
+      const toolbar = document.getElementById('text-format-toolbar');
+
+      document.addEventListener('selectionchange', () => {
+        const activeEl = document.activeElement;
+        if (activeEl && (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'INPUT')) {
+          const start = activeEl.selectionStart;
+          const end = activeEl.selectionEnd;
+          if (typeof start === 'number' && typeof end === 'number' && start !== end) {
+            currentActiveInput = activeEl;
+            const rect = activeEl.getBoundingClientRect();
+            // Position above the textarea/input
+            toolbar.style.left = `${rect.left + rect.width / 2 + window.scrollX}px`;
+            toolbar.style.top = `${rect.top + window.scrollY - 10}px`;
+            toolbar.style.display = 'flex';
+            return;
+          }
+        }
+        // If clicked outside or selection collapsed
+        if (toolbar.style.display === 'flex' && (!activeEl || (activeEl.tagName !== 'TEXTAREA' && activeEl.tagName !== 'INPUT'))) {
+          toolbar.style.display = 'none';
+        }
+      });
+
+      document.addEventListener('mousedown', (e) => {
+        if (!toolbar.contains(e.target) && e.target !== currentActiveInput) {
+          toolbar.style.display = 'none';
+        }
+      });
+    }
+
+    function applyFormat(type, e) {
+      e.preventDefault();
+      if (!currentActiveInput) return;
+      const start = currentActiveInput.selectionStart;
+      const end = currentActiveInput.selectionEnd;
+      if (start === end) return;
+
+      const val = currentActiveInput.value;
+      const selectedText = val.substring(start, end);
+      let formattedText = '';
+
+      switch (type) {
+        case 'bold':
+          formattedText = `<strong>${selectedText}</strong>`;
+          break;
+        case 'italic':
+          formattedText = `<em>${selectedText}</em>`;
+          break;
+        case 'underline':
+          formattedText = `<u>${selectedText}</u>`;
+          break;
+        case 'color':
+          formattedText = `<span class="text-[#3280ff] font-bold">${selectedText}</span>`;
+          break;
+      }
+
+      currentActiveInput.setRangeText(formattedText, start, end, 'end');
+      currentActiveInput.dispatchEvent(new Event('input', { bubbles: true }));
+      document.getElementById('text-format-toolbar').style.display = 'none';
+      showToast("تم تطبيق التنسيق على النص!");
+    }
+
     // Bio Engine
-    function getActiveBioData() {
-      const savedKey = `portfolio_bio_${currentLang}`;
+    function getStoredBio(lang) {
+      const savedKey = `portfolio_bio_${lang}`;
       const saved = localStorage.getItem(savedKey);
       if (saved) return JSON.parse(saved);
-      return translations[currentLang].defaultBio;
+      return translations[lang].defaultBio;
     }
 
     function renderBioSection() {
-      const data = getActiveBioData();
+      const data = getStoredBio(currentLang);
       const container = document.getElementById('bio-paragraphs-container');
       if (container) {
         container.innerHTML = '';
@@ -737,15 +890,58 @@
     }
 
     function openEditBioModal() {
-      const data = getActiveBioData();
-      document.getElementById('edit-edu-deg').value = data.eduDegree || '';
-      document.getElementById('edit-edu-inst').value = data.eduInst || '';
-      document.getElementById('edit-exp-role').value = data.expRole || '';
-      document.getElementById('edit-exp-period').value = data.expPeriod || '';
-      document.getElementById('edit-certs').value = (data.certs || []).join('\n');
-      renderBioParagraphInputs(data.paragraphs || []);
+      modalBioState.ar = JSON.parse(JSON.stringify(getStoredBio('ar')));
+      modalBioState.en = JSON.parse(JSON.stringify(getStoredBio('en')));
+      bioModalActiveTab = currentLang;
+      switchBioModalTab(bioModalActiveTab);
       document.getElementById('edit-bio-modal').classList.remove('hidden');
       document.getElementById('edit-bio-modal').classList.add('flex');
+    }
+
+    function switchBioModalTab(lang) {
+      saveCurrentBioTabInputs();
+      bioModalActiveTab = lang;
+      
+      const tabAr = document.getElementById('bio-tab-ar');
+      const tabEn = document.getElementById('bio-tab-en');
+      if (lang === 'ar') {
+        tabAr.className = "px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white";
+        tabEn.className = "px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300";
+        document.getElementById('bio-label-paragraphs').textContent = "فقرات نبذة عني (ظلل النص لتنسيقه):";
+        document.getElementById('bio-label-degree').textContent = "المؤهل الدراسي (بالعربية):";
+        document.getElementById('bio-label-inst').textContent = "المعهد وسنة التخرج (بالعربية):";
+        document.getElementById('bio-label-role').textContent = "المسمى الوظيفي (بالعربية):";
+        document.getElementById('bio-label-period').textContent = "الفترة (بالعربية):";
+        document.getElementById('bio-label-certs').textContent = "الشهادات والتدريب (بالعربية):";
+      } else {
+        tabEn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-[#3280ff] text-white";
+        tabAr.className = "px-3 py-1 rounded-lg text-xs font-bold text-[#042862]/70 dark:text-slate-300";
+        document.getElementById('bio-label-paragraphs').textContent = "Bio Paragraphs (Select text to format):";
+        document.getElementById('bio-label-degree').textContent = "Degree (English):";
+        document.getElementById('bio-label-inst').textContent = "Institute (English):";
+        document.getElementById('bio-label-role').textContent = "Role (English):";
+        document.getElementById('bio-label-period').textContent = "Period (English):";
+        document.getElementById('bio-label-certs').textContent = "Certifications (English):";
+      }
+
+      const currentData = modalBioState[lang];
+      document.getElementById('edit-edu-deg').value = currentData.eduDegree || '';
+      document.getElementById('edit-edu-inst').value = currentData.eduInst || '';
+      document.getElementById('edit-exp-role').value = currentData.expRole || '';
+      document.getElementById('edit-exp-period').value = currentData.expPeriod || '';
+      document.getElementById('edit-certs').value = (currentData.certs || []).join('\n');
+      renderBioParagraphInputs(currentData.paragraphs || []);
+    }
+
+    function saveCurrentBioTabInputs() {
+      if (!modalBioState[bioModalActiveTab]) return;
+      const paraInputs = document.querySelectorAll('.bio-para-input');
+      modalBioState[bioModalActiveTab].paragraphs = Array.from(paraInputs).map(i => i.value.trim()).filter(Boolean);
+      modalBioState[bioModalActiveTab].eduDegree = document.getElementById('edit-edu-deg').value.trim();
+      modalBioState[bioModalActiveTab].eduInst = document.getElementById('edit-edu-inst').value.trim();
+      modalBioState[bioModalActiveTab].expRole = document.getElementById('edit-exp-role').value.trim();
+      modalBioState[bioModalActiveTab].expPeriod = document.getElementById('edit-exp-period').value.trim();
+      modalBioState[bioModalActiveTab].certs = document.getElementById('edit-certs').value.split('\n').map(c => c.trim()).filter(Boolean);
     }
 
     function renderBioParagraphInputs(paragraphs) {
@@ -756,7 +952,7 @@
         row.className = "flex items-center gap-2";
         row.innerHTML = `
           <textarea rows="2" class="bio-para-input flex-1 bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" required>${text}</textarea>
-          <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-trash-can text-xs"></i></button>
+          <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
         `;
         wrapper.appendChild(row);
       });
@@ -767,10 +963,49 @@
       const row = document.createElement('div');
       row.className = "flex items-center gap-2";
       row.innerHTML = `
-        <textarea rows="2" class="bio-para-input flex-1 bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" placeholder="فقرة جديدة..." required></textarea>
-        <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-trash-can text-xs"></i></button>
+        <textarea rows="2" class="bio-para-input flex-1 bg-[#ebf3fe] dark:bg-[#0b1329] border border-[#042862]/15 dark:border-white/20 rounded-xl p-2.5 text-xs text-[#042862] dark:text-white" placeholder="New paragraph..." required></textarea>
+        <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-90"><i class="fa-solid fa-trash-can text-xs"></i></button>
       `;
       wrapper.appendChild(row);
+    }
+
+    // Auto-Translate Client Helper
+    async function autoTranslateBio() {
+      saveCurrentBioTabInputs();
+      showToast("جاري الترجمة التلقائية إلى الإنجليزية...");
+      try {
+        const ar = modalBioState.ar;
+        const translateText = async (txt) => {
+          if (!txt) return "";
+          const clean = txt.replace(/<\/?[^>]+(>|$)/g, "");
+          const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean)}&langpair=ar|en`);
+          const json = await res.json();
+          return json?.responseData?.translatedText || txt;
+        };
+
+        const enParagraphs = [];
+        for (const p of ar.paragraphs) {
+          const trans = await translateText(p);
+          enParagraphs.push(trans);
+        }
+
+        modalBioState.en.paragraphs = enParagraphs;
+        modalBioState.en.eduDegree = await translateText(ar.eduDegree);
+        modalBioState.en.eduInst = await translateText(ar.eduInst);
+        modalBioState.en.expRole = await translateText(ar.expRole);
+        modalBioState.en.expPeriod = await translateText(ar.expPeriod);
+
+        const enCerts = [];
+        for (const c of ar.certs) {
+          enCerts.push(await translateText(c));
+        }
+        modalBioState.en.certs = enCerts;
+
+        switchBioModalTab('en');
+        showToast("تمت الترجمة للإنجليزية بنجاح! راجعها واضغط حفظ.");
+      } catch (err) {
+        showToast("تعذرت الترجمة الآلية، يمكنك كتابتها يدوياً في تبويب English.");
+      }
     }
 
     function closeEditBioModal() {
@@ -780,24 +1015,21 @@
 
     async function handleSaveBio(e) {
       e.preventDefault();
-      const paraInputs = document.querySelectorAll('.bio-para-input');
-      const paragraphs = Array.from(paraInputs).map(i => i.value.trim()).filter(Boolean);
+      saveCurrentBioTabInputs();
 
-      const updated = {
-        paragraphs,
-        eduDegree: document.getElementById('edit-edu-deg').value.trim(),
-        eduInst: document.getElementById('edit-edu-inst').value.trim(),
-        expRole: document.getElementById('edit-exp-role').value.trim(),
-        expPeriod: document.getElementById('edit-exp-period').value.trim(),
-        certs: document.getElementById('edit-certs').value.split('\n').map(c => c.trim()).filter(Boolean)
-      };
+      localStorage.setItem('portfolio_bio_ar', JSON.stringify(modalBioState.ar));
+      localStorage.setItem('portfolio_bio_en', JSON.stringify(modalBioState.en));
 
-      const currentKey = `portfolio_bio_${currentLang}`;
-      localStorage.setItem(currentKey, JSON.stringify(updated));
-      if (db) { try { await db.collection("profile").doc(currentKey).set(updated); } catch (err) {} }
+      if (db) {
+        try {
+          await db.collection("profile").doc("portfolio_bio_ar").set(modalBioState.ar);
+          await db.collection("profile").doc("portfolio_bio_en").set(modalBioState.en);
+        } catch (err) {}
+      }
+
       renderBioSection();
       closeEditBioModal();
-      showToast("تم حفظ وتحديث نبذة عني بنجاح!");
+      showToast("تم حفظ النسختين العربية والإنجليزية بنجاح ومزامنتهما!");
     }
 
     // Projects Engine
@@ -862,10 +1094,8 @@
         const mainImage = item.images && item.images.length > 0 ? item.images[0] : '';
         
         card.innerHTML = `
-          <!-- Slide Counter Badge -->
           ${count > 1 ? `<div class="absolute top-3 ${currentLang === 'ar' ? 'right-3' : 'left-3'} z-30 bg-[#042862]/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-md pointer-events-none"><i class="fa-solid fa-layer-group text-[#3280ff]"></i><span>${count}</span></div>` : ''}
           
-          <!-- Controls -->
           <div class="absolute top-3 ${currentLang === 'ar' ? 'left-3' : 'right-3'} z-30 flex items-center gap-1.5">
             ${isAdmin ? `
               <input type="checkbox" value="${item.id}" class="project-checkbox w-4 h-4 accent-[#3280ff] cursor-pointer" onchange="updateSelectedCount()">
@@ -882,7 +1112,7 @@
           <div class="p-4 cursor-pointer" onclick="openCampaignLightbox(${item.id})">
             <span class="text-xs font-semibold text-[#3280ff] mb-1 block">${item.category}</span>
             <h3 class="text-sm font-bold text-[#042862] dark:text-white truncate">${item.title}</h3>
-            ${item.desc ? `<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${item.desc}</p>` : ''}
+            ${item.desc ? `<div class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${item.desc}</div>` : ''}
           </div>
         `;
         grid.appendChild(card);
@@ -890,7 +1120,7 @@
       updateSelectedCount();
     }
 
-    // Lightbox & Preview Slider
+    // Lightbox & Preview Slider WITH SMOOTH SWIPING
     function openCampaignLightbox(id) {
       activeCampaign = projects.find(p => p.id === id);
       if (!activeCampaign || !activeCampaign.images) return;
@@ -911,11 +1141,16 @@
       const total = activeCampaign.images.length;
       document.getElementById('lightbox-title').textContent = activeCampaign.title;
       document.getElementById('lightbox-counter').textContent = total > 1 ? `Slide ${currentSlideIndex + 1} of ${total}` : '';
-      document.getElementById('lightbox-img').src = activeCampaign.images[currentSlideIndex];
+      
+      const imgEl = document.getElementById('lightbox-img');
+      imgEl.src = activeCampaign.images[currentSlideIndex];
+      imgEl.classList.remove('slide-fade-enter');
+      void imgEl.offsetWidth;
+      imgEl.classList.add('slide-fade-enter');
       
       const descBox = document.getElementById('lightbox-desc-box');
       if (activeCampaign.desc) {
-        descBox.textContent = activeCampaign.desc;
+        descBox.innerHTML = activeCampaign.desc;
         descBox.classList.remove('hidden');
       } else {
         descBox.classList.add('hidden');
@@ -927,7 +1162,7 @@
         activeCampaign.images.forEach((imgSrc, idx) => {
           const thumb = document.createElement('img');
           thumb.src = imgSrc;
-          thumb.className = `w-12 h-14 object-cover rounded-xl cursor-pointer transition-all border-2 ${idx === currentSlideIndex ? 'border-[#3280ff] scale-105' : 'border-transparent opacity-50'}`;
+          thumb.className = `w-12 h-14 object-cover rounded-xl cursor-pointer transition-all border-2 ${idx === currentSlideIndex ? 'border-[#3280ff] scale-105 opacity-100 shadow-md' : 'border-transparent opacity-40 hover:opacity-80'}`;
           thumb.onclick = () => { currentSlideIndex = idx; updateLightboxContent(); };
           thumbsContainer.appendChild(thumb);
         });
@@ -944,6 +1179,60 @@
       currentSlideIndex = (currentSlideIndex - 1 + activeCampaign.images.length) % activeCampaign.images.length;
       updateLightboxContent();
     }
+
+    // Touch & Mouse Drag Swiping Support
+    function initSwipeGestures() {
+      const swipeArea = document.getElementById('lightbox-swipe-area');
+      let startX = 0;
+      let startY = 0;
+      let isDragging = false;
+
+      swipeArea.addEventListener('touchstart', (e) => {
+        startX = e.changedTouches[0].screenX;
+        startY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      swipeArea.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].screenX;
+        const endY = e.changedTouches[0].screenY;
+        handleGesture(startX, startY, endX, endY);
+      }, { passive: true });
+
+      swipeArea.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.screenX;
+        startY = e.screenY;
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const endX = e.screenX;
+        const endY = e.screenY;
+        handleGesture(startX, startY, endX, endY);
+      });
+
+      function handleGesture(sX, sY, eX, eY) {
+        const diffX = eX - sX;
+        const diffY = eY - sY;
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+          if (diffX < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (!document.getElementById('lightbox').classList.contains('hidden')) {
+          if (e.key === 'ArrowRight') nextSlide();
+          else if (e.key === 'ArrowLeft') prevSlide();
+          else if (e.key === 'Escape') closeLightbox();
+        }
+      });
+    }
+
     function shareProjectDirect(id) {
       navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#project-${id}`)
         .then(() => showToast("تم نسخ رابط المشروع بنجاح!"));
@@ -1212,7 +1501,7 @@
       showToast("تم الحذف بنجاح!");
     }
 
-    // Avatar Framing & Adjustment WITH REALTIME PREVIEW
+    // Avatar Framing & Adjustment
     async function loadCloudProfileImage() {
       const imgEl = document.getElementById('profile-img');
       const box = document.getElementById('profile-transform-box');
@@ -1247,7 +1536,6 @@
     }
 
     function openAvatarCropModal() {
-      // Sync preview image with current displayed image
       const currentSrc = document.getElementById('profile-img').src;
       const previewImg = document.getElementById('crop-preview-img');
       if (previewImg) previewImg.src = currentSrc;
@@ -1271,8 +1559,6 @@
       document.getElementById('pan-x-val').textContent = `${panX}px`;
 
       const trans = `scale(${zoom / 100}) translate(${panX}px, ${panY}px)`;
-      
-      // Update Live Preview box immediately
       const cropPreviewBox = document.getElementById('crop-preview-box');
       if (cropPreviewBox) cropPreviewBox.style.transform = trans;
     }
@@ -1283,7 +1569,6 @@
       const panX = document.getElementById('crop-pan-x').value;
       const trans = `scale(${zoom / 100}) translate(${panX}px, ${panY}px)`;
 
-      // Apply to main profile picture
       document.getElementById('profile-transform-box').style.transform = trans;
       localStorage.setItem('my_profile_avatar_transform', trans);
       if (db) db.collection("profile").doc("avatar").set({ transform: trans }, { merge: true });
@@ -1304,7 +1589,7 @@
       showToast("تمت استعادة الأبعاد الأصلية!");
     }
 
-    // Password & Login System (Direct support for bola2026admin + SHA-256)
+    // Password & Login System
     async function handleAdminLogin(e) {
       e.preventDefault();
       const val = document.getElementById('admin-pass-input').value.trim();
@@ -1312,7 +1597,6 @@
       const storedHash = localStorage.getItem('portfolio_admin_hash');
       const defaultHash = await hashString("bola2026admin");
 
-      // Verify either directly against bola2026admin or stored/computed hash
       if (val === "bola2026admin" || enteredHash === (storedHash || defaultHash)) {
         isAdmin = true;
         localStorage.setItem('is_portfolio_admin', 'true');
@@ -1475,6 +1759,8 @@
       loadProjects();
       loadTestimonials();
       initEyes();
+      initSwipeGestures();
+      initFloatingToolbar();
       initAOS();
     });
   </script>
